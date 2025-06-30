@@ -1,0 +1,9 @@
+{
+    "emeraldwalk.runOnSave.commands": [
+    {
+        "match": "\\.typ$",
+        "command": "typst compile main.typ",
+        "runIn": "integratedTerminal"
+    }
+    ]
+}

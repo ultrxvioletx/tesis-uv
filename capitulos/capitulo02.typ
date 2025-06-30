@@ -1,0 +1,1 @@
+== Versión simplificada de la cuantización del campo electromagnético
