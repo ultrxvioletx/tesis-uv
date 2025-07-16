@@ -2,7 +2,7 @@
 // main.typ: Archivo principal
 // ===================================================================
 
-#import "style.typ": style, appendix
+#import "style.typ": *
 
 #show: style(
   lang: "es",
@@ -25,7 +25,7 @@
 // Tabla de Contenidos (Índice)
 #outline(
   title: none,
-  depth: 2,
+  depth: 3,
 )
 
 // --- Cuerpo Principal ---
@@ -48,5 +48,5 @@
 // --- Bibliografía ---
 #bibliography(
   "references.bib",
-  title: "Bibliografía",
+  title: "Bibliografía"
 )

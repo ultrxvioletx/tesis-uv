@@ -1,13 +1,21 @@
 // style.typ
-#import "@preview/numbly:0.1.0": numbly
-#import "@preview/chic-hdr:0.5.0": *
+#import "@preview/chic-hdr:0.5.0": * //encabezado y pie de página
+#import "@preview/numbly:0.1.0": numbly //numeración de encabezados
 
-// --- ESTADOS GLOBALES ---
+#import "@preview/physica:0.9.5": * //sintáxis matemática
+#import "@preview/i-figured:0.2.4" //numeración de ecuaciones y figuras
+#import "@preview/equate:0.3.2": equate //sub-ecuaciones numeradas
+#import "@preview/quick-maths:0.2.1": shorthands //shorthands de escritura de ecuaciones
+#import "@preview/super-suboptimal:0.1.0": * //lectura de sub y superindies unicode
+
+// ESTADOS GLOBALES
 #let in-appendix = state("in-appendix", false)
 #let show-headers = state("show-headers", false)
 
+#let vecop(it) = math.upright(math.bold(math.hat(it)))
+#let vecb(it) = math.upright(math.bold(it))
 
-// --- FUNCIONES EXPORTABLES ---
+// FUNCIONES EXPORTABLES
 #let appendix() = {
   in-appendix.update(true)
   set heading(numbering: "A")
@@ -41,8 +49,7 @@
       citation: rgb("#008000"),  // WebGreen
       url: rgb("#990000"),       // Maroon
     )
-
-    // --- Geometría y Márgenes de Página ---
+    // --- Márgenes ---
     set page(
       paper: paper,
       margin: (
@@ -50,37 +57,8 @@
         bottom: 2.5cm,
         inside: 2.5cm + binding-correction,
         outside: 3.5cm,
-      ),
-      // // Cabecera
-      // header: context {
-      //   // No mostrar nada si es una página de "Parte"
-      //   locate(loc => {
-      //     let part-headings = query(heading.where(level: 1, outlined: false).at(loc))
-      //     if part-headings.len() > 0 {
-      //       return // No mostrar cabecera en páginas de "Parte"
-      //     }
-      //     if show-headers.get() {
-      //       align(right, text(size: 9pt)[
-      //         #locate(loc => {
-      //           let active = query(heading.where(level: 2), loc).last()
-      //           if active != none {
-      //             spaced-smallcaps(active.body)
-      //           }
-      //         })
-      //         #h(1em)
-      //         #line(length: 1.5em, angle: 90deg, stroke: 0.5pt + colors.semi-gray)
-      //         #h(1em)
-      //         #counter(page).display()
-      //       ])
-      //     }
-      //   })
-      // },
-      // // Pie de pagina
-      // footer: context {
-        
-      // },
+      )
     )
-
     // --- Tipografía ---
     set text(
       font: body-font,
@@ -92,14 +70,7 @@
       first-line-indent: 1.2em,
       justify: true,
     )
-    // show par: it => {
-    //   if it.text.len() < 40 { it }
-    //   else { block(breakable: true, tight: false, it) }
-    // }
-
-
-    // --- Estilos de Encabezados (Capítulos, Secciones...) ---
-    set figure(numbering: "1.1")
+    // --- Encabezados ---
     set heading(numbering: numbly(
       "{1:I}",
       "{2:1}",
@@ -108,7 +79,6 @@
     ))
     let spaced-caps(it) = upper(text(tracking: 0.1em, it))
     let spaced-smallcaps(it) = smallcaps(text(tracking: 0.03em, it))
-
     show: chic.with(
       chic-height(2.5cm),
       chic-offset(30pt),
@@ -119,7 +89,6 @@
         right-side: chic-page-number()
       )
     )
-
     // Estilo de PARTE
     show heading.where(level: 1): it => {
       pagebreak()
@@ -169,8 +138,7 @@
       text(style: "italic", size: 1.1em, it.body)
       v(0.6em)
     }
-
-    // --- Tabla de Contenidos (Índice) ---
+    // --- Índices ---
     show outline: it => {
       v(1em)
       text(size: 2em, "Índice general")
@@ -178,13 +146,47 @@
       it
     }
     show outline.entry.where(level: 1): it => { spaced-smallcaps(it) }
+    //para indice de figuras, ecuaciones y tablas, recuerda usar el paquete i-figured
     
     // --- Bibliografía ---
     show bibliography: set text(size: 10pt) // Letra un poco más pequeña
     
     // --- Enlaces y Referencias ---
     show link: it => text(fill: colors.link, it.body)
-    show cite: it => link(it.target, "[" + it.content + "]")
+    // show cite: it => link(it.target, "[" + it.content + "]")
+
+    // --- Ecuaciones y figuras ---
+    set math.equation(numbering: "(1.1)", supplement: [])
+    set figure(numbering: "1.1")
+    show: super-subscripts //lee unicode para superindices y subindices
+    show: shorthands.with(
+      ($+-$, $plus.minus$),
+      ($-->$, $arrow.r.double.long$)
+    )
+    // show math.equation: i-figured.show-equation
+    show heading.where(level: 2): it => {
+      counter(math.equation).update(0)
+      counter(figure.where(kind: image)).update(0)
+      counter(figure.where(kind: table)).update(0)
+      counter(figure.where(kind: raw)).update(0)
+      it
+    }
+    set math.equation(numbering: (..num) =>{
+      let heading_nums = counter(heading).get()
+      if heading_nums.len() > 1{
+        numbering("(1.1)", counter(heading).get().at(1), num.pos().first())
+      } else{
+        numbering("(1.1)", counter(heading).get().first(), num.pos().first())
+      }
+    })
+    set figure(numbering: (..num) =>{
+      let heading_nums = counter(heading).get()
+      if heading_nums.len() > 1{
+        numbering("(1.1)", counter(heading).get().at(1), num.pos().first())
+      } else{
+        numbering("(1.1)", counter(heading).get().first(), num.pos().first())
+      }
+    })
 
     // --- Listados de Código ---
     show raw.where(lang: "tex"): it => block(

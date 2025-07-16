@@ -1,1 +1,7 @@
-== Versión simplificada de la cuantización del campo electromagnético
+// ===================================================================
+// capitulo02.typ
+// ===================================================================
+#import "../style.typ": vecop
+
+== 
+
