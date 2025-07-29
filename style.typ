@@ -1,10 +1,10 @@
 // style.typ
 #import "@preview/chic-hdr:0.5.0": * //encabezado y pie de página
-#import "@preview/numbly:0.1.0": numbly //numeración de encabezados
-
-#import "@preview/physica:0.9.5": * //sintáxis matemática
-#import "@preview/i-figured:0.2.4" //numeración de ecuaciones y figuras
 #import "@preview/equate:0.3.2": equate //sub-ecuaciones numeradas
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge //diagramas con flechas
+#import "@preview/i-figured:0.2.4" //numeración de ecuaciones y figuras
+#import "@preview/numbly:0.1.0": numbly //numeración de encabezados
+#import "@preview/physica:0.9.5": * //sintáxis matemática
 #import "@preview/quick-maths:0.2.1": shorthands //shorthands de escritura de ecuaciones
 #import "@preview/super-suboptimal:0.1.0": * //lectura de sub y superindies unicode
 
@@ -161,7 +161,7 @@
     show: super-subscripts //lee unicode para superindices y subindices
     show: shorthands.with(
       ($+-$, $plus.minus$),
-      ($-->$, $arrow.r.double.long$)
+      ($-+$, $minus.plus$),
     )
     // show math.equation: i-figured.show-equation
     show heading.where(level: 2): it => {

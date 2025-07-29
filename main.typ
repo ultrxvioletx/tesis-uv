@@ -37,7 +37,9 @@
 #include "capitulos/capitulo02.typ"
 #include "capitulos/capitulo03.typ"
 
-
+= Simulaciones numéricas
+#include "simulaciones/introduccion.typ"
+#include "simulaciones/simulacion01.typ"
 
 
 // --- Apéndice ---

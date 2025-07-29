@@ -5,5 +5,14 @@
         "command": "typst compile main.typ",
         "runIn": "integratedTerminal"
     }
-    ]
+    ],
+    "indentRainbow.errorColor": "rgba(128,32,32,0.6)",
+    "editor.tabSize": 2,
+    "terminal.integrated.profiles.linux": {
+        "zsh": {
+            "path": "/bin/zsh",
+            "args": ["-c", "source ~/venv/openket/bin/activate && zsh"]
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "zsh"
 }
