@@ -1,6 +1,7 @@
 // style.typ
 #import "@preview/chic-hdr:0.5.0": * //encabezado y pie de página
 #import "@preview/equate:0.3.2": equate //sub-ecuaciones numeradas
+#import "@preview/cetz:0.4.1" //drawing
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge //diagramas con flechas
 #import "@preview/i-figured:0.2.4" //numeración de ecuaciones y figuras
 #import "@preview/numbly:0.1.0": numbly //numeración de encabezados
@@ -29,6 +30,7 @@
   lang: "es",
   paper: "a4",
   fontsize: 11pt,
+  captionfontsize: 10pt,
   binding-correction: 5mm,
   body-font: "Iwona",
   sans-font: "FreeMono",
@@ -156,8 +158,17 @@
     // show cite: it => link(it.target, "[" + it.content + "]")
 
     // --- Ecuaciones y figuras ---
-    set math.equation(numbering: "(1.1)", supplement: [])
-    set figure(numbering: "1.1")
+    show figure: it => {
+      align(center, it.body)
+      set par(first-line-indent: 0pt)
+      align(
+        left,
+        pad(
+          x: 2cm,
+          strong(text(size: captionfontsize, it.caption))
+        )
+      )
+    }
     show: super-subscripts //lee unicode para superindices y subindices
     show: shorthands.with(
       ($+-$, $plus.minus$),
@@ -171,6 +182,8 @@
       counter(figure.where(kind: raw)).update(0)
       it
     }
+    set math.equation(numbering: "(1.1)", supplement: [])
+    set figure(numbering: "1.1")
     set math.equation(numbering: (..num) =>{
       let heading_nums = counter(heading).get()
       if heading_nums.len() > 1{
@@ -182,11 +195,14 @@
     set figure(numbering: (..num) =>{
       let heading_nums = counter(heading).get()
       if heading_nums.len() > 1{
-        numbering("(1.1)", counter(heading).get().at(1), num.pos().first())
+        numbering("1.1", counter(heading).get().at(1), num.pos().first())
       } else{
-        numbering("(1.1)", counter(heading).get().first(), num.pos().first())
+        numbering("1.1", counter(heading).get().first(), num.pos().first())
       }
     })
+    set figure.caption(
+      separator: parbreak()
+    )
 
     // --- Listados de Código ---
     show raw.where(lang: "tex"): it => block(

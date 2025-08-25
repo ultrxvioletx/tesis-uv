@@ -161,11 +161,22 @@ El planteamiento y desarrollo del contenido de esta sección fue tomado del cap�
 
 Hasta ahora no hemos hablado nada acerca de la naturaleza del campo electromagnético, si es considerado clásico o cuántico, y la expresión @eq01:field-hamiltonian es válida para ambos casos. En el modelo semiclásico de interacción, es decir aquel que considera al campo electromagnético clásico con un átomo cuántico, queremos explorar las consecuencias de que la frecuencia del campo casi coincida con la diferencia de energía entre un par de niveles atómicos (fenómeno de cuasirresonancia), al que llamaremos *átomo de 2 niveles*.
 
-#diagram(cell-size: 15mm, $
-        hbar wa edge() & ka
-        & edge("d", omega,"<|-|>")\
-        hbar wb edge() & kb
-$)
+#figure(
+  diagram(cell-size: 15mm,
+          mark-scale: 130%,
+          node((0,1), $hbar wb$),
+          edge((0,1),(1,1)),
+          node((1,1), $kb$),
+
+          edge((0.5,1),(0.5,0), "<|-|>", $omega$, label-side: left),
+          edge((-0.5,0.5),(0,0.5), $nu$, "-|>", "wave"),
+
+          node((0,0), $hbar wa$),
+          edge((0,0),(1,0)),
+          node((1,0), $ka$),
+  ),
+  caption: [Diagrama de la interacción de un átomo de dos niveles con un campo eléctrico de frecuencia $nu$.]
+)
 
 El átomo de 2 niveles se caracteriza por un estado base $kb$ y el estado excitado $ka$, con energías $hbar wb$ y $hbar wa$, respectivamente. Exploraremos el caso donde el átomo intercatúa con un campo eléctrico dado por una onda senosoidal
 
@@ -273,9 +284,7 @@ cuyos eigenvalores de @eq01:rabi-matrix-system son $-+ Omega$, donde
 
 $ Omega = sqrt(Delta^2 + rabi^2) $
 
-es la *Frecuencia de Rabi generalizada*, la cual notemos que incluye el efecto de desintonía, $Delta$, que relaciona la diferencia de energía entre niveles y la frecuencia de radiación del campo $E(t)$.
-
-La solución del sistema @eq01:rabi-matrix-system es
+es la *Frecuencia de Rabi generalizada*, la cual notemos que incluye el efecto de desintonía $Delta$. La solución del sistema @eq01:rabi-matrix-system es
 
 #let arg = $(Omega t)/2$
 $
@@ -287,7 +296,7 @@ $
   vec(c_b (0), c_a (0))
 $
 
-Y si establecemos las condiciones iniciales como $c_b (0)=1$, $c_a (0)=0$ (el sistema se encuentra en el estado base), la probabilidad de transición entre estados, de $kb$ a $ka$ es
+Y si establecemos las condiciones iniciales como $c_b (0)=1$, $c_a (0)=0$ (esto es, el sistema se encuentra inicialmente en el estado base), la probabilidad de transición entre estados, de $kb$ a $ka$ es
 
 $ |ca|^2 = ((Delta^2 - rabi^2)/ Omega^2) sin^2(arg) $
 
@@ -300,7 +309,7 @@ $ |ca|^2 = ((Delta^2 - rabi^2)/ Omega^2) sin^2(arg) $
 
 
 // ===================================================================
-=== Átomo de 3 niveles (Scully-Zubary) <sec01:3-niveles>
+=== Átomo de 3 niveles (Scully-Zubary) (sigue pendiente) <sec01:3-niveles>
 #let H0 = $hat(H)_0$
 #let HI = $hat(H)_I (t)$
 #let completez = $ketbra(a) + ketbra(b)$
