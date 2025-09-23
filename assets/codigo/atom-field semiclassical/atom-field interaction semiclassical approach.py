@@ -1,3 +1,9 @@
+##################################################
+# Atom-field interaction semiclassical approach.py
+# Andrea Rodríguez
+##################################################
+
+
 from openket import *
 from scipy.integrate import odeint
 from numpy import linspace

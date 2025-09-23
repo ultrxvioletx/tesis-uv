@@ -1,13 +1,12 @@
 // ===================================================================
-// introduccion.typ
+// 02_operador_densidad.typ
 // ===================================================================
 #import "../style.typ": *
 
-== Introducción <sim:intro>
+=== Operador densidad (Cohen) <operador-densidad>
+_Descripción de porqué es importante el operador densidad, y porqué es necesario para describir sistemas disipativos y estados mezclados._
 
-// ===================================================================
-=== Operador densidad (Cohen)
-Para poder proceder con las simulaciones numéricas tomaremos algunas consideraciones previas. Si consideramos un sistema cuyo vector de estado en el instante $t$ es
+Si consideramos un sistema cuyo vector de estado en el instante $t$ es
 
 #let Psi = $Psi (t)$
 #let cn = $c_n (t)$

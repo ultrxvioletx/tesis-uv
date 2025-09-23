@@ -1,17 +1,9 @@
 // ===================================================================
-// capitulo02.typ
+// 04_oscilador_armonico.typ
 // ===================================================================
 #import "../style.typ": *
 
-== Teoría cuántica de la interacción átomo-campo <cap:02>
-
-En el tratamiento semiclásico de la interacción luz-materia, hemos modelado al átomo como un sistema cuántico discreto, pero hemos tratado al campo electromagnético como una onda clásica externa $vecb(E)(t) = vecb(E)_0 cos(nu t)$. Si bien este enfoque nos ha permitido observar resultados como las oscilaciones de Rabi, no es capaz de explicar fenómenos como la emisión espontánea, donde un átomo excitado decae emitiendo un fotón incluso en ausencia de un campo externo.
-
-Para ello, nuestro siguiente paso es la cuantización del campo externo. Discutiremos la interacción de un campo de radiación cuántica con el sistema del átomo de dos niveles, descrito por el Hamiltoniano con aproximación dipolar, expresado en la ecuación @eq01:field-hamiltonian2.
-
-
-// ===================================================================
-=== Oscilador armónico cuántico (Cohen)
+=== Oscilador armónico cuántico (Cohen) <oscilador-armonico>
 #let opX = $hat(X)$
 #let opP = $hat(P)$
 #let opH = $hat(H)$
@@ -27,7 +19,7 @@ Partimos del Hamiltoniano de un oscilador armónico clásico unidimensional de m
 
 $ H = (p²)/(2m) + 1/2 m omega² x² $
 
-que puede ser cuantizado simplemente _convirtiendo_ la posición $x$ y momento $p$ en operadores hermitianos, $opX'$ y $opP'$, cuya relación de conmutación es $[opX', opP'] = i hbar$. Así, el Hamiltoniano cuántico se convierte en
+que puede ser cuantizado simplemente _convirtiendo_ la posición $x$ y momento $p$ en operadores hermitianos, $opX'$ y $opP'$, y estableciendo la relación de conmutación $[opX', opP'] = i hbar$. Así, tenemos que el Hamiltoniano cuántico es
 
 $ opH = (opP'^2)/(2m) + 1/2 m omega^2 opX'^2 $
 
@@ -67,11 +59,3 @@ $
 $
 
 y es por eso que $cre$ recibe el nombre de operador *creación* y $ani$ de operador *aniquilación*, pues su acción sobre un eigenestado de $opN$ hace a un cuanto de energía $hbar omega$ aparecer o desaparecer.
-
-
-
-
-
-
-// ===================================================================
-=== Cuantización del campo externo

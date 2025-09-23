@@ -1,0 +1,60 @@
+#let exp = $e^(-i omega_n t)$
+#let psin = $psi_n (vecb(r))$
+#let psint = $psi(vecb(r),t)$
+#let Cn = $C_n (t)$
+#let sumn = $sum_(n)$
+$ i hbar pdv(,t) psint = [H0+HI] psint $ <eq:total-dep-schrodinger>
+
+y usamos las soluciones de la ecuación de Schrödinger dependiente del tiempo del átomo libre en @eq:free-dep-wavefunction como base conveniente para descomponer a la función de onda de la interacción
+
+$ psint = sumn Cn psin exp $ <eq:total-dep-wavefunction>
+
+con $omega_n = E_n / hbar$. Al sustituir @eq:total-dep-wavefunction en @eq:total-dep-schrodinger obtenemos
+
+$
+  i hbar pdv(,t) (sumn Cn psin exp) = (H0 + HI) sumn Cn psin exp
+$ <eq:total-dep-schrodinger2>
+
+En el lado izquierdo de @eq:total-dep-schrodinger2:
+
+$
+  i hbar pdv(,t) psint
+  &= i hbar sumn (dv(,t)Cn exp + Cn dv(,t)exp) psin \
+  &= i hbar sumn (dv(,t)Cn exp + Cn (-i omega_n) exp) psin \
+  &= i hbar sumn (dv(,t)Cn - i omega_n Cn) psin exp
+$
+
+El lado derecho se divide en dos partes: $H0 psint$ y $HI psint$.\
+Empezando por $H0$, como es un operador lineal que actúa solamente sobre funciones de la posición $vecb(r)$ y no sobre funciones de tiempo, entonces no afecta a los términos $Cn$ ni $exp$. Además, $psin$ cumple con la ecuación de eigenvalores de $H0$ @eq:free-eigenfunction, entonces
+
+$ H0 psint = sumn E_n Cn psin exp $
+
+Por otro lado, recordemos que
+
+$ HI(t) = -vecop(d) dot E(t) = -bold(e) E_0 (vecop(e) dot vecb(r)) cos omega t $
+
+por lo tanto
+
+$ HI(t) psint = -bold(e) E_0 (vecop(e) dot vecb(r)) sumn Cn psin exp cos omega t $
+
+Lo que nos lleva a la expresión
+
+$
+  i hbar sumn (dv(,t)Cn - i omega_n Cn) psin exp
+  = &sumn E_n Cn psin exp \
+    &-bold(e) E_0 (vecop(e) dot vecb(r)) sumn Cn psin exp cos omega t
+$
+
+#let psim = $psi^*_m vecb(r)$
+Ahora bien, considerando que $E_n = hbar omega_n$, el segundo término del lado izquierdo se cancela con el primer término del lado derecho. Después, multiplicamos por $psim$ por la izquierda e integramos sobre todo el espacio
+
+$
+  integral psim [i hbar sumn dv(,t)Cn psin exp] dd(vecb(r),3)
+$
+
+
+Como tenemos solamente dos niveles, la ec. @eq:total-dep-wavefunction se reescribe como
+
+$ psi(vecb(r),t) = C_b (t) psi_b (vecb(r)) e^(-i omega_b t) + C_a (t) psi_a (vecb(r)) e^(-i omega_a t) $ <eq:2lvl-dep-wavefunction>
+
+Los coeficientes $C_a (t)$ y $C_b (t)$ son las amplitudes de probabilidad que contienen la dinámica de la interacción.

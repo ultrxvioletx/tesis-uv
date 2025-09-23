@@ -25,21 +25,34 @@
 // Tabla de Contenidos (Índice)
 #outline(
   title: none,
-  depth: 3,
+  depth: 4,
 )
 
 // --- Cuerpo Principal ---
 // #state("show-headers").update(true)
 
 
-= Preparación teórica
-#include "capitulos/capitulo01.typ"
-#include "capitulos/capitulo02.typ"
-#include "capitulos/capitulo03.typ"
+= Herramientas y fundamentos teóricos
 
-= Simulaciones numéricas
-#include "simulaciones/introduccion.typ"
-#include "simulaciones/simulacion01.typ"
+#include "capitulos/01_introduccion.typ"
+
+#include "capitulos/02_introduccion.typ"
+#include "capitulos/02_operador_densidad.typ"
+#include "capitulos/02_lindblad.typ"
+
+= Interacción átomo-luz
+#include "capitulos/03_introduccion.typ"
+#include "capitulos/03_atomo_libre.typ"
+#include "capitulos/03_atomo_campo.typ"
+#include "capitulos/03_decaimiento_espontaneo.typ"
+#include "capitulos/03_simulacion.typ"
+
+#include "capitulos/04_introduccion.typ"
+#include "capitulos/04_oscilador_armonico.typ"
+#include "capitulos/04_cuantizacion_campo.typ"
+#include "capitulos/04_cavidad_abierta.typ"
+#include "capitulos/04_simulacion.typ"
+
 
 
 // --- Apéndice ---

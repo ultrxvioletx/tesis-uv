@@ -174,7 +174,9 @@
       ($+-$, $plus.minus$),
       ($-+$, $minus.plus$),
     )
-    // show math.equation: i-figured.show-equation
+    set math.equation(numbering: "(1.1)", supplement: [])
+    set figure(numbering: "1.1")
+    // Reinicia contadores al cambiar de capítulo
     show heading.where(level: 2): it => {
       counter(math.equation).update(0)
       counter(figure.where(kind: image)).update(0)
@@ -182,8 +184,7 @@
       counter(figure.where(kind: raw)).update(0)
       it
     }
-    set math.equation(numbering: "(1.1)", supplement: [])
-    set figure(numbering: "1.1")
+    // Coloca formato de capitulo.num
     set math.equation(numbering: (..num) =>{
       let heading_nums = counter(heading).get()
       if heading_nums.len() > 1{
@@ -192,6 +193,7 @@
         numbering("(1.1)", counter(heading).get().first(), num.pos().first())
       }
     })
+    // Coloca formato de capitulo.num
     set figure(numbering: (..num) =>{
       let heading_nums = counter(heading).get()
       if heading_nums.len() > 1{

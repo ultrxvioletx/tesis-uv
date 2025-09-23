@@ -1,60 +1,11 @@
 // ===================================================================
-// capitulo01.typ
+// 03_atomo_campo.typ
 // ===================================================================
 #import "../style.typ": *
 
-== Átomo cuántico interactuando con luz clásica <cap:01>
-// == Teoría semiclásica de la interacción átomo-campo <cap:01>
+=== Teoría semiclásica de la interacción átomo-campo <atomo-campo>
 
-
-
-// ===================================================================
-=== Átomo libre <sec01:atomo-libre>
-#let H0 = $hat(H)_0$
-#let en = $e^(-(i E_n t)/hbar)$
-#let kn = $ket(n)$
-#let psin = $psi_n (vecb(r))$
-Partimos del sistema más sencillo al suponer un átomo en ausencia de campos externos, cuyo Hamiltoniano está dado por
-
-$ H0 = 1/(2 m) vecop(P)^2 + V(r) $
-
-donde $V(r)$ es la interacción coulombiana del electrón con el núcleo, y en la representación de espacio $vecop(P)=-i nabla$ y $r = abs(vecb(r))$. Además, como se trata de un átomo libre, podemos describir el sistema mediante la ecuación de Schrödinger dependiente del tiempo
-
-$ i hbar pdv(Psi,t) = H0 Psi $
-
-cuyas soluciones son los estados estacionarios
-
-$ ket(Psi(t)) = en kn $ <eq01:free-dep-state>
-
-o, expresados en la representación de espacio
-
-$ braket(r,Psi) = Psi(vecb(r),t) = psin en $ <eq01:free-dep-wavefunction>
-
-donde $braket(r,n) = psin$ es la parte espacial y representa a un átomo que se encuentra en un nivel de energía bien definido, llamada función de onda del estado $kn$, $en$ es un factor de fase y $E_n$ la energía del estado $kn$. \
-$kn$, $psin$ y $E_n$ son los eigenestados, las eigenfunciones y los eigenvalores de $H_0$, respectivamente
-
-$
-  H0 psin = E_n psin \
-  H0 kn = E_n kn
-$ <eq01:free-eigenfunction>
-
-Y además las funciones de onda $psin$ y los estados $kn$ cumplen con la condición de ortonormalidad
-
-$ integral dd(vecb(r),3) psi^*_m (vecb(r)) psin = braket(m,n) = delta_(n m) $
-
-por lo que son una base en el espacio de Hilbert.
-
-
-
-
-
-
-
-
-
-
-// ===================================================================
-=== Átomo en presencia de campo externo (Gerry-Knight) <sec01:atomo-campo>
+==== Átomo en presencia de campo externo (Gerry-Knight)
 #let rt = $(vecb(r),t)$
 #let qe = $bold(e)$
 #let H0 = $hat(H)_0$
@@ -68,7 +19,7 @@ donde $vecb(A)rt$ y $Phi rt$ son los potenciales vectorial y escalar, respectiva
 $
   vecb(E)rt &= -nabla Phi rt - pdv(vecb(A)rt, t) \
   vecb(B)rt &= nabla times vecb(A)rt
-$ <eq01:campos>
+$ <eq:campos>
 
 que son invariantes ante las transformaciones de gauge
 
@@ -91,7 +42,7 @@ Partiendo ahora de la ecuación de Ampere-Maxwell
 
 $ nabla times vecb(B) = mu_0 vecb(J) + mu_0 epsilon_0 pdv(vecb(E),t) $
 
-sustituimos $vecb(B)$ y $vecb(E)$ por sus expresiones en @eq01:campos, y aplicamos la transformación de Coulomb
+sustituimos $vecb(B)$ y $vecb(E)$ por sus expresiones en @eq:campos, y aplicamos la transformación de Coulomb
 
 $
   nabla times (nabla times vecb(A)) &= mu_0 vecb(J) + mu_0 epsilon_0 pdv(,t)(-nabla Phi - pdv(vecb(A),t)) \
@@ -122,15 +73,15 @@ $ hat(H)' = (vecop(P))/(2m) + V(r) + qe vecb(r) dot vecb(E)(t) $
 
 Y finalmente, después de considerar la expresión del momento dipolar $vecb(d)=-qe vecb(r)$, causado por la separación entre el electrón y el núcleo del átomo, obtenemos el siguiente Hamiltoniano
 
-$ hat(H)' = H0 - vecop(d) dot vecb(E)(t) $ <eq01:field-hamiltonian>
+$ hat(H)' = H0 - vecop(d) dot vecb(E)(t) $ <eq:field-hamiltonian>
 
 En general, para un representación no especificada, el momento dipolar es un operador $vecop(d)$. Para simplificar la notación, realizaremos un cambio de etiqueta a $hat(H)'$ y lo llamaremos simplemente $hat(H)$, y al término $- vecop(d) dot vecb(E)(t)$ le vamos a asociar el Hamiltoniano de interacción denotado por $HI$.
 
 $ HI = - vecop(d) dot vecb(E)(t) $
 
-Así, la expresión @eq01:field-hamiltonian queda reescrita como
+Así, la expresión @eq:field-hamiltonian queda reescrita como
 
-$ hat(H) = H0 + HI $ <eq01:field-hamiltonian2>
+$ hat(H) = H0 + HI $ <eq:field-hamiltonian2>
 
 
 
@@ -138,7 +89,7 @@ $ hat(H) = H0 + HI $ <eq01:field-hamiltonian2>
 
 
 // ===================================================================
-=== Átomo de 2 niveles (Orszag) <sec01:2-niveles>
+==== Átomo de 2 niveles (Orszag)
 #set math.mat(delim: "[")
 #set math.vec(delim: "[")
 #let kPsi = $ket(Psi (t))$
@@ -159,7 +110,7 @@ $ hat(H) = H0 + HI $ <eq01:field-hamiltonian2>
 
 El planteamiento y desarrollo del contenido de esta sección fue tomado del capítulo 2 del libro _Quantum optics: including noise reduction, trapped ions, quantum trajectories, and decoherence_ #cite(<orszag2008_quantum>, style: "elsevier-harvard").
 
-Hasta ahora no hemos hablado nada acerca de la naturaleza del campo electromagnético, si es considerado clásico o cuántico, y la expresión @eq01:field-hamiltonian es válida para ambos casos. En el modelo semiclásico de interacción, es decir aquel que considera al campo electromagnético clásico con un átomo cuántico, queremos explorar las consecuencias de que la frecuencia del campo casi coincida con la diferencia de energía entre un par de niveles atómicos (fenómeno de cuasirresonancia), al que llamaremos *átomo de 2 niveles*.
+Hasta ahora no hemos hablado nada acerca de la naturaleza del campo electromagnético, si es considerado clásico o cuántico, y la expresión @eq:field-hamiltonian es válida para ambos casos. En el modelo semiclásico de interacción, es decir aquel que considera al campo electromagnético clásico con un átomo cuántico, queremos explorar las consecuencias de que la frecuencia del campo casi coincida con la diferencia de energía entre un par de niveles atómicos (fenómeno de cuasirresonancia), al que llamaremos *átomo de 2 niveles*.
 
 #figure(
   diagram(cell-size: 15mm,
@@ -184,33 +135,33 @@ $ vecb(E)(t) = vecb(E)_0 cos(nu t) $
 
 siendo $nu$ la frecuencia de la radiación del campo y $vecb(E)_0 = vecop(e) E_0$, donde $vecop(e)$ es el vector unitario de polarización del campo.
 
-Para simplificar la derivación, procederemos utilizando los estados sin considerar ninguna representación. Tomamos el Hamiltoniano @eq01:field-hamiltonian2 para la ecuación de Schrödinger dependiente del tiempo de la interacción
+Para simplificar la derivación, procederemos utilizando los estados sin considerar ninguna representación. Tomamos el Hamiltoniano @eq:field-hamiltonian2 para la ecuación de Schrödinger dependiente del tiempo de la interacción
 
-$ i hbar dv(,t) kPsi = [H0 + HI] kPsi $ <eq01:total-dep-schrodinger>
+$ i hbar dv(,t) kPsi = [H0 + HI] kPsi $ <eq:total-dep-schrodinger>
 
-y usamos las soluciones @eq01:free-dep-state de la ecuación de Schrödinger dependiente del tiempo del átomo libre como base conveniente para descomponer a la función de onda de la interacción
+y usamos las soluciones @eq:free-dep-state de la ecuación de Schrödinger dependiente del tiempo del átomo libre como base conveniente para descomponer a la función de onda de la interacción
 
-$ kPsi = Ca ea ka + Cb eb kb $ <eq01:total-dep-state>
+$ kPsi = Ca ea ka + Cb eb kb $ <eq:total-dep-state>
 
-con $omega_i = E_i / hbar$. Al sustituir @eq01:total-dep-state en @eq01:total-dep-schrodinger obtenemos del lado izquierdo
+con $omega_i = E_i / hbar$. Al sustituir @eq:total-dep-state en @eq:total-dep-schrodinger obtenemos del lado izquierdo
 
 $
   i hbar dv(,t) kPsi
   &= i hbar dv(,t) (Ca ea ka + Cb eb kb) \
   &= i hbar [(dv(C_a,t) - i wa C_a) ea ka + (dv(C_b,t) - i wb C_b) eb kb]
-$ <eq01:total-dep-schrodinger-left>
+$ <eq:total-dep-schrodinger-left>
 
-Y del lado derecho, como $H0$ es un operador lineal que actúa solamente sobre los estados $ket(n)$ y no sobre funciones de tiempo, entonces no afecta a los términos $C_n (t)$ ni $e^(-i omega_n t)$. Además, $ka$ y $kb$ cumplen con la ecuación de eigenvalores de $H0$ @eq01:free-eigenfunction, entonces
+Y del lado derecho, como $H0$ es un operador lineal que actúa solamente sobre los estados $ket(n)$ y no sobre funciones de tiempo, entonces no afecta a los términos $C_n (t)$ ni $e^(-i omega_n t)$. Además, $ka$ y $kb$ cumplen con la ecuación de eigenvalores de $H0$ @eq:free-eigenfunction, entonces
 
 $
   [H0 &+ HI] kPsi \
   &= H0(C_a ea ka + C_b eb kb) + HI(C_a ea ka + C_b eb kb) \
   &= Ea C_a ea ka + Eb C_b eb kb + HI(C_a ea ka + C_b eb kb)
-$ <eq01:total-dep-schrodinger-rigth>
+$ <eq:total-dep-schrodinger-rigth>
 
-Considerando que $E_n = hbar omega_n$, el término $i hbar (-i omega_n C_n)$ de @eq01:total-dep-schrodinger-left se convierte en $hbar omega_n C_n = E_n C_n$ y se cancela con los dos primeros términos de @eq01:total-dep-schrodinger-rigth, dejándonos con
+Considerando que $E_n = hbar omega_n$, el término $i hbar (-i omega_n C_n)$ de @eq:total-dep-schrodinger-left se convierte en $hbar omega_n C_n = E_n C_n$ y se cancela con los dos primeros términos de @eq:total-dep-schrodinger-rigth, dejándonos con
 
-$ i hbar (dv(C_a,t) ea ka + dv(C_b,t) eb kb) = HI(C_a ea ka + C_b eb kb) $ <eq01:total-dep-schrodinger2>
+$ i hbar (dv(C_a,t) ea ka + dv(C_b,t) eb kb) = HI(C_a ea ka + C_b eb kb) $ <eq:total-dep-schrodinger2>
 
 Ahora bien, si proyectamos sobre el estado $ka$, es decir, multiplicamos toda la ecuación por $bra(a)$, tenemos
 
@@ -242,7 +193,7 @@ $
   &= -(dab E_0)/2 Cb [e^(i(omega + nu)t) + e^(i(omega - nu)t)]
 $
 
-Realizando un procedimiento análogo en donde proyectamos la ecuación @eq01:total-dep-schrodinger2 sobre el estado $kb$, obtenemos el siguiente par de ecuaciones diferenciales acopladas
+Realizando un procedimiento análogo en donde proyectamos la ecuación @eq:total-dep-schrodinger2 sobre el estado $kb$, obtenemos el siguiente par de ecuaciones diferenciales acopladas
 
 $
   &i hbar dv(C_b,t) = -(dab E_0)/2 Ca [e^(-i(omega + nu)t) + e^(-i(omega - nu)t)] \
@@ -267,9 +218,9 @@ obteniendo
 $
   dv(,t) cb &= -i/2 [-Delta ca + rabi ca] \
   dv(,t) ca &= -i/2 [Delta ca + rabi cb]
-$ <eq01:rabi-eq-system>
+$ <eq:rabi-eq-system>
 
-Podemos escribir @eq01:rabi-eq-system en su forma matricial
+Podemos escribir @eq:rabi-eq-system en su forma matricial
 
 $
   dv(,t) vec(cb, ca) = -i/2
@@ -278,13 +229,13 @@ $
     rabi^*, Delta
   )
   vec(cb, ca)
-$ <eq01:rabi-matrix-system>
+$ <eq:rabi-matrix-system>
 
-cuyos eigenvalores de @eq01:rabi-matrix-system son $-+ Omega$, donde
+cuyos eigenvalores de @eq:rabi-matrix-system son $-+ Omega$, donde
 
 $ Omega = sqrt(Delta^2 + rabi^2) $
 
-es la *Frecuencia de Rabi generalizada*, la cual notemos que incluye el efecto de desintonía $Delta$. La solución del sistema @eq01:rabi-matrix-system es
+es la *Frecuencia de Rabi generalizada*, la cual notemos que incluye el efecto de desintonía $Delta$. La solución del sistema @eq:rabi-matrix-system es
 
 #let arg = $(Omega t)/2$
 $
@@ -299,53 +250,3 @@ $
 Y si establecemos las condiciones iniciales como $c_b (0)=1$, $c_a (0)=0$ (esto es, el sistema se encuentra inicialmente en el estado base), la probabilidad de transición entre estados, de $kb$ a $ka$ es
 
 $ |ca|^2 = ((Delta^2 - rabi^2)/ Omega^2) sin^2(arg) $
-
-
-
-
-
-
-
-
-
-// ===================================================================
-=== Átomo de 3 niveles (Scully-Zubary) (sigue pendiente) <sec01:3-niveles>
-#let H0 = $hat(H)_0$
-#let HI = $hat(H)_I (t)$
-#let completez = $ketbra(a) + ketbra(b)$
-#let ka = $ket(a)$
-#let kb = $ket(b)$
-#let kc = $ket(c)$
-Para estudiar el caso del átomo de 3 niveles, obtendremos el Hamiltoniano RWA como una generalización del Hamiltoniano del átomo de 2 niveles interactuando con un campo clásico a una sola frecuencia, presentado en la sección anterior, y lo aplicaremos para analizar un átomo de 3 niveles interactuando con un campo clásico a dos frecuencias distintas, considerando sus tres configuraciones posibles: cascada, lambda ($Lambda$) y Vee ($"V"$).
-
-Para ello, tomemos el Hamiltoniano de la @sec01:atomo-campo
-
-$ hat(H) = H0 + HI $
-
-Usando la relación de completez $completez = bb(1)$, escribimos $H0$ como
-
-$
-  H0
-  &= (completez) H0 (completez)\
-  &= hbar wa ketbra(a) + hbar wb ketbra(b)
-$
-
-donde usamos la propiedad $H0 ka = hbar wa ka$ y $H0 kb = hbar wb kb$. De forma similar, escribimos a $HI$ como
-
-$
-  HI
-  &= -e (completez) vecb(r) (completez) vecb(E)(t)\
-  &= -(dab ketbra(a,b) + dba ketbra(b,a)) vecb(E)(t)
-$
-
-==== Lambda $Lambda$
-#let bombeo = $Omega_p$
-#let sonda = $Omega_s$
-
-En el átomo de 3 niveles en configuración Lambda, tenemos dos estados base, $kb$ y $kc$, y un estado excitado $ka$. Este átomo presenta superposición coherente, es decir, puede existir en un estado que es una superposición de sus niveles base
-
-$ ket(Psi_("coherente")) = c_b kb + c_c kc $
-
-y donde la relación de fase entre los coeficientes $c_b$ y $c_c$ está bien definida y se mantiene estable en el tiempo. Esto quiere decir que es un único estado cuántico donde el átomo está, en cierto sentido, en ambos estados a la vez y con una fase relativa fija.
-
-Ahora tomemos nuestro átomo $Lambda$ y consideremos dos campos con respectivas frecuencias $nu_1$ y $nu_2$
