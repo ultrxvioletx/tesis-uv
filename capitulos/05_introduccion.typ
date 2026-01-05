@@ -1,6 +1,7 @@
 // ===================================================================
-// 04_introduccion.typ
+// 05_introduccion.typ
 // ===================================================================
 #import "../style.typ": *
 
-=== Cuantización del campo externo (Scully o Gerry-Knight o Orszag) <cuantizacion-campo>
+== Interacción cuántica átomo-cavidad <cap:05>
+

@@ -48,11 +48,13 @@
 #include "capitulos/03_simulacion.typ"
 
 #include "capitulos/04_introduccion.typ"
-#include "capitulos/04_oscilador_armonico.typ"
 #include "capitulos/04_cuantizacion_campo.typ"
+#include "capitulos/04_oscilador_armonico.typ"
 #include "capitulos/04_cavidad_abierta.typ"
 #include "capitulos/04_simulacion.typ"
 
+#include "capitulos/05_introduccion.typ"
+#include "capitulos/05_jaynes-cummings.typ"
 
 
 // --- Apéndice ---

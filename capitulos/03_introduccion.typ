@@ -3,6 +3,6 @@
 // ===================================================================
 #import "../style.typ": *
 
-== Formalismo para sistemas cuánticos abiertos <cap:03>
+== Sistema atómico y su interacción con campos clásicos <cap:03>
 
 algún texto...

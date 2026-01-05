@@ -1,6 +1,6 @@
 // ===================================================================
-// 04_introduccion.typ
+// 03_jaynes-cummings.typ
 // ===================================================================
 #import "../style.typ": *
 
-=== Cuantización del campo externo (Scully o Gerry-Knight o Orszag) <cuantizacion-campo>
+=== Modelo de Jaynes-Cummings <jaynes>

@@ -3,7 +3,7 @@
 // ===================================================================
 #import "../style.typ": *
 
-=== Teoría semiclásica de la interacción átomo-campo <atomo-campo>
+=== Interacción semiclásica átomo-campo <atomo-campo>
 
 ==== Átomo en presencia de campo externo (Gerry-Knight)
 #let rt = $(vecb(r),t)$
@@ -58,7 +58,7 @@ $ nabla² vecb(A) - 1/(c²) pdv(vecb(A),t,2) = 0 $
 
 cuya solución general es $vecb(A) = vecb(A)_0 e^(-i(vecb(k) dot vecb(r) - omega t)) + vecb(A)^*_0 e^(i(vecb(k) dot vecb(r) - omega t))$.
 
-Luego, de la expresión anterior consideremos a $vecb(k)$, el vector de propagación de la onda con longitud $lambda$, cuya magnitud es $abs(vecb(k))=(2 pi)/lambda$; en óptica, $lambda$ tiene típicamente valores de orden $10^(-7)$m (la luz visible se encuentra entre 380-750 nm) y $abs(vecb(r))$ tiene dimensiones atómicas, de orden $10^(-10)$m, entonces $vecb(k) dot vecb(r) << 1$ (aproximación dipolar), provocando que el potencial vectorial sea uniforme en el espacio alrededor del átomo, $vecb(A)rt approx vecb(A)(t)$.
+Luego, de la expresión anterior consideremos a $vecb(k)$, el vector de propagación de la onda con longitud $lambda$, cuya magnitud es $abs(vecb(k))=(2 pi)/lambda$; en óptica, $lambda$ tiene típicamente valores de orden $10^(-7)$m (la luz visible se encuentra entre 380-750 nm) y $abs(vecb(r))$ tiene dimensiones atómicas de orden $10^(-10)$m, entonces $vecb(k) dot vecb(r) << 1$, esto es, asumimos que la longitud de onda de la luz es mucho mayor que el tamaño del átomo, lo que se conoce como aproximación dipolar, provocando que el potencial vectorial sea uniforme en el espacio alrededor del átomo, $vecb(A)rt approx vecb(A)(t)$.
 
 Si ahora consideramos otra transformación de gauge, dada por $chi rt=-vecb(A)(t) dot vecb(r)$, entonces
 
@@ -89,20 +89,20 @@ $ hat(H) = H0 + HI $ <eq:field-hamiltonian2>
 
 
 // ===================================================================
-==== Átomo de 2 niveles (Orszag)
+==== Átomo de dos niveles interactuando con campo clásico (Orszag)
 #set math.mat(delim: "[")
 #set math.vec(delim: "[")
 #let kPsi = $ket(Psi (t))$
-#let ka = $ket(a)$
-#let kb = $ket(b)$
-#let ea = $e^(-i omega_a t)$
-#let eb = $e^(-i omega_b t)$
-#let Ca = $C_a (t)$
-#let Cb = $C_b (t)$
-#let wa = $omega_a$
-#let wb = $omega_b$
-#let Ea = $E_a$
-#let Eb = $E_b$
+#let ke = $ket(e)$
+#let kg = $ket(g)$
+#let ee = $e^(-i omega_e t)$
+#let eg = $e^(-i omega_g t)$
+#let Ce = $C_e (t)$
+#let Cg = $C_g (t)$
+#let we = $omega_e$
+#let wg = $omega_g$
+#let Ee = $E_e$
+#let Eg = $E_g$
 
 #let qe = $bold(e)$
 #let H0 = $hat(H)_0$
@@ -115,21 +115,21 @@ Hasta ahora no hemos hablado nada acerca de la naturaleza del campo electromagn�
 #figure(
   diagram(cell-size: 15mm,
           mark-scale: 130%,
-          node((0,1), $hbar wb$),
+          node((0,1), $hbar wg$),
           edge((0,1),(1,1)),
-          node((1,1), $kb$),
+          node((1,1), $kg$),
 
           edge((0.5,1),(0.5,0), "<|-|>", $omega$, label-side: left),
           edge((-0.5,0.5),(0,0.5), $nu$, "-|>", "wave"),
 
-          node((0,0), $hbar wa$),
+          node((0,0), $hbar we$),
           edge((0,0),(1,0)),
-          node((1,0), $ka$),
+          node((1,0), $ke$),
   ),
   caption: [Diagrama de la interacción de un átomo de dos niveles con un campo eléctrico de frecuencia $nu$.]
 )
 
-El átomo de 2 niveles se caracteriza por un estado base $kb$ y el estado excitado $ka$, con energías $hbar wb$ y $hbar wa$, respectivamente. Exploraremos el caso donde el átomo intercatúa con un campo eléctrico dado por una onda senosoidal
+El átomo de 2 niveles se caracteriza por un estado base $kg$ y el estado excitado $ke$, con energías $hbar wg$ y $hbar we$, respectivamente. Exploraremos el caso donde el átomo intercatúa con un campo eléctrico dado por una onda senosoidal
 
 $ vecb(E)(t) = vecb(E)_0 cos(nu t) $
 
@@ -141,63 +141,63 @@ $ i hbar dv(,t) kPsi = [H0 + HI] kPsi $ <eq:total-dep-schrodinger>
 
 y usamos las soluciones @eq:free-dep-state de la ecuación de Schrödinger dependiente del tiempo del átomo libre como base conveniente para descomponer a la función de onda de la interacción
 
-$ kPsi = Ca ea ka + Cb eb kb $ <eq:total-dep-state>
+$ kPsi = Ce ee ke + Cg eg kg $ <eq:total-dep-state>
 
 con $omega_i = E_i / hbar$. Al sustituir @eq:total-dep-state en @eq:total-dep-schrodinger obtenemos del lado izquierdo
 
 $
   i hbar dv(,t) kPsi
-  &= i hbar dv(,t) (Ca ea ka + Cb eb kb) \
-  &= i hbar [(dv(C_a,t) - i wa C_a) ea ka + (dv(C_b,t) - i wb C_b) eb kb]
+  &= i hbar dv(,t) (Ce ee ke + Cg eg kg) \
+  &= i hbar [(dv(C_e,t) - i we C_e) ee ke + (dv(C_g,t) - i wg C_g) eg kg]
 $ <eq:total-dep-schrodinger-left>
 
-Y del lado derecho, como $H0$ es un operador lineal que actúa solamente sobre los estados $ket(n)$ y no sobre funciones de tiempo, entonces no afecta a los términos $C_n (t)$ ni $e^(-i omega_n t)$. Además, $ka$ y $kb$ cumplen con la ecuación de eigenvalores de $H0$ @eq:free-eigenfunction, entonces
+Y del lado derecho, como $H0$ es un operador lineal que actúa solamente sobre los estados $ket(n)$ y no sobre funciones de tiempo, entonces no afecta a los términos $C_n (t)$ ni $e^(-i omega_n t)$. Además, $ke$ y $kg$ cumplen con la ecuación de eigenvalores de $H0$ @eq:free-eigenfunction, entonces
 
 $
   [H0 &+ HI] kPsi \
-  &= H0(C_a ea ka + C_b eb kb) + HI(C_a ea ka + C_b eb kb) \
-  &= Ea C_a ea ka + Eb C_b eb kb + HI(C_a ea ka + C_b eb kb)
+  &= H0(C_e ee ke + C_g eg kg) + HI(C_e ee ke + C_g eg kg) \
+  &= Ee C_e ee ke + Eg C_g eg kg + HI(C_e ee ke + C_g eg kg)
 $ <eq:total-dep-schrodinger-rigth>
 
 Considerando que $E_n = hbar omega_n$, el término $i hbar (-i omega_n C_n)$ de @eq:total-dep-schrodinger-left se convierte en $hbar omega_n C_n = E_n C_n$ y se cancela con los dos primeros términos de @eq:total-dep-schrodinger-rigth, dejándonos con
 
-$ i hbar (dv(C_a,t) ea ka + dv(C_b,t) eb kb) = HI(C_a ea ka + C_b eb kb) $ <eq:total-dep-schrodinger2>
+$ i hbar (dv(C_e,t) ee ke + dv(C_g,t) eg kg) = HI(C_e ee ke + C_g eg kg) $ <eq:total-dep-schrodinger2>
 
-Ahora bien, si proyectamos sobre el estado $ka$, es decir, multiplicamos toda la ecuación por $bra(a)$, tenemos
+Ahora bien, si proyectamos sobre el estado $ke$ es decir, multiplicamos toda la ecuación por $bra(a)$, tenemos
 
-$ i hbar dv(C_a,t) ea = C_a ea braket(a,HI,a) + C_b eb braket(a,HI,b) $
+$ i hbar dv(C_e,t) ee = C_e ee braket(e,HI,e) + C_g eg braket(e,HI,g) $
 
 Recordemos que 
 $ HI = -vecop(d) dot E(t) = -qe E_0 (vecb(r) dot vecop(e)) cos nu t $
 
-y, además, por paridad de las funciones de onda, el elemeto diagonal $braket(a,HI,a)$ es cero. Por lo tanto
+y, además, por paridad de las funciones de onda, el elemeto diagonal $braket(e,HI,e)$ es cero. Por lo tanto
 
-#let eab = $e^(-i omega t)$
-#let dab = $"d"_(a b)$
-#let dba = $"d"_(b a)$
-#let ca = $c_a (t)$
-#let cb = $c_b (t)$
+#let eeg = $e^(-i omega t)$
+#let deg = $"d"_(e g)$
+#let dge = $"d"_(g e)$
+#let ce = $c_e (t)$
+#let cg = $c_g (t)$
 #let rabi = $Omega_R$
-$ &i hbar dv(C_a,t) ea = C_b eb braket(a,HI,b) $
+$ &i hbar dv(C_e,t) ee = C_g eg braket(e,HI,g) $
 $
-  ==> i hbar dv(C_a,t) &= C_b e^(i wa t) eb braket(a,HI,b)
-                      = C_b e^(-(wa - wb)t) braket(a,HI,b) \
-                      &= C_b eab (-E_0 cos nu t) qe braket(a,vecb(r),b) dot vecop(e) \
-                      &equiv C_b e^(i nu t) (- dab E_0 cos nu t)
-$
-
-Donde definimos el elemento de matriz dipolar $dab = qe braket(a,vecb(r),b) dot vecop(e) = dba^*$. Finalmente, aplicamos la expansión del coseno $cos nu t = (e^(i nu t) + e^(-i nu t))/2$
-
-$
-  i hbar dv(C_a,t) &= -(dab E_0)/2 Cb eab (e^(i nu t) + e^(-i nu t)) \
-  &= -(dab E_0)/2 Cb [e^(i(omega + nu)t) + e^(i(omega - nu)t)]
+  ==> i hbar dv(C_e,t) &= C_g e^(i we t) eg braket(e,HI,g)
+                      = C_g e^(-(we - wg)t) braket(e,HI,g) \
+                      &= C_g eeg (-E_0 cos nu t) qe braket(a,vecb(r),b) dot vecop(e) \
+                      &equiv C_g e^(i nu t) (- deg E_0 cos nu t)
 $
 
-Realizando un procedimiento análogo en donde proyectamos la ecuación @eq:total-dep-schrodinger2 sobre el estado $kb$, obtenemos el siguiente par de ecuaciones diferenciales acopladas
+Donde definimos el elemento de matriz dipolar $deg = qe braket(e,vecb(r),g) dot vecop(e) = dge^*$. Finalmente, aplicamos la expansión del coseno $cos nu t = (e^(i nu t) + e^(-i nu t))/2$
 
 $
-  &i hbar dv(C_b,t) = -(dab E_0)/2 Ca [e^(-i(omega + nu)t) + e^(-i(omega - nu)t)] \
-  &i hbar dv(C_a,t) = -(dab E_0)/2 Cb [e^(i(omega + nu)t) + e^(i(omega - nu)t)]
+  i hbar dv(C_e,t) &= -(deg E_0)/2 Cg eeg (e^(i nu t) + e^(-i nu t)) \
+  &= -(deg E_0)/2 Cg [e^(i(omega + nu)t) + e^(i(omega - nu)t)]
+$
+
+Realizando un procedimiento análogo en donde proyectamos la ecuación @eq:total-dep-schrodinger2 sobre el estado $kg$, obtenemos el siguiente par de ecuaciones diferenciales acopladas
+
+$
+  &i hbar dv(C_g,t) = -(deg E_0)/2 Ce [e^(-i(omega + nu)t) + e^(-i(omega - nu)t)] \
+  &i hbar dv(C_e,t) = -(deg E_0)/2 Cg [e^(i(omega + nu)t) + e^(i(omega - nu)t)]
 $
 
 en donde aparecen términos que oscilan muy rápido (a frecuencias $omega + nu$) y términos que oscilan lentamente (a frecuencias $omega - nu$). La *Aproximación de Onda Rotante (RWA)* consiste en ignorar los términos que oscilan rápidamente, ya que su efecto promedio sobre largos periodos de tiempo es casi nulo, y nos quedamos solo con los términos de oscilación lenta. \
@@ -205,48 +205,25 @@ Bajo esta aproximación, definimos
 
 
 $
-  cb &= Cb/2 e^(-i Delta t) \ 
-  ca &= Ca/2 e^(i Delta t)
+  cg &= Cg/2 e^(-i Delta t) \ 
+  ce &= Ce/2 e^(i Delta t)
 $
 
-donde $ Delta equiv (wa - wb) - nu = omega - nu $ es la *desintonía* entre la diferencia de energía entre los niveles, y la frecuencia de radiación del campo; y la *Frecuencia de Rabi*,
+donde $ Delta equiv (we - wg) - nu = omega - nu $ es la *desintonía* entre la diferencia de energía entre los niveles, y la frecuencia de radiación del campo; y la *Frecuencia de Rabi*,
 
-$ rabi = abs((-dab E_0)/2) $
+$ rabi = abs((-deg E_0)/2) $
 
 obteniendo
 
 $
-  dv(,t) cb &= -i/2 [-Delta ca + rabi ca] \
-  dv(,t) ca &= -i/2 [Delta ca + rabi cb]
+  dv(,t) cg &= -i/2 [-Delta ce + rabi ce] \
+  dv(,t) ce &= -i/2 [Delta ce + rabi cg]
 $ <eq:rabi-eq-system>
 
-Podemos escribir @eq:rabi-eq-system en su forma matricial
 
-$
-  dv(,t) vec(cb, ca) = -i/2
-  mat(
-    -Delta, rabi;
-    rabi^*, Delta
-  )
-  vec(cb, ca)
-$ <eq:rabi-matrix-system>
 
-cuyos eigenvalores de @eq:rabi-matrix-system son $-+ Omega$, donde
 
-$ Omega = sqrt(Delta^2 + rabi^2) $
 
-es la *Frecuencia de Rabi generalizada*, la cual notemos que incluye el efecto de desintonía $Delta$. La solución del sistema @eq:rabi-matrix-system es
 
-#let arg = $(Omega t)/2$
-$
-  vec(cb, ca) =
-  mat(
-    cos(arg)+(i Delta)/Omega sin(arg), -i(E_0 dba)/(Omega hbar) sin(arg);
-    -i(E_0 dba)/(Omega hbar) sin(arg), cos(arg)-(i Delta)/Omega sin(arg)
-  )
-  vec(c_b (0), c_a (0))
-$
-
-Y si establecemos las condiciones iniciales como $c_b (0)=1$, $c_a (0)=0$ (esto es, el sistema se encuentra inicialmente en el estado base), la probabilidad de transición entre estados, de $kb$ a $ka$ es
-
-$ |ca|^2 = ((Delta^2 - rabi^2)/ Omega^2) sin^2(arg) $
+// ===================================================================
+==== Simulación: átomo de 2 niveles interactuando con luz clásica
