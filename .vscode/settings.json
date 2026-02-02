@@ -6,7 +6,7 @@
         "runIn": "integratedTerminal"
     }
     ],
-    "indentRainbow.errorColor": "rgba(128,32,32,0.6)",
+    "indentRainbow.errorColor": "rgba(128,32,32,0.2)",
     "editor.tabSize": 2,
     "terminal.integrated.profiles.linux": {
         "zsh": {
@@ -14,5 +14,8 @@
             "args": ["-c", "source ~/venv/openket/bin/activate && zsh"]
         }
     },
-    "terminal.integrated.defaultProfile.linux": "zsh"
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "indentRainbow.tabmixColor": "rgba(128,32,96,0.9)",
+    "indentRainbow.indicatorStyle": "light",
+    "indentRainbow.lightIndicatorStyleLineWidth": 5
 }

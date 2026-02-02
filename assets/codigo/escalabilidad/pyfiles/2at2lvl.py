@@ -6,10 +6,10 @@ import numpy as np
 import math
 from scipy.integrate import odeint
 from sympy import var, I
-from auxiliares import create_file, exec_c
 
-itotal = time.time()
-
+# extraemos el nombre del archivo actual
+current_file = __file__
+filename = os.path.splitext(os.path.basename(current_file))[0]
 # le decimos donde está openket para que lo lea
 path_openket = "//home//ultrxioletx//openket"
 if path_openket not in sys.path:
@@ -20,8 +20,9 @@ from openket.core.evolution import build_ode, gsl_main, sym2num, init_state
 from openket.core.metrics import dag, comm, ptrace, trace, normalize, sub_qexpr, op2dict, qmatrix
 
 
-
-nmax = 10 # truncación del espacio de Hilbert (número de estados de Fock)
+nmax = 5 # truncación del espacio de Hilbert (número de estados de Fock)
+if len(sys.argv) > 1:
+    nmax = int(sys.argv[1])
 nt = 1000
 t0, t1 = 0, 15
 t = np.linspace(t0, t1, nt)
@@ -99,25 +100,17 @@ rdot = I/hbar * comm(H,rho) \
         + (gamma/2)*(2*sigma_ge1*rho*sigma_eg1 - sigma_eg1*sigma_ge1*rho - rho*sigma_eg1*sigma_ge1) \
         + (gamma/2)*(2*sigma_ge2*rho*sigma_eg2 - sigma_eg2*sigma_ge2*rho - rho*sigma_eg2*sigma_ge2)
 
-filename = f"func{nmax}f"
-"""
-# para alimentar odeint
-ilocal = time.time()
-build_ode(rho=rho, rdot=rdot, basis=base, filetype="Scipy", filename=f"{filename}.py")
-flocal = time.time()
-print(f"create func.py: {flocal-ilocal} s")
-
-# leer módulo func.py
-spec = importlib.util.spec_from_file_location("func", f"./{filename}.py")
-func = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(func)
-dic, f, = func.dic, func.f
-"""
-# para alimentar gsl
-ilocal = time.time()
-build_ode(rho=rho, rdot=rdot, basis=base, filetype="GSL", filename=f"{filename}.c")
-flocal = time.time()
-print(f"create func.c: {flocal-ilocal} s")
+itime = time.time()
+print("building ODE...")
+build_ode(
+    rho=rho,
+    rdot=rdot,
+    basis=base,
+    filetype="GSL",
+    filename=f"func.c"
+)
+ftime = time.time()
+print(f"{ftime - itime} s")
 
 # leer módulo dic.py
 import dic
@@ -129,64 +122,10 @@ nfotones0 = 0 # número promedio de fotones iniciales dentro de la cavidad
 nestado0 = 0 # estado inicial del átomo
 ket0 = Ket(nfotones0,"cavidad") * Ket(nestado0,"atomo1") * Ket(nestado0,"atomo2")
 rho0 = ket0*dag(ket0)
+print("condiciones iniciales...")
 init_conditions = init_state(rho=rho, rho0=rho0, basis=base, dic=dic)
 
-# solución numérica
-# odeint
-"""
-ilocal = time.time()
-rho_solution = odeint(f, init_conditions, t)
-flocal = time.time()
-print(f"run odeint: {flocal-ilocal} s")
-
-
-###############
-# PROBABILIDAD
-###############
-ilocal = time.time()
-# operadores base
-ops_atomo1 = [sigma_gg1, sigma_ee1]
-ops_atomo2 = [sigma_gg2, sigma_ee2]
-
-probs = []
-for i in range(2):
-    for j in range(2):
-        proyector = ops_atomo1[i] * ops_atomo2[j]
-        proyector_symb = sub_qexpr(qexpr=trace(rho * proyector, basis=base), dic=dic)
-        proyector_expect = sym2num(sol=rho_solution, symbexpr=proyector_symb)
-        probs.append(proyector_expect)
-probs = np.array(probs) # el orden es: P(gg), P(ge), P(eg), P(ee)
-flocal = time.time()
-print(f"calcular probabilidad: {flocal-ilocal} s")
-
-###################
-# VALORES ESPERADOS
-###################
-ilocal = time.time()
-# definición simbólica de los observables
-N = aa * a # operador de número
-X = (1/np.sqrt(2)) * (a+aa) # cuadratura X adimensional
-P = (1/np.sqrt(2)) * I*(aa-a) # cuadratura P adimensional
-
-N_symb = sub_qexpr(qexpr=trace(rho * N, basis=base), dic=dic)
-X_symb = sub_qexpr(qexpr=trace(rho * X, basis=base), dic=dic)
-P_symb = sub_qexpr(qexpr=trace(rho * P, basis=base), dic=dic)
-
-N_expect = sym2num(sol=rho_solution, symbexpr=N_symb)
-X_expect = sym2num(sol=rho_solution, symbexpr=X_symb)
-P_expect = sym2num(sol=rho_solution, symbexpr=P_symb)
-flocal = time.time()
-print(f"calcular valores esperados: {flocal-ilocal} s")
-
-
-create_file(filename=f'cavidad+2atomos+bombeo+control+k{"y" if gamma>0 else ""}.csv', t=t, probs=probs, expects=(N_expect,X_expect,P_expect), params=parametros)
-
-# elimina el caché de func.py para que a la siguiente no se lean los datos anteriores
-if 'func' in sys.modules:
-    del sys.modules['func']
-"""
-
-# gsl
+# solución numérica (GSL)
 symbexprs = []
 # probabilidades
 ops_atomo1 = [sigma_gg1, sigma_ee1]
@@ -203,18 +142,19 @@ P = (1/np.sqrt(2)) * I*(aa-a) # cuadratura P adimensional
 N_symb = sub_qexpr(qexpr=trace(rho * N, basis=base), dic=dic)
 X_symb = sub_qexpr(qexpr=trace(rho * X, basis=base), dic=dic)
 P_symb = sub_qexpr(qexpr=trace(rho * P, basis=base), dic=dic)
-symbexprs.extend([N_symb, X_symb, P_symb])
+symbexprs.extend([N_symb, X_symb, P_symb]) #agregar al final
 
-outputfile = "funcMain10f.c"
+print("generando archivo c...")
 gsl_main(
-    odefile=f"{filename}.c",
+    odefile=f"func.c",
     y0=init_conditions,
     tspan=(t0,t1),
     step=nt,
+    outfile=f"{filename}",
+    datafile=f"{filename}",
     symbexprs=symbexprs,
     options={"output_format": "hdf5"},
-    outfile=outputfile
+    metadata=parametros
 )
 
-ftotal = time.time()
-print(f"Total: {ftotal-itotal} s")
+print("finalizado")
