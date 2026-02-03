@@ -2,6 +2,7 @@ import sys
 import os
 import time
 import importlib
+import itertools
 import numpy as np
 import math
 from scipy.integrate import odeint
@@ -19,38 +20,16 @@ from openket.core.diracobject import Ket, Bra, Operator, AnnihilationOperator, C
 from openket.core.evolution import build_ode, gsl_main, sym2num, init_state
 from openket.core.metrics import dag, comm, ptrace, trace, normalize, sub_qexpr, op2dict, qmatrix
 
-
+Nat = 3 # número de átomos de dos niveles
 nmax = 10 # truncación del espacio de Hilbert (número de estados de Fock)
 if len(sys.argv) > 1:
-    nmax = int(sys.argv[1])
+    Nat = int(sys.argv[1])
+    nmax = int(sys.argv[2])
+    filename = f"{Nat}at2lvl"
+print(f"nmax={nmax}, Nat={Nat}")
 nt = 1000
 t0, t1 = 0, 15
 t = np.linspace(t0, t1, nt)
-
-rho = Operator("R")
-a = AnnihilationOperator("cavidad", nmax-1)
-aa = CreationOperator("cavidad", nmax-1)
-
-base_cavidad = [Ket(i,"cavidad") for i in range(nmax)] # base de Fock para la cavidad
-base_atomo1 = [Ket(i,"atomo1") for i in range(2)] # base de niveles de energía del átomo: 0=ground, 1=excited
-base_atomo2 = [Ket(i,"atomo2") for i in range(2)] # base de niveles de energía del átomo: 0=ground, 1=excited
-base = [k1*k2*kc for k1 in base_atomo1 for k2 in base_atomo2 for kc in base_cavidad]
-lenbase = len(base)
-
-# operadores para el átomo 1
-sigma_ge1 = Ket(0,"atomo1") * Bra(1,"atomo1") # operador de bajada átomico
-sigma_eg1 = Ket(1,"atomo1") * Bra(0,"atomo1") # operador de subida atómico
-sigma_gg1 = Ket(0,"atomo1") * Bra(0,"atomo1") # operador de nivel base
-sigma_ee1 = Ket(1,"atomo1") * Bra(1,"atomo1") # operador de nivel excitado
-
-# operadores para el átomo 2
-sigma_ge2 = Ket(0,"atomo2") * Bra(1,"atomo2") # operador de bajada átomico
-sigma_eg2 = Ket(1,"atomo2") * Bra(0,"atomo2") # operador de subida atómico
-sigma_gg2 = Ket(0,"atomo2") * Bra(0,"atomo2") # operador de nivel base
-sigma_ee2 = Ket(1,"atomo2") * Bra(1,"atomo2") # operador de nivel excitado
-
-J_menos = sigma_ge1 + sigma_ge2
-J_mas = sigma_eg1 + sigma_eg2
 
 hbar = 1.
 # cavidad
@@ -66,7 +45,6 @@ rabi_l = 0.1 # intesidad del láser, proporcional a la amplitud del campo eléct
 detuning_bc = 0. # detuning entre frecuencia del bombeo y frecuencia de la cavidad
 detuning_ca = 0. # detuning entre frecuencia de la cavidad y frecuencia del átomo
 detuning_al = 0. # detuning entre frecuencia del átomo y frecuencia del láser de control
-
 parametros = {
     'n': nmax,
     'g': g,
@@ -81,24 +59,58 @@ parametros = {
 }
 print(parametros)
 
+rho = Operator("R")
+a = AnnihilationOperator("cavidad", nmax-1)
+aa = CreationOperator("cavidad", nmax-1)
+
+base_cavidad = [Ket(i,"cavidad") for i in range(nmax)] # base de Fock para la cavidad
+bases_atomos = [ [Ket(i, f"atomo{j+1}") for i in range(2)] for j in range(Nat) ] # bases de 2 niveles de energía de los átomos: 0=ground, 1=excited
+print(bases_atomos)
+base = base_cavidad
+for base_atomo in bases_atomos:
+    base = [kb*ka for ka in base_atomo for kb in base]
+lenbase = len(base)
+print(lenbase)
+
+sigmas_ge = []
+sigmas_eg = []
+sigmas_gg = []
+sigmas_ee = []
+for j in range(Nat):
+    label = f"atomo{j+1}"
+    sigmas_ge.append(Ket(0,label) * Bra(1,label))
+    sigmas_eg.append(Ket(1,label) * Bra(0,label))
+    sigmas_gg.append(Ket(0,label) * Bra(0,label))
+    sigmas_ee.append(Ket(1,label) * Bra(1,label))
+
+H_atomo = 0 # Hamiltoniano del átomo libre (RWA)
+H_dipolar = 0 # Hamiltoniano de interacción dipolo-dipolo entre átomos
+H_atomo_cavidad = 0 # Hamiltoniano de la interacción átomos-cavidad (tavis-cummings) (RWA)
+H_atomo_laser = 0 # Hamiltoniano de interacción átomo-láser (RWA)
+rdot_gamma = 0 # Término de decaimiento de los átomos para Lindblad
+
+# suma de contribuciones de cada átomo
+for j in range(Nat):
+    H_atomo += (hbar/2) * detuning_al * (sigmas_ee[j] - sigmas_gg[j])
+    H_atomo_cavidad += hbar * g * (aa * sigmas_ge[j] + a * sigmas_eg[j])
+    H_atomo_laser += -(hbar/2) * rabi_l * (sigmas_ge[j] + sigmas_eg[j])
+    rdot_gamma += (gamma/2) * (2*sigmas_ge[j]*rho*sigmas_eg[j] - sigmas_eg[j]*sigmas_ge[j]*rho - rho*sigmas_eg[j]*sigmas_ge[j])
+# suma de interacciones dipolares par a par
+for i in range(Nat):
+    for j in range(i + 1, Nat):
+        H_dipolar += hbar * Omega12 * (sigmas_eg[i]*sigmas_ge[j] + sigmas_ge[i]*sigmas_eg[j])
+
+
+
 H_cavidad = hbar * detuning_bc * (aa*a + 1/2) # Hamiltoniano del oscilador armónico cuántico (cavidad)
 H_bombeo = I*hbar * rabi_b * (aa - a) # Hamiltoniano del bombeo
-
-H_atomo1 = (hbar/2) * detuning_al * (sigma_ee1 - sigma_gg1) # Hamiltoniano del átomo libre (RWA)
-H_atomo2 = (hbar/2) * detuning_al * (sigma_ee2 - sigma_gg2) # Hamiltoniano del átomo libre (RWA)
-H_atomo = H_atomo1 + H_atomo2 # Hamiltoniano atómico total
-H_dipolar = hbar * Omega12 * (sigma_eg1*sigma_ge2 + sigma_ge1*sigma_eg2) # Hamiltoniano de interacción dipolo-dipolo entre átomos
-
-H_atomo_cavidad = hbar * g * (aa*J_menos + a*J_mas) # Hamiltoniano de la interacción átomos-cavidad (tavis-cummings) (RWA)
-H_atomo_laser = -(hbar/2) * rabi_l * (J_menos + J_mas) # Hamiltoniano de interacción átomo-láser (RWA)
 
 # Hamiltoniano total
 H = H_cavidad + H_bombeo + H_atomo + H_dipolar + H_atomo_laser + H_atomo_cavidad
 # ecuación de movimiento de Lindblad
 rdot = I/hbar * comm(H,rho) \
         + (kappa/2)*(2*a*rho*aa - aa*a*rho - rho*aa*a) \
-        + (gamma/2)*(2*sigma_ge1*rho*sigma_eg1 - sigma_eg1*sigma_ge1*rho - rho*sigma_eg1*sigma_ge1) \
-        + (gamma/2)*(2*sigma_ge2*rho*sigma_eg2 - sigma_eg2*sigma_ge2*rho - rho*sigma_eg2*sigma_ge2)
+        + rdot_gamma
 
 itime = time.time()
 print("building ODE...")
@@ -120,7 +132,10 @@ from dic import dic
 # convertir condiciones iniciales simbólicas -> numéricas
 nfotones0 = 0 # número promedio de fotones iniciales dentro de la cavidad
 nestado0 = 0 # estado inicial del átomo
-ket0 = Ket(nfotones0,"cavidad") * Ket(nestado0,"atomo1") * Ket(nestado0,"atomo2")
+ket0 = Ket(nfotones0,"cavidad")
+for j in range(Nat):
+    ketj = Ket(nestado0, f"atomo{j+1}")
+    ket0 = ket0 * ketj # estado del átomo j por el ket total
 rho0 = ket0*dag(ket0)
 print("condiciones iniciales...")
 init_conditions = init_state(rho=rho, rho0=rho0, basis=base, dic=dic)
@@ -128,13 +143,27 @@ init_conditions = init_state(rho=rho, rho0=rho0, basis=base, dic=dic)
 # solución numérica (GSL)
 symbexprs = []
 # probabilidades
-ops_atomo1 = [sigma_gg1, sigma_ee1]
-ops_atomo2 = [sigma_gg2, sigma_ee2]
-for i in range(2):
-    for j in range(2):
-        proyector = ops_atomo1[i] * ops_atomo2[j]
-        proyector_symb = sub_qexpr(qexpr=trace(rho * proyector, basis=base), dic=dic)
-        symbexprs.append(proyector_symb) # el orden es: P(gg), P(ge), P(eg), P(ee)
+# lista de listas con los operadores base para cada átomo
+# ops_atomos[j][0] es sigma_gg para el átomo j+1
+# ops_atomos[j][1] es sigma_ee para el átomo j+1
+ops_atomos = [ [sigmas_gg[j], sigmas_ee[j]] for j in range(Nat) ]
+labels = []
+estados = itertools.product([0, 1], repeat=Nat)
+# (0,0), (0,1), (1,0), (1,1) para 2 átomos
+# (0,0,0), (0,0,1),... para 3 átomos, y así
+
+# itera sobre todas las combinaciones de estados posibles
+for estado in estados: 
+    proyector = 1 # operador identidad
+    label = ""
+    for atom, state in enumerate(estado): 
+        proyector = proyector * ops_atomos[atom][state] # multiplicamos los elementos diagonales
+        label += "g" if state == 0 else "e" # g=ground=0, e=excited=1
+    
+    proyector_symb = sub_qexpr(qexpr=trace(rho * proyector, basis=base), dic=dic)
+    symbexprs.append(proyector_symb)
+    labels.append(label) # nos dice el orden de las probabilidades P(ij) calculadas
+parametros["probs_label"] = labels
 # valores esperados
 N = aa * a # operador de número
 X = (1/np.sqrt(2)) * (a+aa) # cuadratura X adimensional
