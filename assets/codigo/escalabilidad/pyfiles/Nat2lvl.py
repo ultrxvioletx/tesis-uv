@@ -25,7 +25,7 @@ nmax = 10 # truncación del espacio de Hilbert (número de estados de Fock)
 if len(sys.argv) > 1:
     Nat = int(sys.argv[1])
     nmax = int(sys.argv[2])
-    filename = f"{Nat}at2lvl"
+    filename = f"{Nat}at2lvl{nmax}f"
 print(f"nmax={nmax}, Nat={Nat}")
 nt = 1000
 t0, t1 = 0, 15
@@ -65,12 +65,10 @@ aa = CreationOperator("cavidad", nmax-1)
 
 base_cavidad = [Ket(i,"cavidad") for i in range(nmax)] # base de Fock para la cavidad
 bases_atomos = [ [Ket(i, f"atomo{j+1}") for i in range(2)] for j in range(Nat) ] # bases de 2 niveles de energía de los átomos: 0=ground, 1=excited
-print(bases_atomos)
 base = base_cavidad
 for base_atomo in bases_atomos:
     base = [kb*ka for ka in base_atomo for kb in base]
 lenbase = len(base)
-print(lenbase)
 
 sigmas_ge = []
 sigmas_eg = []

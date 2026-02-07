@@ -34,3 +34,4 @@ __pycache__/
 .vscode/
 assets/codigo/.ipynb_checkpoints/
 assets/codigo/__pycache__/
+assets/codigo/escalabilidad/.env
