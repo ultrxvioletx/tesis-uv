@@ -22,16 +22,9 @@ error_handler() {
 -------------------------------------------"
     echo -e "ERROR: \n[$(date '+%Y-%m-%d %H:%M:%S')] $error_msg"
 
-    telegram "error: la ejecución PYTHON ($N_ATOMS at, $M_LEVELS lvl, $NMAX f) falló (P)"
+    telegram "error: la ejecución de DETUNINGS ($N_ATOMS at, $M_LEVELS lvl, $NMAX f) falló (P)"
 
     exit $exit_code
-}
-format_mem() {
-    local kb=$1
-    if [[ -z "$kb" ]] || ! [[ "$kb" =~ ^[0-9]+$ ]]; then echo "N/A"; return; fi
-    if [ "$kb" -lt 1024 ]; then echo "${kb} KB"
-    elif [ "$kb" -lt 1048576 ]; then echo "$(echo "scale=2; $kb / 1024" | bc) MB"
-    else echo "$(echo "scale=2; $kb / (1024*1024)" | bc) GB"; fi
 }
 
 # parámetros
@@ -43,48 +36,56 @@ if [ -f ".env" ]; then
     export $(cat .env | grep -v '^#' | xargs)
 fi
 # nombres de archivos
-FILENAME="${N_ATOMS}at${M_LEVELS}lvl${NMAX}f"
-MAINC_FILE="${FILENAME}.c"
-PYTHON_FILE="Nat${M_LEVELS}lvl.py"
-PYTHON_ARGS=" ${N_ATOMS} ${NMAX}"
+PREFIX="${N_ATOMS}at${M_LEVELS}lvl"
+PYTHON_FILE="${N_ATOMS}at${M_LEVELS}lvl.py"
 
 # manejo de errores
 trap 'error_handler $LINENO "$BASH_COMMAND"' ERR
 
 # ejecución
+mkdir -p ${PREFIX}/ 2>/dev/null || true
 cd pyfiles/
+
+run_detuning() {
+    i=$1
+    d=$2
+    echo "$i - procesando detuning = $d..."
+    CURRFILE="${PREFIX}_d$i"
+    
+    python3 ${PYTHON_FILE} --nmax ${NMAX} --detuning $d --idx $i
+    gcc ${CURRFILE}.c -o ${CURRFILE}.out -O0 \
+    -I/usr/include/hdf5/serial -I/usr/include/gsl \
+    -lhdf5_serial -lhdf5_serial_hl \
+    -lgsl -lgslcblas -lm
+    ./${CURRFILE}.out
+    
+    mv -f ${CURRFILE}*.c ../cfiles/
+    mv -f ${CURRFILE}*.h5 ../${PREFIX}/
+    mv -f ${CURRFILE}*.out ../outfiles/
+    rm -f dic${CURRFILE}.py func${CURRFILE}.c
+}
 
 INICIO=$(date '+%Y-%m-%d %H:%M:%S')
 echo "======================================================"
-echo "iniciando para ${PYTHON_FILE}, N=${N_ATOMS}, M=${M_LEVELS}, f=${NMAX}"
+echo "iniciando para DETUNINGS, N=${N_ATOMS}, M=${M_LEVELS}, f=${NMAX}"
 echo "timestamp: ${INICIO}"
 echo "======================================================"
 
-echo "ejecutando archivo python..."
-START=$(date +%s.%N)
-/usr/bin/time -f "%M" python3 ${PYTHON_FILE} ${PYTHON_ARGS} 2> py_mem${FILENAME}.tmp
-END=$(date +%s.%N)
-T_BUILDODE=$(echo "$END - $START" | bc)
-M_BUILDODE=$(cat py_mem${FILENAME}.tmp)
-
-# guarda métricas en un txt
-echo "$T_BUILDODE" > pydat${FILENAME}.txt
-echo "$M_BUILDODE" >> pydat${FILENAME}.txt
-
-rm -f py_mem${FILENAME}.tmp
-mv -f pydat${FILENAME}.txt ../dats/
-mv -f ${MAINC_FILE} ../cfiles/
+# paralelización
+# run_detuning 1 -3.0
+export -f run_detuning
+export N_ATOMS M_LEVELS NMAX PREFIX PYTHON_FILE
+seq -3.0 0.2 3.0 | parallel -j 8 --eta run_detuning '{= $_=($job->seq()) =}' {}
 
 TERMINO=$(date '+%Y-%m-%d %H:%M:%S')
 echo "======================================================"
-echo "proceso completado"
+echo "barrido paralelo completado"
 echo "timestamp: ${TERMINO}"
 echo "======================================================"
 
-telegram "archivo c generado (P)
+telegram "barrido paralelo completado (P)
 átomos: ${N_ATOMS}
 niveles: ${M_LEVELS}
 fotones: ${NMAX}
 inicio: ${INICIO}
-término: ${TERMINO} 
-    - buildode: $(format_mem $M_BUILDODE), ${T_BUILDODE} s"
+término: ${TERMINO}"

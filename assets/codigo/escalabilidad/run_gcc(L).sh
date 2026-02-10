@@ -59,9 +59,9 @@ trap 'error_handler $LINENO "$BASH_COMMAND"' ERR
 
 # ejecución
 cd ~/simulaciones/dats/
-scp serverpablo:~/simulaciones/dats/pydat${FILENAME}.txt .
+scp serverpablo:~/simulaciones/escalabilidad/dats/pydat${FILENAME}.txt .
 cd ~/simulaciones/cfiles/
-scp serverpablo:~/simulaciones/cfiles/${MAINC_FILE} .
+scp serverpablo:~/simulaciones/escalabilidad/cfiles/${MAINC_FILE} .
 
 INICIO=$(date '+%Y-%m-%d %H:%M:%S')
 echo "======================================================"
@@ -75,11 +75,11 @@ START=$(date +%s.%N)
 /usr/bin/time -f "%M" gcc ${MAINC_FILE} -o runsim -O0 \
     -I"$HOME/local/include" -I/usr/include/hdf5/serial \
     -L"$HOME/local/lib" -Wl,-rpath,"$HOME/local/lib" \
-    -lgsl -lgslcblas -lhdf5 -lhdf5_hl -lm 2> gcc_mem.tmp
+    -lgsl -lgslcblas -lhdf5 -lhdf5_hl -lm 2> gcc_mem${FILENAME}.tmp
 END=$(date +%s.%N)
 
 T_COMPILE=$(echo "$END - $START" | bc)
-M_COMPILE=$(cat gcc_mem.tmp)
+M_COMPILE=$(cat gcc_mem${FILENAME}.tmp)
 # guarda métricas en un txt
 echo "$T_COMPILE" > gccdat${FILENAME}.txt
 echo "$M_COMPILE" >> gccdat${FILENAME}.txt
@@ -87,29 +87,29 @@ echo "$M_COMPILE" >> gccdat${FILENAME}.txt
 # run
 echo "ejecutando..."
 START=$(date +%s.%N)
-/usr/bin/time -f "%M" ./runsim 2> run_mem.tmp
+/usr/bin/time -f "%M" ./runsim 2> run_mem${FILENAME}.tmp
 END=$(date +%s.%N)
 
 T_RUN=$(echo "$END - $START" | bc)
-M_RUN=$(cat run_mem.tmp)
+M_RUN=$(cat run_mem${FILENAME}.tmp)
 # guarda métricas en un txt
 echo "$T_RUN" > rundat${FILENAME}.txt
 echo "$M_RUN" >> rundat${FILENAME}.txt
 
-rm -f gcc_mem.tmp run_mem.tmp
-mv -f gccdat${FILENAME}.txt ~/simulaciones/dats/ 2>/dev/null || true
-mv -f rundat${FILENAME}.txt ~/simulaciones/dats/ 2>/dev/null || true
-mv -f ${H5_FILE} ~/simulaciones/h5files/ 2>/dev/null || true
+rm -f gcc_mem${FILENAME}.tmp run_mem${FILENAME}.tmp
+mv -f gccdat${FILENAME}.txt ../dats/ 2>/dev/null || true
+mv -f rundat${FILENAME}.txt ../dats/ 2>/dev/null || true
+mv -f ${H5_FILE} ../h5files/ 2>/dev/null || true
 
 # log
 echo "actualizando log..."
-cd ~/simulaciones/
-T_BUILDODE=$(head -n 1 dats/pydat${FILENAME}.txt)
-M_BUILDODE=$(head -n 2 dats/pydat${FILENAME}.txt | tail -n 1)
-T_COMPILE=$(head -n 1 dats/gccdat${FILENAME}.txt)
-M_BUILDODE=$(head -n 2 dats/gccdat${FILENAME}.txt | tail -n 1)
-T_RUN=$(head -n 1 dats/rundat${FILENAME}.txt)
-M_RUN=$(head -n 2 dats/rundat${FILENAME}.txt | tail -n 1)
+cd ~/simulaciones/dats/
+T_BUILDODE=$(head -n 1 pydat${FILENAME}.txt)
+M_BUILDODE=$(head -n 2 pydat${FILENAME}.txt | tail -n 1)
+T_COMPILE=$(head -n 1 gccdat${FILENAME}.txt)
+M_BUILDODE=$(head -n 2 gccdat${FILENAME}.txt | tail -n 1)
+T_RUN=$(head -n 1 rundat${FILENAME}.txt)
+M_RUN=$(head -n 2 rundat${FILENAME}.txt | tail -n 1)
 
 RAM_BUILDODE=$(format_mem $M_BUILDODE)
 RAM_COMPILE=$(format_mem $M_COMPILE)

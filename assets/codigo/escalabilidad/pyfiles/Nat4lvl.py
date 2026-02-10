@@ -25,7 +25,7 @@ nmax = 10 # truncación del espacio de Hilbert (número de estados de Fock)
 if len(sys.argv) > 1:
     Nat = int(sys.argv[1])
     nmax = int(sys.argv[2])
-    filename = f"{Nat}at2lvl{nmax}f"
+    filename = f"{Nat}at4lvl{nmax}f"
 print(f"nmax={nmax}, Nat={Nat}")
 nt = 1000
 t0, t1 = 0, 15
@@ -37,19 +37,23 @@ g = 2.0 # fuerza de acoplamiento átomo-cavidad
 kappa = 1.0 # tasa de disipación de la cavidad
 # atomos
 Omega12 = 0.2 # fuerza de acoplamiento dipolo-dipolo
-gamma = 0.1 # tasa de decaimiento espontáneo del átomo
+gamma_eg = 0.1 # tasa de decaimiento espontáneo de los niveles |e> -> |g>
+gamma_se = 0.1 # tasa de decaimiento espontáneo de los niveles |s> -> |e>
+gamma_ps = 0.1 # tasa de decaimiento espontáneo de los niveles |p> -> |s>
 # laseres
-rabi_b = 0.7 # intesidad del bombeo
-rabi_l = 0.1 # intesidad del láser, proporcional a la amplitud del campo eléctrico del láser de control
+rabi_b = 0.7 # intesidad del bombeo, acopla |g> con |e>
+rabi_l = 2.0 # intesidad del láser, acopla |e> con |s>
 # detunings
 detuning_bc = 0. # detuning entre frecuencia del bombeo y frecuencia de la cavidad
 detuning_ca = 0. # detuning entre frecuencia de la cavidad y frecuencia del átomo
-detuning_al = 0. # detuning entre frecuencia del átomo y frecuencia del láser de control
+detuning_al = 0. # detuning entre frecuencia del átomo y frecuencia del láser de control |e> -> |s>
 parametros = {
     'n': nmax,
     'g': g,
     'kappa': kappa,
-    'gamma': gamma,
+    'gamma_eg': gamma_eg,
+    'gamma_se': gamma_se,
+    'gamma_ps': gamma_ps,
     'Omega12': Omega12,
     'rabi_b': rabi_b,
     'rabi_l': rabi_l,
@@ -64,39 +68,57 @@ a = AnnihilationOperator("cavidad", nmax-1)
 aa = CreationOperator("cavidad", nmax-1)
 
 base_cavidad = [Ket(i,"cavidad") for i in range(nmax)] # base de Fock para la cavidad
-bases_atomos = [ [Ket(i, f"atomo{j+1}") for i in range(2)] for j in range(Nat) ] # bases de 2 niveles de energía de los átomos: 0=ground, 1=excited
+bases_atomos = [ [Ket(i, f"atomo{j+1}") for i in range(4)] for j in range(Nat) ] # bases de 2 niveles de energía de los átomos: 0=ground, 1=excited
 base = base_cavidad
 for base_atomo in bases_atomos:
     base = [kb*ka for ka in base_atomo for kb in base]
 lenbase = len(base)
 
-sigmas_ge = []
-sigmas_eg = []
-sigmas_gg = []
-sigmas_ee = []
+sigmas = [{} for _ in range(Nat)]
 for j in range(Nat):
     label = f"atomo{j+1}"
-    sigmas_ge.append(Ket(0,label) * Bra(1,label))
-    sigmas_eg.append(Ket(1,label) * Bra(0,label))
-    sigmas_gg.append(Ket(0,label) * Bra(0,label))
-    sigmas_ee.append(Ket(1,label) * Bra(1,label))
+    for i in range(4):
+        for k in range(4):
+            sigmas[j][(i, k)] = Ket(i,label)*Bra(k,label)
 
 H_atomo = 0 # Hamiltoniano del átomo libre (RWA)
 H_dipolar = 0 # Hamiltoniano de interacción dipolo-dipolo entre átomos
-H_atomo_cavidad = 0 # Hamiltoniano de la interacción átomos-cavidad (tavis-cummings) (RWA)
-H_atomo_laser = 0 # Hamiltoniano de interacción átomo-láser (RWA)
-rdot_gamma = 0 # Término de decaimiento de los átomos para Lindblad
+H_atomo_cavidad = 0 # Hamiltoniano de la interacción átomos-cavidad (tavis-cummings) (RWA), acopla |g> <-> |e>
+H_atomo_laser = 0 # Hamiltoniano de interacción átomo-láser (RWA), acopla |e> <-> |s>
+rdot_gamma = 0 # término de decaimiento de los átomos para Lindblad
 
 # suma de contribuciones de cada átomo
 for j in range(Nat):
-    H_atomo += (hbar/2) * detuning_al * (sigmas_ee[j] - sigmas_gg[j])
-    H_atomo_cavidad += hbar * g * (aa * sigmas_ge[j] + a * sigmas_eg[j])
-    H_atomo_laser += -(hbar/2) * rabi_l * (sigmas_ge[j] + sigmas_eg[j])
-    rdot_gamma += (gamma/2) * (2*sigmas_ge[j]*rho*sigmas_eg[j] - sigmas_eg[j]*sigmas_ge[j]*rho - rho*sigmas_eg[j]*sigmas_ge[j])
+    sigmas_gg = sigmas[j][(0,0)]
+    sigmas_ee = sigmas[j][(1,1)]
+    sigmas_ss = sigmas[j][(2,2)]
+    sigmas_ge = sigmas[j][(0,1)] #|g><e|
+    sigmas_eg = sigmas[j][(1,0)] #|e><g|
+    sigmas_es = sigmas[j][(1,2)] #|e><s|
+    sigmas_se = sigmas[j][(2,1)] #|s><e|
+    sigmas_sp = sigmas[j][(2,3)] #|s><p|
+    sigmas_ps = sigmas[j][(3,2)] #|p><s|
+
+    # E_0 = 0
+    H_atomo += (hbar/2) * detuning_ca * sigmas_ee # energía del estado |e>, E1, es relativa a la frecuencia de la cavidad
+    H_atomo += (hbar/2) * (detuning_ca+detuning_al) * sigmas_ss # energía del estado |s>, E2, es relativa a la frecuencia del láser + E1
+    # E3 no es excitado por ningún campo, su energía es irrelevante en RWA
+    
+    H_atomo_cavidad += hbar * g * (aa * sigmas_ge + a * sigmas_eg)
+    H_atomo_laser += -(hbar/2) * rabi_l * (sigmas_se + sigmas_es)
+
+    # decamimiento espontáneo en cascada
+    rdot_gamma += (gamma_eg/2) * (2*sigmas_ge*rho*sigmas_eg - sigmas_eg*sigmas_ge*rho - rho*sigmas_eg*sigmas_ge)
+    rdot_gamma += (gamma_se/2) * (2*sigmas_es*rho*sigmas_se - sigmas_se*sigmas_es*rho - rho*sigmas_se*sigmas_es)
+    rdot_gamma += (gamma_ps/2) * (2*sigmas_sp*rho*sigmas_ps - sigmas_ps*sigmas_sp*rho - rho*sigmas_ps*sigmas_sp)
 # suma de interacciones dipolares par a par
 for i in range(Nat):
     for j in range(i + 1, Nat):
-        H_dipolar += hbar * Omega12 * (sigmas_eg[i]*sigmas_ge[j] + sigmas_ge[i]*sigmas_eg[j])
+        eg_i = sigmas[i][(1,0)]
+        ge_i = sigmas[i][(0,1)]
+        eg_j = sigmas[j][(1,0)]
+        ge_j = sigmas[j][(0,1)]
+        H_dipolar += hbar * Omega12 * (eg_i*ge_j + ge_i*eg_j)
 
 
 
@@ -144,10 +166,10 @@ symbexprs = []
 # lista de listas con los operadores base para cada átomo
 # ops_atomos[j][0] es sigma_gg para el átomo j+1
 # ops_atomos[j][1] es sigma_ee para el átomo j+1
-ops_atomos = [ [sigmas_gg[j], sigmas_ee[j]] for j in range(Nat) ]
+ops_atomos = [ [sigmas[j][(lvl,lvl)] for lvl in range(4)] for j in range(Nat) ]
 labels = []
-estados = itertools.product([0, 1], repeat=Nat)
-# (0,0), (0,1), (1,0), (1,1) para 2 átomos
+estados = itertools.product(range(4), repeat=Nat)
+# (0,0), (0,1), (1,0), (0,2),... para 2 átomos
 # (0,0,0), (0,0,1),... para 3 átomos, y así
 
 # itera sobre todas las combinaciones de estados posibles
@@ -156,7 +178,14 @@ for estado in estados:
     label = ""
     for atom, state in enumerate(estado): 
         proyector = proyector * ops_atomos[atom][state] # multiplicamos los elementos diagonales
-        label += "g" if state == 0 else "e" # g=ground=0, e=excited=1
+        if state == 0:
+            label += "g"
+        elif state == 1:
+            label += "e"
+        elif state == 2:
+            label += "s"
+        elif state == 3:
+            label += "p"
     
     proyector_symb = sub_qexpr(qexpr=trace(rho * proyector, basis=base), dic=dic)
     symbexprs.append(proyector_symb)

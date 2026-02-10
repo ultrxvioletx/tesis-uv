@@ -58,7 +58,7 @@ LOG_FILE="log.csv"
 trap 'error_handler $LINENO "$BASH_COMMAND"' ERR
 
 # ejecución
-cd ~/simulaciones/cfiles/
+cd ~/simulaciones/escalabilidad/cfiles/
 
 INICIO=$(date '+%Y-%m-%d %H:%M:%S')
 echo "======================================================"
@@ -94,19 +94,19 @@ echo "$T_RUN" > rundat${FILENAME}.txt
 echo "$M_RUN" >> rundat${FILENAME}.txt
 
 rm -f gcc_mem${FILENAME}.tmp run_mem${FILENAME}.tmp
-mv -f gccdat${FILENAME}.txt ~/simulaciones/dats/ 2>/dev/null || true
-mv -f rundat${FILENAME}.txt ~/simulaciones/dats/ 2>/dev/null || true
-mv -f ${H5_FILE} ~/simulaciones/h5files/ 2>/dev/null || true
+mv -f gccdat${FILENAME}.txt ../dats/
+mv -f rundat${FILENAME}.txt ../dats/
+mv -f ${H5_FILE} ../h5files/
 
 # log
 echo "actualizando log..."
-cd ~/simulaciones/
-T_BUILDODE=$(head -n 1 dats/pydat${FILENAME}.txt)
-M_BUILDODE=$(head -n 2 dats/pydat${FILENAME}.txt | tail -n 1)
-T_COMPILE=$(head -n 1 dats/gccdat${FILENAME}.txt)
-M_BUILDODE=$(head -n 2 dats/gccdat${FILENAME}.txt | tail -n 1)
-T_RUN=$(head -n 1 dats/rundat${FILENAME}.txt)
-M_RUN=$(head -n 2 dats/rundat${FILENAME}.txt | tail -n 1)
+cd ~/simulaciones/escalabilidad/dats/
+T_BUILDODE=$(head -n 1 pydat${FILENAME}.txt)
+M_BUILDODE=$(head -n 2 pydat${FILENAME}.txt | tail -n 1)
+T_COMPILE=$(head -n 1 gccdat${FILENAME}.txt)
+M_BUILDODE=$(head -n 2 gccdat${FILENAME}.txt | tail -n 1)
+T_RUN=$(head -n 1 rundat${FILENAME}.txt)
+M_RUN=$(head -n 2 rundat${FILENAME}.txt | tail -n 1)
 
 RAM_BUILDODE=$(format_mem $M_BUILDODE)
 RAM_COMPILE=$(format_mem $M_COMPILE)
