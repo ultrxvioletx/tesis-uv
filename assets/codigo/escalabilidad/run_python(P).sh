@@ -39,6 +39,7 @@ N_ATOMS=$1
 M_LEVELS=$2
 NMAX=$3
 # variables de entorno
+cd ../
 if [ -f ".env" ]; then
     export $(cat .env | grep -v '^#' | xargs)
 fi

@@ -43,8 +43,8 @@ $ dmn = braket(m, den, n) = cm cn $ <eq:density-matrix-elements>
 Con esta nueva definición, podemos expresar las ecuaciones @eq:sum-coeficientes y @eq:mean-t en términos del operador $den$, tales que
 
 $
-  &sum_n |cn|^2 = sum_n dnn = Tr den = 1 \
-  &<hH>(t) = Tr(den hH)
+  &sum_n |cn|^2 = sum_n dnn = "Tr" den = 1 \
+  &<hH>(t) = "Tr"(den hH)
 $
 
 y, finalmente, la evolución temporal del operador $den$ conocida como ecuación de Von Neumann, es

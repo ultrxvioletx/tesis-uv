@@ -45,6 +45,7 @@ RAM_BYTES=$(( 1000 * DIM_HILBERT**2 * 16 ))
 RAM_MIN=$(format_mem $((RAM_BYTES / 1024)))
 
 # variables de entorno
+cd ../
 if [ -f ".env" ]; then
     export $(cat .env | grep -v '^#' | xargs)
 fi
@@ -108,6 +109,7 @@ M_BUILDODE=$(head -n 2 gccdat${FILENAME}.txt | tail -n 1)
 T_RUN=$(head -n 1 rundat${FILENAME}.txt)
 M_RUN=$(head -n 2 rundat${FILENAME}.txt | tail -n 1)
 
+cd ~/simulaciones/escalabilidad/
 RAM_BUILDODE=$(format_mem $M_BUILDODE)
 RAM_COMPILE=$(format_mem $M_COMPILE)
 RAM_RUN=$(format_mem $M_RUN)

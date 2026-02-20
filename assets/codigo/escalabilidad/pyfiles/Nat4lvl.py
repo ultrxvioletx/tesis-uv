@@ -100,8 +100,8 @@ for j in range(Nat):
     sigmas_ps = sigmas[j][(3,2)] #|p><s|
 
     # E_0 = 0
-    H_atomo += (hbar/2) * detuning_ca * sigmas_ee # energía del estado |e>, E1, es relativa a la frecuencia de la cavidad
-    H_atomo += (hbar/2) * (detuning_ca+detuning_al) * sigmas_ss # energía del estado |s>, E2, es relativa a la frecuencia del láser + E1
+    H_atomo += hbar * detuning_ca * sigmas_ee # energía del estado |e>, E1, es relativa a la frecuencia de la cavidad
+    H_atomo += hbar * (detuning_ca+detuning_al) * sigmas_ss # energía del estado |s>, E2, es relativa a la frecuencia del láser + E1
     # E3 no es excitado por ningún campo, su energía es irrelevante en RWA
     
     H_atomo_cavidad += hbar * g * (aa * sigmas_ge + a * sigmas_eg)

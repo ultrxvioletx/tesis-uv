@@ -1,12 +1,12 @@
 {
-    "emeraldwalk.runOnSave.commands": [
-    {
-        "match": "\\.typ$",
-        "command": "typst compile main.typ",
-        "runIn": "integratedTerminal"
-    }
-    ],
-    "indentRainbow.errorColor": "rgba(128,32,32,0.2)",
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": "\\.typ$",
+                "cmd": "typst compile main.typ",
+            }
+        ]
+    },
     "editor.tabSize": 2,
     "terminal.integrated.profiles.linux": {
         "bash": {
@@ -15,21 +15,7 @@
         },
         "zsh": {
             "path": "/bin/zsh"
-        },
-        "fish": {
-            "path": "fish"
-        },
-        "tmux": {
-            "path": "tmux",
-            "icon": "terminal-tmux"
-        },
-        "pwsh": {
-            "path": "pwsh",
-            "icon": "terminal-powershell"
         }
     },
-    "terminal.integrated.defaultProfile.linux": "zsh",
-    "indentRainbow.tabmixColor": "rgba(128,32,96,0.9)",
-    "indentRainbow.indicatorStyle": "light",
-    "indentRainbow.lightIndicatorStyleLineWidth": 5
+    "terminal.integrated.defaultProfile.linux": "zsh"
 }

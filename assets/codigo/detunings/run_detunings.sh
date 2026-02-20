@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# gestión de kills
+echo $$ > sim.pid
+echo "script iniciado con PID: $$"
+
+killall() {
+    echo "Recibida señal de parada. Matando procesos hijos..."
+    kill -TERM -$$ 2>/dev/null
+}
+
+trap killall SIGINT SIGTERM
 set -e # detener el script si cualquier comando falla
 
 # funciones
@@ -32,6 +42,7 @@ N_ATOMS=$1
 M_LEVELS=$2
 NMAX=$3
 # variables de entorno
+cd ../
 if [ -f ".env" ]; then
     export $(cat .env | grep -v '^#' | xargs)
 fi
@@ -43,25 +54,31 @@ PYTHON_FILE="${N_ATOMS}at${M_LEVELS}lvl.py"
 trap 'error_handler $LINENO "$BASH_COMMAND"' ERR
 
 # ejecución
+cd ~/simulaciones/detunings/
 mkdir -p ${PREFIX}/ 2>/dev/null || true
-cd pyfiles/
+cd ${PREFIX}/
+rm *.h5 2>/dev/null || true
+cd ../cfiles/
+rm *.c 2>/dev/null || true
+rm *.out 2>/dev/null || true
+cd ../pyfiles/
 
 run_detuning() {
     i=$1
     d=$2
-    echo "$i - procesando detuning = $d..."
+    echo "[$(date '+%H:%M:%S')] Job $i: procesando detuning = $d..."
     CURRFILE="${PREFIX}_d$i"
     
     python3 ${PYTHON_FILE} --nmax ${NMAX} --detuning $d --idx $i
-    gcc ${CURRFILE}.c -o ${CURRFILE}.out -O0 \
+    gcc ${CURRFILE}.c -o ${CURRFILE}.out -O3 \
     -I/usr/include/hdf5/serial -I/usr/include/gsl \
     -lhdf5_serial -lhdf5_serial_hl \
     -lgsl -lgslcblas -lm
     ./${CURRFILE}.out
     
     mv -f ${CURRFILE}*.c ../cfiles/
+    mv -f ${CURRFILE}*.out ../cfiles/
     mv -f ${CURRFILE}*.h5 ../${PREFIX}/
-    mv -f ${CURRFILE}*.out ../outfiles/
     rm -f dic${CURRFILE}.py func${CURRFILE}.c
 }
 
@@ -75,13 +92,14 @@ echo "======================================================"
 # run_detuning 1 -3.0
 export -f run_detuning
 export N_ATOMS M_LEVELS NMAX PREFIX PYTHON_FILE
-seq -3.0 0.2 3.0 | parallel -j 8 --eta run_detuning '{= $_=($job->seq()) =}' {}
+seq -10.0 0.2 10.0 | parallel -j 8 --line-buffer run_detuning '{= $_=($job->seq()) =}' {}
 
 TERMINO=$(date '+%Y-%m-%d %H:%M:%S')
 echo "======================================================"
 echo "barrido paralelo completado"
 echo "timestamp: ${TERMINO}"
 echo "======================================================"
+rm sim.pid
 
 telegram "barrido paralelo completado (P)
 átomos: ${N_ATOMS}

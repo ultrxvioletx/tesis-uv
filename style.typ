@@ -5,7 +5,7 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge //diagramas con flechas
 #import "@preview/i-figured:0.2.4" //numeración de ecuaciones y figuras
 #import "@preview/numbly:0.1.0": numbly //numeración de encabezados
-#import "@preview/physica:0.9.5": * //sintáxis matemática
+#import "@preview/physica:0.9.8": * //sintáxis matemática
 #import "@preview/quick-maths:0.2.1": shorthands //shorthands de escritura de ecuaciones
 #import "@preview/super-suboptimal:0.1.0": * //lectura de sub y superindies unicode
 

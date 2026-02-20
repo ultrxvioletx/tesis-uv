@@ -1,0 +1,19 @@
+# ~/.ssh/config
+
+Host serverpablo
+    HostName 
+    User 
+    Port 
+
+Host mactla
+    HostName 
+    User 
+    Port 
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+    ControlPersist 24h
+
+Host serverluis
+    HostName 
+    User 
+    ProxyJump mactla
