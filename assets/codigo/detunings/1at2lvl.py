@@ -46,16 +46,16 @@ sigma_ee = Ket(1,"atomo") * Bra(1,"atomo") # operador de nivel excitado
 
 hbar = 1.
 # cavidad
-g = 1.0 # fuerza de acoplamiento átomo-cavidad
+g = 3.0 # fuerza de acoplamiento átomo-cavidad
 kappa = 1.0 # tasa de disipación de la cavidad
 # atomo
 gamma = 0.1 # tasa de decaimiento espontáneo del átomo
 # laseres
-rabi_b = 1.0 # intesidad del bombeo
-rabi_l = 0.0 # intesidad del láser, proporcional a la amplitud del campo eléctrico del láser de control
+rabi_b = 0.5 # intesidad del bombeo
+rabi_l = 2.0 # intesidad del láser, proporcional a la amplitud del campo eléctrico del láser de control
 # detunings
-detuning_bc = 0.0 # detuning entre frecuencia del bombeo y frecuencia de la cavidad
-detuning_ca = detuning#0.0 # detuning entre frecuencia de la cavidad y frecuencia del átomo
+detuning_bc = detuning # detuning entre frecuencia del bombeo y frecuencia de la cavidad
+detuning_ca = 0.0 # detuning entre frecuencia de la cavidad y frecuencia del átomo
 detuning_al = 0.0 # detuning entre frecuencia del átomo y frecuencia del láser de control
 
 tau = 1.0 / min(kappa, gamma)
@@ -76,7 +76,7 @@ parametros = {
     'detuning_ca': detuning_ca,
     'detuning_al': detuning_al
 }
-print(parametros)
+# print(parametros)
 
 
 H_cavidad = 0 # Hamiltoniano del oscilador armónico cuántico (cavidad)
@@ -101,7 +101,6 @@ rdot = I/hbar * comm(H,rho) \
         + (kappa/2)*(2*a*rho*aa - aa*a*rho - rho*aa*a) \
         + (gamma/2)*(2*sigma_ge*rho*sigma_eg - sigma_eg*sigma_ge*rho - rho*sigma_eg*sigma_ge)
 
-print("building ODE...")
 build_ode(
     rho=rho,
     rdot=rdot,
@@ -124,18 +123,16 @@ nfotones0 = 0 # número promedio de fotones iniciales dentro de la cavidad
 nestado0 = 0 # estado inicial del átomo
 ket0 = Ket(nfotones0,"cavidad") * Ket(nestado0,"atomo")
 rho0 = ket0*dag(ket0)
-print("condiciones iniciales...")
 init_conditions = init_state(rho=rho, rho0=rho0, basis=base, dic=dic)
 
 # solución numérica (GSL)
 symbexprs = []
 # probabilidades
-labels = []
+labels = ["g", "e"]
 for i in range(2):
     proyector = Ket(i,"atomo")*Bra(i,"atomo")
     proyector_symb = sub_qexpr(qexpr=trace(rho * proyector, basis=base), dic=dic)
     symbexprs.append(proyector_symb)
-    labels.append("g" if i == 0 else "e") # g=ground=0, e=excited=1
 parametros["probs_label"] = labels
 
 # valores esperados
@@ -143,7 +140,6 @@ N = aa * a # operador de número
 N_symb = sub_qexpr(qexpr=trace(rho * N, basis=base), dic=dic)
 symbexprs.append(N_symb)
 
-print("generando archivo c...")
 gsl_main(
     odefile=f"func{filename}.c",
     y0=init_conditions,
@@ -155,5 +151,3 @@ gsl_main(
     options={"output_format": "hdf5"},
     metadata=parametros
 )
-
-print("finalizado")

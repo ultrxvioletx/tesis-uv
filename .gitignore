@@ -17,6 +17,15 @@ assets/codigo/detunings/1at4lvl/*
 !assets/codigo/detunings/1at4lvl/**/
 assets/codigo/detunings/1at4lvl/**/*.h5
 
+assets/codigo/detunings/2at4lvl/*
+!assets/codigo/detunings/2at4lvl/**/
+assets/codigo/detunings/2at4lvl/**/*.h5
+
+#omegas
+assets/codigo/omegas/2at4lvl/*
+!assets/codigo/omegas/2at4lvl/**/
+assets/codigo/omegas/2at4lvl/**/*.h5
+
 # escalabilidad
 assets/codigo/escalabilidad/cfiles/
 assets/codigo/escalabilidad/h5files/

@@ -32,7 +32,7 @@ error_handler() {
 -------------------------------------------"
     echo -e "ERROR: \n[$(date '+%Y-%m-%d %H:%M:%S')] $error_msg"
 
-    telegram "error: la ejecución de DETUNINGS ($N_ATOMS at, $M_LEVELS lvl, $NMAX f) falló (P)"
+    telegram "error: la ejecución de omegas ($N_ATOMS at, $M_LEVELS lvl, $NMAX f) falló (P)"
 
     exit $exit_code
 }
@@ -54,7 +54,7 @@ PYTHON_FILE="${N_ATOMS}at${M_LEVELS}lvl.py"
 trap 'error_handler $LINENO "$BASH_COMMAND"' ERR
 
 # ejecución
-cd ~/simulaciones/detunings/
+cd ~/simulaciones/omegas/
 mkdir -p ${PREFIX}/ 2>/dev/null || true
 cd ${PREFIX}/
 rm *.h5 2>/dev/null || true
@@ -63,42 +63,44 @@ rm *.c 2>/dev/null || true
 rm *.out 2>/dev/null || true
 cd ../pyfiles/
 
-run_detuning() {
+run_omega() {
     i=$1
     d=$2
-    echo "[$(date '+%H:%M:%S')] Job $i: procesando detuning = $d..."
+    echo "[$(date '+%H:%M:%S')] Job $i: procesando factor omega = $d..."
     CURRFILE="${PREFIX}_d$i"
     
-    python3 ${PYTHON_FILE} --nmax ${NMAX} --detuning $d --idx $i
-    gcc ${CURRFILE}.c -o ${CURRFILE}.out -O3 \
-    -I/usr/include/hdf5/serial -I/usr/include/gsl \
-    -lhdf5_serial -lhdf5_serial_hl \
-    -lgsl -lgslcblas -lm
-    ./${CURRFILE}.out
+    python3 ${PYTHON_FILE} --nmax ${NMAX} --factor $d --idx $i
+    # gcc ${CURRFILE}.c -o ${CURRFILE}.out -O3 \
+    # -I/usr/include/hdf5/serial -I/usr/include/gsl \
+    # -lhdf5_serial -lhdf5_serial_hl \
+    # -lgsl -lgslcblas -lm
+    # ./${CURRFILE}.out
     
-    mv -f ${CURRFILE}*.c ../cfiles/
-    mv -f ${CURRFILE}*.out ../cfiles/
-    mv -f ${CURRFILE}*.h5 ../${PREFIX}/
-    rm -f dic${CURRFILE}.py func${CURRFILE}.c
+    rm -f dic${CURRFILE}.py func${CURRFILE}.c 2>/dev/null || true
+    mv -f ${CURRFILE}*.c ../cfiles/ 2>/dev/null || true
+    mv -f ${CURRFILE}*.out ../cfiles/ 2>/dev/null || true
+    mv -f ${CURRFILE}*.h5 ../${PREFIX}/ 2>/dev/null || true
 }
 
 INICIO=$(date '+%Y-%m-%d %H:%M:%S')
 echo "======================================================"
-echo "iniciando para DETUNINGS, N=${N_ATOMS}, M=${M_LEVELS}, f=${NMAX}"
+echo "iniciando para omegas, N=${N_ATOMS}, M=${M_LEVELS}, f=${NMAX}"
 echo "timestamp: ${INICIO}"
 echo "======================================================"
 
 # paralelización
-# run_detuning 1 -3.0
-export -f run_detuning
+factores=(0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0)
+export -f run_omega
 export N_ATOMS M_LEVELS NMAX PREFIX PYTHON_FILE
-seq -10.0 0.2 10.0 | parallel -j 8 --line-buffer run_detuning '{= $_=($job->seq()) =}' {}
+parallel -j 8 --line-buffer run_omega '{= $_=($job->seq()) =}' {} ::: "${factores[@]}"
 
 TERMINO=$(date '+%Y-%m-%d %H:%M:%S')
 echo "======================================================"
 echo "barrido paralelo completado"
 echo "timestamp: ${TERMINO}"
 echo "======================================================"
+
+cd ../
 rm sim.pid
 
 telegram "barrido paralelo completado (P)
