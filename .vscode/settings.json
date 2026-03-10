@@ -1,12 +1,6 @@
 {
-    "emeraldwalk.runonsave": {
-        "commands": [
-            {
-                "match": "\\.typ$",
-                "cmd": "typst compile main.typ",
-            }
-        ]
-    },
+    "tinymist.exportPdf": "onSave",
+    "tinymist.systemFonts": true,
     "editor.tabSize": 2,
     "terminal.integrated.profiles.linux": {
         "bash": {

@@ -31,31 +31,54 @@
 // --- Cuerpo Principal ---
 // #state("show-headers").update(true)
 
+= Átomos, luz y cavidades ópticas
 
-= Herramientas y fundamentos teóricos
-
+== Introducción
 #include "capitulos/01_introduccion.typ"
 
-#include "capitulos/02_introduccion.typ"
-#include "capitulos/02_operador_densidad.typ"
-#include "capitulos/02_lindblad.typ"
+== Fundamentos teóricos
+  === Interacción luz-materia
+    ==== Átomo de dos niveles y la aproximación de onda rotante (RWA)
+    ==== Cuantización del campo: Modelo de Jaynes-Cummings
+  === Entornos disipativos
+    ==== Operador densidad y pérdida de coherencia
+    ==== Ecuación maestra de Lindblad
+  === Interacciones de largo alcance
+    ==== Átomos de cuatro niveles en configuración cascada
+    ==== Fenómeno de bloqueo de excitación
 
-= Interacción átomo-luz
-#include "capitulos/03_introduccion.typ"
-#include "capitulos/03_atomo_libre.typ"
-#include "capitulos/03_atomo_campo.typ"
-#include "capitulos/03_decaimiento_espontaneo.typ"
-#include "capitulos/03_simulacion.typ"
+= Modelado computacional y herramientas de simulación
 
-#include "capitulos/04_introduccion.typ"
-#include "capitulos/04_cuantizacion_campo.typ"
-#include "capitulos/04_oscilador_armonico.typ"
-#include "capitulos/04_cavidad_abierta.typ"
-#include "capitulos/04_simulacion.typ"
+== Formulación del sistema: dos átomos de Rydberg dentro de una cavidad óptica
+#include "capitulos/03_descripcion_sistema.typ"
+#include "capitulos/03_implem_numerica.typ"
 
-#include "capitulos/05_introduccion.typ"
-#include "capitulos/05_jaynes-cummings.typ"
 
+= Resultados y análisis
+
+== Calibración del modelo y dinámica de sistemas de referencia
+  === Validación con sistemas fundamentales
+    ==== Oscilaciones de Rabi en un átomo de dos niveles
+    ==== Inyección y disipación de fotones en una cavidad vacía
+  === Exploración de un átomo de cuatro niveles
+    ==== Respuesta del sistema ante el barrido de desintonía (detuning)
+    ==== Efectos del láser de control en las poblaciones atómicas
+
+== Bloqueo y reducción dimensional del sistema
+  === Dinámica acoplada de dos átomos de cuatro niveles
+    ==== Evolución temporal de las poblaciones conjuntas
+    ==== Comportamiento del campo intracavidad ante la presencia de dos átomos
+  === Evidencia del bloqueo de excitación
+    ==== Supresión de los estados doblemente excitados ($|s,s>$, $|p,p>$)
+    ==== El rol de las interacciones $H_(e e)$ y $H_(d r)$
+  === Comportamiento colectivo efectivo
+    ==== Comparativa entre el ensamble interactuante y un átomo de dos niveles
+    ==== Discusión física de la reducción del espacio de Hilbert
+
+== Conclusiones y perspectivas
+  === Síntesis de resultados y el éxito de la simulación
+  === Implicaciones físicas del bloqueo en sistemas multinivel
+  === Trabajo futuro y posibles extensiones del modelo
 
 // --- Apéndice ---
 // #appendix // Esto cambia el estilo de los capítulos siguientes.

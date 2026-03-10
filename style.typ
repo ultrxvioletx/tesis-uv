@@ -4,7 +4,6 @@
 #import "@preview/cetz:0.4.1" //drawing
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge //diagramas con flechas
 #import "@preview/i-figured:0.2.4" //numeración de ecuaciones y figuras
-#import "@preview/numbly:0.1.0": numbly //numeración de encabezados
 #import "@preview/physica:0.9.8": * //sintáxis matemática
 #import "@preview/quick-maths:0.2.1": shorthands //shorthands de escritura de ecuaciones
 #import "@preview/super-suboptimal:0.1.0": * //lectura de sub y superindies unicode
@@ -12,6 +11,7 @@
 // ESTADOS GLOBALES
 #let in-appendix = state("in-appendix", false)
 #let show-headers = state("show-headers", false)
+#let global-chapter = counter("global-chapter")
 
 #let vecop(it) = math.upright(math.bold(math.hat(it)))
 #let vecb(it) = math.upright(math.bold(it))
@@ -25,8 +25,8 @@
 
 // Función principal que encapsula y aplica todo el estilo.
 #let style(
-  title: "Sin Título",
-  author: "Anónimo",
+  title: "Tesis",
+  author: "Andrea Rodríguez",
   lang: "es",
   paper: "a4",
   fontsize: 11pt,
@@ -37,13 +37,11 @@
   mono-font: "B612 Mono",
 ) = {
   return (doc) => {
-
-    // --- Configuración del Documento Base ---
     set document(
       title: title,
       author: author,
     )
-    // --- Colores ---
+    // COLORES
     let colors = (
       semi-gray: rgb("#8C8C8C"), // gray 0.55
       title: rgb("#990000"),     // Maroon
@@ -51,7 +49,7 @@
       citation: rgb("#008000"),  // WebGreen
       url: rgb("#990000"),       // Maroon
     )
-    // --- Márgenes ---
+    // MÁRGENES
     set page(
       paper: paper,
       margin: (
@@ -61,7 +59,7 @@
         outside: 3.5cm,
       )
     )
-    // --- Tipografía ---
+    // TIPOGRAFÍA
     set text(
       font: body-font,
       size: fontsize,
@@ -72,15 +70,21 @@
       first-line-indent: 1.2em,
       justify: true,
     )
-    // --- Encabezados ---
-    set heading(numbering: numbly(
-      "{1:I}",
-      "{2:1}",
-      "{2:1}.{3:1}. ",
-      "{2:1}.{3:1}.{4:1}. "
-    ))
-    let spaced-caps(it) = upper(text(tracking: 0.1em, it))
-    let spaced-smallcaps(it) = smallcaps(text(tracking: 0.03em, it))
+    // ENCABEZADOS
+    set heading(numbering: (..nums) => {
+      let nums = nums.pos()
+      if nums.len() == 1 {
+        numbering("I", nums.at(0))
+      } else if nums.len() == 2 {
+        str(global-chapter.get().first())
+      } else if nums.len() == 3 {
+        numbering("1.1.", global-chapter.get().first(), nums.at(2))
+      } else if nums.len() == 4 {
+        numbering("1.1.1.", global-chapter.get().first(), nums.at(2), nums.at(3))
+      } else if nums.len() == 5 {
+        numbering("1.1.1.a ", global-chapter.get().first(), nums.at(2), nums.at(3), nums.at(4))
+      }
+    })
     show: chic.with(
       chic-height(2.5cm),
       chic-offset(30pt),
@@ -91,6 +95,9 @@
         right-side: chic-page-number()
       )
     )
+
+    let spaced-caps(it) = upper(text(tracking: 0.1em, it))
+    let spaced-smallcaps(it) = smallcaps(text(tracking: 0.03em, it))
     // Estilo de PARTE
     show heading.where(level: 1): it => {
       pagebreak()
@@ -102,6 +109,12 @@
     }
     // Estilo de CAPITULOS
     show heading.where(level: 2): it => {
+      // incrementa el contador global de capítulos
+      global-chapter.step()
+      // reinicia contadores al cambiar de capítulo
+      counter(figure.where(kind: image)).update(0)
+      counter(figure.where(kind: table)).update(0)
+      counter(figure.where(kind: raw)).update(0)
       pagebreak()
       if not in-appendix.get() {
         block(
@@ -111,15 +124,13 @@
             columns: (30pt, 10pt, auto),
             stroke: none,
             gutter: 15pt,
-            [#text(size: 3em, fill: colors.semi-gray, weight: "bold", counter(heading).display())],
+            [#text(size: 3em, fill: colors.semi-gray, weight: "bold", str(global-chapter.get().first()))],
             [#line(length: 2.7em, angle: 90deg, stroke: 0.5pt + colors.semi-gray)],
             [#spaced-caps(it.body)],
           )
         )
         v(3em)
-      // Estilo de APÉNDICE
       } else {
-        pagebreak()
         align(center, text(size: 2em, weight: "bold", [
           Apéndice #counter(heading).display("A"): #it.body
         ]))
@@ -130,7 +141,7 @@
     show heading.where(level: 3): it => {
       v(1.5em)
       context counter(heading).display(heading.numbering)
-      spaced-smallcaps(text(size: 1.2em, it.body))
+      spaced-smallcaps(text(size: 1.4em, it.body))
       v(0.8em)
     }
     // Estilo de SUBSECCIONES
@@ -140,7 +151,15 @@
       text(style: "italic", size: 1.1em, it.body)
       v(0.6em)
     }
-    // --- Índices ---
+    // Estilo de SUBSUBSECCIONES
+    show heading.where(level: 5): it => {
+      v(1em)
+      context counter(heading).display(heading.numbering)
+      text(style: "oblique", weight: "regular", size: 1em, it.body)
+      v(0.6em)
+    }
+
+    // ÍNDICE
     show outline: it => {
       v(1em)
       text(size: 2em, "Índice general")
@@ -150,14 +169,25 @@
     show outline.entry.where(level: 1): it => { spaced-smallcaps(it) }
     //para indice de figuras, ecuaciones y tablas, recuerda usar el paquete i-figured
     
-    // --- Bibliografía ---
+    // BIBLIOGRAFÍA
     show bibliography: set text(size: 10pt) // Letra un poco más pequeña
     
-    // --- Enlaces y Referencias ---
+    // REFERENCIAS Y ENLACES
     show link: it => text(fill: colors.link, it.body)
     // show cite: it => link(it.target, "[" + it.content + "]")
 
-    // --- Ecuaciones y figuras ---
+    // ECUACIONES
+    set math.equation(numbering: (..num) => {
+      numbering("(1.1)", global-chapter.get().first(), num.pos().first())
+    })
+    show: super-subscripts //lee unicode para superindices y subindices
+    show: shorthands.with(
+      ($+-$, $plus.minus$),
+      ($-+$, $minus.plus$),
+      ($**$, $times.o$),
+    )
+
+    // FIGURAS
     show figure: it => {
       align(center, it.body)
       set par(first-line-indent: 0pt)
@@ -169,44 +199,14 @@
         )
       )
     }
-    show: super-subscripts //lee unicode para superindices y subindices
-    show: shorthands.with(
-      ($+-$, $plus.minus$),
-      ($-+$, $minus.plus$),
-    )
-    set math.equation(numbering: "(1.1)", supplement: [])
-    set figure(numbering: "1.1")
-    // Reinicia contadores al cambiar de capítulo
-    show heading.where(level: 2): it => {
-      counter(math.equation).update(0)
-      counter(figure.where(kind: image)).update(0)
-      counter(figure.where(kind: table)).update(0)
-      counter(figure.where(kind: raw)).update(0)
-      it
-    }
-    // Coloca formato de capitulo.num
-    set math.equation(numbering: (..num) =>{
-      let heading_nums = counter(heading).get()
-      if heading_nums.len() > 1{
-        numbering("(1.1)", counter(heading).get().at(1), num.pos().first())
-      } else{
-        numbering("(1.1)", counter(heading).get().first(), num.pos().first())
-      }
-    })
-    // Coloca formato de capitulo.num
     set figure(numbering: (..num) =>{
-      let heading_nums = counter(heading).get()
-      if heading_nums.len() > 1{
-        numbering("1.1", counter(heading).get().at(1), num.pos().first())
-      } else{
-        numbering("1.1", counter(heading).get().first(), num.pos().first())
-      }
+      numbering("1.1", global-chapter.get().first(), num.pos().first())
     })
     set figure.caption(
       separator: parbreak()
     )
-
-    // --- Listados de Código ---
+    
+    // CÓDIGO
     show raw.where(lang: "tex"): it => block(
       fill: luma(245), // Fondo gris claro
       inset: 10pt,

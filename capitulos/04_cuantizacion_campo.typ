@@ -1,6 +1,0 @@
-// ===================================================================
-// 04_introduccion.typ
-// ===================================================================
-#import "../style.typ": *
-
-=== Cuantización del campo externo (Scully o Gerry-Knight o Orszag) <cuantizacion-campo>
