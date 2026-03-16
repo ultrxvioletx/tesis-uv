@@ -14,7 +14,7 @@
 // #include "front-matter/abstract.typ"
 
 #align(center)[
-  #text(2.5em, "Átomos de Rydberg interacuando dentro de una cavidad óptica")
+  #text(2.5em, "Átomos de Rydberg interactuando dentro de una cavidad óptica")
   #v(2cm)
   #text(1.5em, "Andrea Fernanda Rodríguez Rojas")
   #v(8cm)

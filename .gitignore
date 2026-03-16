@@ -12,24 +12,5 @@
 style.pdf
 capitulos/*.pdf
 # ignoramos los c y hdf5 porque son muy pesados
-# detunings
-assets/codigo/detunings/1at2lvl/*
-!assets/codigo/detunings/1at2lvl/**/
-assets/codigo/detunings/1at2lvl/**/*.h5
-
-assets/codigo/detunings/1at4lvl/*
-!assets/codigo/detunings/1at4lvl/**/
-assets/codigo/detunings/1at4lvl/**/*.h5
-
-assets/codigo/detunings/2at4lvl/*
-!assets/codigo/detunings/2at4lvl/**/
-assets/codigo/detunings/2at4lvl/**/*.h5
-
-#omegas
-assets/codigo/omegas/2at4lvl/*
-!assets/codigo/omegas/2at4lvl/**/
-assets/codigo/omegas/2at4lvl/**/*.h5
-
-# escalabilidad
-assets/codigo/escalabilidad/cfiles/
-assets/codigo/escalabilidad/h5files/
+**/*.h5
+**/*.c
