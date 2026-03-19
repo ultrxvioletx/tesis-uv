@@ -11,5 +11,6 @@
             "path": "/bin/zsh"
         }
     },
-    "terminal.integrated.defaultProfile.linux": "zsh"
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "ltex.language": "auto"
 }
