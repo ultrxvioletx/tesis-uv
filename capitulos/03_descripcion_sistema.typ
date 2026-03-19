@@ -14,7 +14,9 @@
 #let Hee = $hat(H)_"EE"$ //hamiltoniano dipolo de intercambio
 #let cre = $hat(a)^dagger$ //creacion
 #let anh = $hat(a)$ //aniquilacion
-#let rr = $hat(rho)$
+#let rr = $hat(rho)$ //operador densidad
+#let LL = $cal(L)$ //lindblad
+#let OO = $cal(hat(O))$ //operador arbitrario
 #let sig(ii,jj,at) = $sigma_(ii jj)^((at))$ //sigma
 // kets
 #let kg = $ket(g)$ //g
@@ -79,7 +81,7 @@ Para la dinámica del sistema se usan dos campos externos: un láser de prueba c
 
 Bajo la aproximación de onda rotante (RWA), el Hamiltoniano total que describe la dinámica del sistema anterior se puede escribir como la suma de las contribuciones individuales de cada átomo y de interacción entre ellos y con los campos externos:
 
-$ hat(H) = Hc + Hb + Ha + Hi + Hdr + Hee $
+$ hat(H) = Hc + Hb + Ha + Hi + Hdr + Hee $ <eq:hamiltoniano_total>
 
 A continuación, se detalla el significado físico de cada uno de estos términos.
 
@@ -133,8 +135,6 @@ donde $Oee$ es el elemento de matriz dipolar y representa la fuerza de interacci
 
 ==== Incorporación de la disipación y decaimiento
 
-#let LL = text(style: "italic")[L]
-#let OO = text(style: "italic")[$hat(O)$]
 
 Debido a que el sistema es abierto, ya que los espejos de la cavidad no son perfectos y los átomos intercatúan con el entorno, es necesario incluir los procesos de pérdida de fotones de la cavidad y el decaimiento atómico espontáneo. Estas pérdidas de energía se introducen utilizando el formalismo de la Ecuación Maestra de Lindblad para la matriz densidad $rr$:
 

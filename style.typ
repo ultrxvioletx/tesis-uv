@@ -43,8 +43,7 @@
     )
     // COLORES
     let colors = (
-      semi-gray: rgb("#8C8C8C"), // gray 0.55
-      title: rgb("#990000"),     // Maroon
+      title: rgb("#d97e96"),     // Peach
       link: rgb("#0000CD"),      // RoyalBlue
       citation: rgb("#008000"),  // WebGreen
       url: rgb("#990000"),       // Maroon
@@ -91,7 +90,15 @@
       skip: (3,),
       chic-header(
         side-width: (auto,380pt,20pt),
-        center-side: align(right, chic-heading-name()),
+        center-side: align(right, context {
+          let current = query(heading.where(level: 2))
+            .filter(h => h.location().page() == here().page())
+          if current.len() > 0 {
+            current.first().body
+          } else {
+            chic-heading-name(level: 2, dir: "prev", fill: false)
+          }
+        }),
         right-side: chic-page-number()
       )
     )
@@ -124,8 +131,8 @@
             columns: (30pt, 10pt, auto),
             stroke: none,
             gutter: 15pt,
-            [#text(size: 3em, fill: colors.semi-gray, weight: "bold", str(global-chapter.get().first()))],
-            [#line(length: 2.7em, angle: 90deg, stroke: 0.5pt + colors.semi-gray)],
+            [#text(size: 3em, fill: colors.title, weight: "bold", str(global-chapter.get().first()))],
+            [#line(length: 2.7em, angle: 90deg, stroke: 0.5pt + colors.title)],
             [#spaced-caps(it.body)],
           )
         )
@@ -177,8 +184,10 @@
     // show cite: it => link(it.target, "[" + it.content + "]")
 
     // ECUACIONES
-    set math.equation(numbering: (..num) => {
-      numbering("(1.1)", global-chapter.get().first(), num.pos().first())
+    set math.equation(
+      supplement: "ec.",
+      numbering: (..num) => {
+        numbering("1.1", global-chapter.get().first(), num.pos().first())
     })
     show: super-subscripts //lee unicode para superindices y subindices
     show: shorthands.with(

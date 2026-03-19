@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 
 #colores = ["#8AAA79", "#b8b8f3", "#d47777", "#545e75", "#443742"] # opcion descartada pero la dejo por si acaso
-colores = ["#83a598", "#D58E8E", "#9ccfd8", "#b8b8f3", "#5980a5"]
+#colores = ["#83a598", "#D58E8E", "#9ccfd8", "#b8b8f3", "#5980a5"] # opcion descartada pero la dejo por si acaso
+colores = ["#f4afb4", "#c9b7ad", "#9490A2", "#94a89a", "#797d81"]
 
 def set_style():
     plt.rcParams.update({

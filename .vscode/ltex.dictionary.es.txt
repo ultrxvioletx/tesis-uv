@@ -3,3 +3,6 @@ Lindblad
 Rydberg
 Rabi
 detuning
+semiclásica
+OpenKet
+Hamiltoniano

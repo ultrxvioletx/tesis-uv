@@ -7,10 +7,10 @@
 === Implementación numérica
 #let tr = $"Tr"$
 // cursivas
-#let HH = text(style: "italic")[H] //espacio de hilbert
-#let LL = text(style: "italic")[L] //lindblad
-#let OO = text(style: "italic")[$hat(O)$] //operador arbitrario
-#let PP = text(style: "italic")[P] //probabilidad
+#let HH = $cal(H)$ //espacio de hilbert
+#let LL = $cal(L)$ //lindblad
+#let OO = $cal(hat(O))$ //operador arbitrario
+#let PP = $cal(P)$ //probabilidad
 // operadores
 #let NN = $hat(N)$ //numero
 #let cre = $hat(a)^dagger$ //creacion

@@ -31,8 +31,6 @@
 // --- Cuerpo Principal ---
 // #state("show-headers").update(true)
 
-= Átomos, luz y cavidades ópticas
-
 == Introducción
 #include "capitulos/01_introduccion.typ"
 
@@ -47,20 +45,17 @@
     ==== Átomos de cuatro niveles en configuración cascada
     ==== Fenómeno de bloqueo de excitación
 
-= Modelado computacional y herramientas de simulación
 
 == Formulación del sistema: dos átomos de Rydberg dentro de una cavidad óptica
 #include "capitulos/03_descripcion_sistema.typ"
 #include "capitulos/03_implem_numerica.typ"
 
 
-= Resultados y análisis
 
 == Calibración del modelo y dinámica de sistemas de referencia
-  === Validación con sistemas fundamentales
-    ==== Oscilaciones de Rabi en un átomo de dos niveles
-    ==== Inyección y disipación de fotones en una cavidad vacía
-  === Exploración de un átomo de cuatro niveles
+#include "capitulos/04_validacion.typ"
+#include "capitulos/04_1at4lvl.typ"
+
     ==== Respuesta del sistema ante el barrido de desintonía (detuning)
     ==== Efectos del láser de control en las poblaciones atómicas
 
