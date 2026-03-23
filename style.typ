@@ -1,5 +1,6 @@
 // style.typ
 #import "@preview/chic-hdr:0.5.0": * //encabezado y pie de página
+#import "@preview/subpar:0.2.2" //divide figuras en subfiguras
 #import "@preview/equate:0.3.2": equate //sub-ecuaciones numeradas
 #import "@preview/cetz:0.4.1" //drawing
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge //diagramas con flechas
@@ -8,15 +9,78 @@
 #import "@preview/quick-maths:0.2.1": shorthands //shorthands de escritura de ecuaciones
 #import "@preview/super-suboptimal:0.1.0": * //lectura de sub y superindies unicode
 
+// COLORES
+#let colors = (
+  title: rgb("#CFB1B7"), //cotton rose
+  citation: rgb("#9490a2"), //lavender gray
+  link: rgb("#152b42"), //deep space blue
+  url: rgb("#c9b7ad"), //almond
+  diagrams: rgb("#9490a2"), //lavender gray
+)
+
 // ESTADOS GLOBALES
 #let in-appendix = state("in-appendix", false)
 #let show-headers = state("show-headers", false)
 #let global-chapter = counter("global-chapter")
 
+// EXPRESIONES MATEMÁTICAS COMÚNES
+// operadores
+#let Ha = $hat(H)_"atomos"$ //hamiltoniano atomos
+#let Hb = $hat(H)_"bombeo"$ //hamiltoniano bombeo
+#let Hc = $hat(H)_"cavidad"$ //hamiltoniano cavidad
+#let Hi = $hat(H)_"interaccion"$ //hamiltoniano interaccion
+#let Hdr = $hat(H)_"DR"$ //hamiltoniano dipolo resonante
+#let Hee = $hat(H)_"EE"$ //hamiltoniano estados excitados
+#let cre = $hat(a)^dagger$ //creacion
+#let anh = $hat(a)$ //aniquilacion
+#let NN = $hat(N)$ //numero
+#let rr = $hat(rho)$ //operador densidad
+#let sigk(ii,jj,at) = $sigma_(ii jj)^((at))$ //sigma
+#let sig(ii,jj) = $sigma_(ii jj)$ //sigma
+#let PP = $cal(P)$ //probabilidad
+// otros
+#let HH = $cal(H)$ //espacio de hilbert
+#let LL = $cal(L)$ //lindblad
+#let OO = $cal(hat(O))$ //operador arbitrario
+#let tr = $"Tr"$ //formato traza
+#let Nexp = $expval(N)$ //valor medio fotones
+#let Nss = $expval(N)_"ss"$ //valor medio fotones estado estacionario
+// kets
+#let kg = $ket(g)$ //g
+#let ke = $ket(e)$ //e
+#let ks = $ket(s)$ //s
+#let kp = $ket(p)$ //p
+// parámetros
+#let nmax = $N_"max"$ //truncamiento base Fock
+#let wp = $omega_p$ //frecuencia prueba
+#let wc = $omega_c$ //frecuencia control
+#let weg = $omega_(e g)$ //distancia eg
+#let wse = $omega_(s e)$ //distancia se
+#let wps = $omega_(p s)$ //distancia ps
+#let Dpa = $Delta_(p e g)$ //detuning prueba-atomo
+#let Dac = $Delta_(c s e)$ //detuning atomo-control
+#let dece = $gamma_e$ //decaimiento e->g
+#let decs = $gamma_s$ //decaimiento s->e
+#let dec12 = $gamma_(12)$ //decaimiento colectivo
+#let rabip = $Omega_p$ //rabi prueba
+#let rabic = $Omega_c$ //rabi control
+#let rabir = $Omega_R$ //rabi generalizada
+#let Odr = $Omega_"12"$ //intensidad dipolo resonante
+#let Oee = $C_3$ //intensidad estado excitado
+// funciones
 #let vecop(it) = math.upright(math.bold(math.hat(it)))
 #let vecb(it) = math.upright(math.bold(it))
 
-// FUNCIONES EXPORTABLES
+// FUNCIONES DE ESTILO
+#let diagrama(..args) = {
+  //show math.equation: set text(fill: colors.diagrams)
+  //show text: set text(fill: colors.diagrams)
+  diagram(
+    node-fill: none,
+    node-stroke: none,
+    edge-stroke: colors.diagrams,
+    ..args
+)}
 #let appendix() = {
   in-appendix.update(true)
   set heading(numbering: "A")
@@ -40,13 +104,6 @@
     set document(
       title: title,
       author: author,
-    )
-    // COLORES
-    let colors = (
-      title: rgb("#d97e96"),     // Peach
-      link: rgb("#0000CD"),      // RoyalBlue
-      citation: rgb("#008000"),  // WebGreen
-      url: rgb("#990000"),       // Maroon
     )
     // MÁRGENES
     set page(
@@ -128,11 +185,11 @@
           width: 100%,
           inset: 0pt,
           grid(
-            columns: (30pt, 10pt, auto),
+            columns: (70pt, 10pt, auto),
             stroke: none,
-            gutter: 15pt,
-            [#text(size: 3em, fill: colors.title, weight: "bold", str(global-chapter.get().first()))],
-            [#line(length: 2.7em, angle: 90deg, stroke: 0.5pt + colors.title)],
+            gutter: 25pt,
+            [#text(size: 10em, fill: colors.title, weight: "bold", str(global-chapter.get().first()))],
+            [#line(length: 7em, angle: 90deg, stroke: 1pt + colors.title)],
             [#spaced-caps(it.body)],
           )
         )
@@ -148,6 +205,7 @@
     show heading.where(level: 3): it => {
       v(1.5em)
       context counter(heading).display(heading.numbering)
+      h(0.5em)
       spaced-smallcaps(text(size: 1.4em, it.body))
       v(0.8em)
     }
@@ -155,6 +213,7 @@
     show heading.where(level: 4): it => {
       v(1.2em)
       context counter(heading).display(heading.numbering)
+      h(0.5em)
       text(style: "italic", size: 1.1em, it.body)
       v(0.6em)
     }
@@ -162,6 +221,7 @@
     show heading.where(level: 5): it => {
       v(1em)
       context counter(heading).display(heading.numbering)
+      h(0.5em)
       text(style: "oblique", weight: "regular", size: 1em, it.body)
       v(0.6em)
     }

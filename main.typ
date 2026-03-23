@@ -56,8 +56,6 @@
 #include "capitulos/04_validacion.typ"
 #include "capitulos/04_1at4lvl.typ"
 
-    ==== Respuesta del sistema ante el barrido de desintonía (detuning)
-    ==== Efectos del láser de control en las poblaciones atómicas
 
 == Bloqueo y reducción dimensional del sistema
   === Dinámica acoplada de dos átomos de cuatro niveles

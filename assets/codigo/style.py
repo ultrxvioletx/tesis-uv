@@ -2,7 +2,14 @@ import matplotlib.pyplot as plt
 
 #colores = ["#8AAA79", "#b8b8f3", "#d47777", "#545e75", "#443742"] # opcion descartada pero la dejo por si acaso
 #colores = ["#83a598", "#D58E8E", "#9ccfd8", "#b8b8f3", "#5980a5"] # opcion descartada pero la dejo por si acaso
-colores = ["#f4afb4", "#c9b7ad", "#9490A2", "#94a89a", "#797d81"]
+#colores = ["#f4afb4", "#c9b7ad", "#9490A2", "#94a89a", "#797d81"]
+cmap = plt.get_cmap('Pastel1')
+colores = {
+    "estados_t": [cmap(2), cmap(3), cmap(4)], #rosita, gris, menta
+    "fotones_t": "#94a89a", #verde
+    "estados_ss": ["#f4afb4", "#c9b7ad"], #rosa, beige
+    "fotones_ss": "#9490A2" #lila
+}
 
 def set_style():
     plt.rcParams.update({
