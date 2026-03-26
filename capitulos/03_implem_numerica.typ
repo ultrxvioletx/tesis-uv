@@ -33,17 +33,15 @@ Primero, se definieron simbólicamente los estados base de cada subsistema media
 
 Luego, se instanciaron los operadores de creación ($cre$) y aniquilación ($anh$), así como los operadores de transición atómica $sigma_(i j)^((k)) = ket(i)_k bra(j)$. Y gracias a la capacidad de OpenKet de manejar objetos simbólicos, se pudo escribir el Hamiltoniano total $hat(H)$ y los superoperadores de disipación $LL[OO]$ de forma idéntica a sus expresiones analíticas (presentadas en la sección anterior), manteniendo las constantes de acoplamiento, desintonías y tasas de decaimiento como parámetros libres que se pueden modificar fácilmente para explorar diferentes regímenes del sistema.
 
-Con el objetivo de mantener simple y general la ecuación maestra, en todas las simulaciones descritas en esta tesis se utlizaron unidades naturales, tal que $hbar = 1$.
-
 ===== Generación de EDOs y proyección de ecuación maestra
 
 Una vez definido el sistema en términos de objetos simbólicos, se utilizó la función `build_ode` de OpenKet para traducir la ecuación maestra de Lindblad a un sistema de EDOs acopladas. Esta función toma la expresión algebráica de $dot(rr)$, calcula los conmutadores y productos de operadores, y proyecta el resultado sobre la base completa del espacio de Hilbert. Posteriormente, OpenKet genera de forma automática un archivo de código en lenguaje C que contiene el sistema de EDOs acopladas explícitamente desarrollado, y adicionalmente se genera un diccionario de mapeo (escrito en lenguaje Python), que vincula las variables simbólicas de Python con los índices del arreglo numérico en C.
 
 ===== Integración temporal en GSL
 
-Finalmente, se obtiene la evolución temporal del sistema a partir de un estado inicial puro. Para este trabajo se estableció que el sistema inicia en el estado base absoluto, es decir, sin fotones en la cavidad y ambos átomos en su estado base $ket(g)$:
+Finalmente, se obtiene la evolución temporal del sistema a partir de un estado inicial puro, expresado simbólicamente y que es mapeado a una expresión numérica trabajable usando el diccionario creado en el paso anterior. Para este trabajo se estableció que el sistema inicia en el estado base absoluto, es decir, sin fotones en la cavidad y ambos átomos en su estado base $ket(g)$:
 
-$ rr(0) = ket(g g 0) bra(g g 0). $
+$ rr(t_(=0)) = ket(g g 0) bra(g g 0). $
 
 La integración temporal se ejecutó a través del uso de la función `gsl_main`, la cual genera la función `main` de C para obtener el archivo final listo para ser compilado y ejecutado, utilizando la biblioteca _GNU Scientific Library (GSL)_. GSL aplica algoritmos de integración de paso adaptativo para resolver el sistema de EDOs de manera más precisa, y los resultados de la integración se exportaron a archivos de formato HDF5 para su posterior análisis.
 
@@ -51,10 +49,10 @@ La integración temporal se ejecutó a través del uso de la función `gsl_main`
 ==== Definición y extracción de observables físicos
 
 
-La matriz de densidad $rr(t)$ resultante de la integración numérica contiene toda la información estadística del sistema; sin embargo, para poder absorber su sentido físico, es necesario traducirla a magnitudes físicas medibles calculando los valores esperados de los observables.
+La matriz de densidad $rr(t)$ resultante de la integración numérica contiene toda la información estadística del sistema; sin embargo, para poder exprimir su sentido físico, es necesario traducirla a magnitudes físicas medibles calculando los valores esperados de los observables.
 
 
-En OpenKet, el cálculo de un observable $expval(OO) = tr(rr OO)$ se realiza definiendo primero el operador simbólico $OO$ correspondiente, para así luego extraer su valor numérico en cada instante de tiempo usando las funciones `trace` y `sub_qexpr`, donde ésta última mapea cada elemento del operador densidad $rr_(n,m) = mel(n,rr,m)$, obtenidos tras evaluar analíticamente la traza $tr(rr OO)$, hacia sus correspondientes índices en el arreglo numérico unidimensional resuelto por el integrador, utilizando el diccionario generado durante la compilación.
+En OpenKet, el cálculo de un observable $expval(OO) = tr(rr OO)$ se realiza definiendo primero el operador simbólico $OO$ correspondiente, para así luego extraer su valor numérico en cada instante de tiempo usando las funciones `trace` y `sub_qexpr`. La función `sub_qexpr` mapea cada elemento del operador densidad $rr_(n,m) = mel(n,rr,m)$, obtenidos tras evaluar analíticamente la traza $tr(rr OO)$, hacia sus correspondientes índices en el arreglo numérico unidimensional resuelto por el integrador, utilizando el diccionario generado durante la compilación.
 
 Para el análisis de la dinámica del sistema de estudio, se definieron los siguientes observables.
 

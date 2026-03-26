@@ -51,13 +51,13 @@
 #include "capitulos/03_implem_numerica.typ"
 
 
-
 == Calibración del modelo y dinámica de sistemas de referencia
 #include "capitulos/04_validacion.typ"
 #include "capitulos/04_1at4lvl.typ"
 
 
-== Bloqueo y reducción dimensional del sistema
+== Bloqueo y reducción dimensional del sistema <cap:bloqueo>
+
   === Dinámica acoplada de dos átomos de cuatro niveles
     ==== Evolución temporal de las poblaciones conjuntas
     ==== Comportamiento del campo intracavidad ante la presencia de dos átomos

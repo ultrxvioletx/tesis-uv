@@ -1,6 +1,5 @@
 // style.typ
 #import "@preview/chic-hdr:0.5.0": * //encabezado y pie de página
-#import "@preview/subpar:0.2.2" //divide figuras en subfiguras
 #import "@preview/equate:0.3.2": equate //sub-ecuaciones numeradas
 #import "@preview/cetz:0.4.1" //drawing
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge //diagramas con flechas
@@ -40,6 +39,9 @@
 #let PP = $cal(P)$ //probabilidad
 // otros
 #let HH = $cal(H)$ //espacio de hilbert
+#let HHc = $cal(H)_"cavidad"$ //hilbert cavidad
+#let HHa1 = $cal(H)_"átomo1"$ //hilbert cavidad
+#let HHa2 = $cal(H)_"átomo2"$ //hilbert cavidad
 #let LL = $cal(L)$ //lindblad
 #let OO = $cal(hat(O))$ //operador arbitrario
 #let tr = $"Tr"$ //formato traza
@@ -57,8 +59,8 @@
 #let weg = $omega_(e g)$ //distancia eg
 #let wse = $omega_(s e)$ //distancia se
 #let wps = $omega_(p s)$ //distancia ps
-#let Dpa = $Delta_(p e g)$ //detuning prueba-atomo
-#let Dac = $Delta_(c s e)$ //detuning atomo-control
+#let Dpa = $Delta_(p)$ //detuning prueba-atomo
+#let Dac = $Delta_(c)$ //detuning atomo-control
 #let dece = $gamma_e$ //decaimiento e->g
 #let decs = $gamma_s$ //decaimiento s->e
 #let dec12 = $gamma_(12)$ //decaimiento colectivo
@@ -94,7 +96,7 @@
   lang: "es",
   paper: "a4",
   fontsize: 11pt,
-  captionfontsize: 10pt,
+  captionfontsize: 9pt,
   binding-correction: 5mm,
   body-font: "Iwona",
   sans-font: "FreeMono",
@@ -126,7 +128,7 @@
       first-line-indent: 1.2em,
       justify: true,
     )
-    // ENCABEZADOS
+    //ESTILO DE ENUMERACIÓN
     set heading(numbering: (..nums) => {
       let nums = nums.pos()
       if nums.len() == 1 {
@@ -141,6 +143,7 @@
         numbering("1.1.1.a ", global-chapter.get().first(), nums.at(2), nums.at(3), nums.at(4))
       }
     })
+    // ENCABEZADOS Y NÚMERO DE PÁGINA
     show: chic.with(
       chic-height(2.5cm),
       chic-offset(30pt),
@@ -160,7 +163,16 @@
       )
     )
 
-    let spaced-caps(it) = upper(text(tracking: 0.1em, it))
+    let spaced-caps(it) = upper(
+      par(
+        leading: 1em,
+        justify: false,
+        text(
+          hyphenate: false,
+          size:1em,
+          tracking: 0.1em,
+          it)
+      ))
     let spaced-smallcaps(it) = smallcaps(text(tracking: 0.03em, it))
     // Estilo de PARTE
     show heading.where(level: 1): it => {
@@ -172,6 +184,7 @@
       ]
     }
     // Estilo de CAPITULOS
+    show heading.where(level: 2): set heading(supplement: "Capítulo")
     show heading.where(level: 2): it => {
       // incrementa el contador global de capítulos
       global-chapter.step()
@@ -185,7 +198,7 @@
           width: 100%,
           inset: 0pt,
           grid(
-            columns: (70pt, 10pt, auto),
+            columns: (70pt, 10pt, 1fr),
             stroke: none,
             gutter: 25pt,
             [#text(size: 10em, fill: colors.title, weight: "bold", str(global-chapter.get().first()))],
@@ -244,6 +257,7 @@
     // show cite: it => link(it.target, "[" + it.content + "]")
 
     // ECUACIONES
+    show math.equation.where(block: false): it => box(it)
     set math.equation(
       supplement: "ec.",
       numbering: (..num) => {
@@ -257,24 +271,36 @@
     )
 
     // FIGURAS
-    show figure: it => {
-      align(center, it.body)
-      set par(first-line-indent: 0pt)
-      align(
-        left,
-        pad(
-          x: 2cm,
-          strong(text(size: captionfontsize, it.caption))
-        )
-      )
-    }
-    set figure(numbering: (..num) =>{
-      numbering("1.1", global-chapter.get().first(), num.pos().first())
+    set figure(
+      supplement: "Fig.",
+      numbering: (..num) =>{
+        numbering("1.1", global-chapter.get().first(), num.pos().first())
     })
     set figure.caption(
       separator: parbreak()
     )
-    
+    show figure: it => {
+      set par(first-line-indent: 0pt)
+      v(1.5em)
+      block(
+        width: 100% + 0.5cm,
+        outset: (right: 0.5cm),
+        grid(
+          columns: (1fr, 0.55fr),
+          column-gutter: 0.8em,
+          align: (top, top),
+          align(center, it.body),
+          align(left, text(size: captionfontsize, it.caption)),
+        ),
+      )
+      v(1em)
+    }
+    show figure.caption: it => {
+      strong(it.supplement + [ ] + context it.counter.display(it.numbering))
+      it.separator
+      it.body
+    }
+        
     // CÓDIGO
     show raw.where(lang: "tex"): it => block(
       fill: luma(245), // Fondo gris claro

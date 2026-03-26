@@ -121,7 +121,7 @@ Físicamente, esta interacción provoca un desplazamiento simétrico $Delta E = 
 
 Debido a que el sistema es abierto, ya que los espejos de la cavidad no son perfectos y los átomos intercatúan con el entorno, es necesario incluir los procesos de pérdida de fotones de la cavidad y el decaimiento atómico espontáneo.
 
-Estas pérdidas de energía se introducen utilizando el formalismo de la Ecuación Maestra de Lindblad para la matriz densidad $rr$:
+Estas pérdidas de energía se introducen utilizando el formalismo de la Ecuación Maestra de Lindblad #footnote[Con el objetivo de mantener simple y general la ecuación maestra, en todas las simulaciones descritas en esta tesis se utlizaron unidades naturales, tal que $hbar = 1$.] para la matriz densidad $rr$:
 
 $ dot(rr) = -i/h [hat(H),rr] + kappa LL[anh] + sum_(j = 1,2) (dece/2 LL[sigk(g,e,j)] + decs/2 LL[sigk(e,s,j)]) + dec12/2 LL[sigk(g,e,1) + sigk(g,e,2)] $
 
