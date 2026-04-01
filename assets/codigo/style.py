@@ -3,19 +3,17 @@ import matplotlib.pyplot as plt
 latex = {
     "rabip": "\\Omega_p t",
     "rabic": "\\Omega_c t",
+    "scan": "\\delta_p / \\kappa",
     "Dpa": "\\Delta_p / \\kappa",
+    "Oee": "C_3",
     "P": "P_",
     "Nt": "\\langle N \\rangle",
     "Nss": "\\langle N \\rangle _{ss}"
 }
 
-
-cmap = plt.get_cmap('Pastel1')
 colores = {
-    "estados_t": [cmap(2), cmap(3), cmap(4)], #menta, lila, naranja
-    "fotones_t": "#94a89a", #verde
-    "estados_ss": ["#f4afb4", "#c9b7ad"], #rosa, beige
-    "fotones_ss": "#9490A2" #lila
+    "estados": ["#f4afb4", "#c9b7ad", "#94a89a"], #rosa, beige, verde
+    "fotones": "#9490A2" #lila
 }
 
 def set_style():
@@ -71,3 +69,16 @@ def format_ax(ax, xstep=2, ystep=2, ymax=None, xlim=None):
     ax.yaxis.set_minor_locator(plt.MultipleLocator(ystep / 2))
     ax.yaxis.set_major_formatter(plt.ScalarFormatter())
     ax.yaxis.set_minor_formatter(plt.ScalarFormatter())
+
+def segmento(ax, x1, x2, y, frac=0.02):
+    color="gray"
+    lw=1
+    h = 0.05
+    y = y+h
+    bar_h = y*0.02
+    distancia = x2 - x1
+
+    ax.plot([x1, x2], [y, y], color=color, linewidth=lw)
+    ax.plot([x1, x1], [y - bar_h, y + bar_h], color=color, lw=lw)
+    ax.plot([x2, x2], [y - bar_h, y + bar_h], color=color, lw=lw)
+    ax.text((x1 + x2) / 2, y + bar_h, fr"{distancia:.2f}", ha="center", va="bottom", fontsize=10)

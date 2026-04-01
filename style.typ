@@ -14,7 +14,7 @@
   citation: rgb("#9490a2"), //lavender gray
   link: rgb("#152b42"), //deep space blue
   url: rgb("#c9b7ad"), //almond
-  diagrams: rgb("#9490a2"), //lavender gray
+  diagrams: rgb("#94a89a"), //verde
 )
 
 // ESTADOS GLOBALES
@@ -59,17 +59,26 @@
 #let weg = $omega_(e g)$ //distancia eg
 #let wse = $omega_(s e)$ //distancia se
 #let wps = $omega_(p s)$ //distancia ps
-#let Dpa = $Delta_(p)$ //detuning prueba-atomo
-#let Dac = $Delta_(c)$ //detuning atomo-control
 #let dece = $gamma_e$ //decaimiento e->g
 #let decs = $gamma_s$ //decaimiento s->e
 #let dec12 = $gamma_(12)$ //decaimiento colectivo
 #let rabip = $Omega_p$ //rabi prueba
 #let rabic = $Omega_c$ //rabi control
 #let rabir = $Omega_R$ //rabi generalizada
+#let rabieff = $Omega_"eff"$ //rabi efectiva
+#let scan = $delta_p$ //delta scan
+#let Dpa = $Delta_(p)$ //detuning prueba-atomo
+#let Dac = $Delta_(c)$ //detuning atomo-control
+#let geff = $g_"eff"$ //rabi generalizada
 #let Odr = $Omega_"12"$ //intensidad dipolo resonante
 #let Oee = $C_3$ //intensidad estado excitado
+#let sg = $S_g$ //stark |g>
+#let ss = $S_s$ //stark |s>
+#let d1 = $d_"1at"$ //distancia 1at
+#let d2 = $d_"2at"$ //distancia 2at
+#let d2b = $d_"bloqueo"$ //distancia bloqueo
 // funciones
+#let sim = $dash.wave$
 #let vecop(it) = math.upright(math.bold(math.hat(it)))
 #let vecb(it) = math.upright(math.bold(it))
 
@@ -247,6 +256,32 @@
       it
     }
     show outline.entry.where(level: 1): it => { spaced-smallcaps(it) }
+    show outline.entry.where(level: 5): it => none
+    show outline.entry.where(level: 4): it => {
+      it
+      context {
+        let current-loc = it.element.location()
+        let all-lvl5 = query(heading.where(level: 5))
+        let all-lvl4 = query(heading.where(level: 4))
+        // encuentra el siguiente heading de nivel 4 después del actual
+        let next-lvl4 = all-lvl4.find(h => h.location().position().y > current-loc.position().y and h.location().page() >= current-loc.page() or h.location().page() > current-loc.page()
+        )
+        // filtra los lvl5 que pertenecen a este lvl4
+        let children = all-lvl5.filter(h => {
+          let after-current = h.location().page() > current-loc.page() or (h.location().page() == current-loc.page() and h.location().position().y > current-loc.position().y)
+          let before-next = next-lvl4 == none or h.location().page() < next-lvl4.location().page() or (h.location().page() == next-lvl4.location().page() and h.location().position().y < next-lvl4.location().position().y)
+          after-current and before-next
+        })
+        if children.len() > 0 {
+          block(
+            inset: (left: 4em),
+            above: 0.7em,
+            below: 0.5em,
+            text(size: 0.85em, fill: luma(80), style: "italic", children.map(h => h.body).join([, ]))
+          )
+        }
+      }
+    }
     //para indice de figuras, ecuaciones y tablas, recuerda usar el paquete i-figured
     
     // BIBLIOGRAFÍA

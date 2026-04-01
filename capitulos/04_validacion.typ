@@ -23,20 +23,20 @@ Posteriormente, en la @sec:1at4lvl, se introduce un único átomo de cuatro nive
           edge((0,0),(2,0)),
           node((2,0), $ke$)
   ),
-  caption: [Diagrama de la interacciDebido a que la constante de acoplamiento átomo-cavidad es mayor que las tasas de disipación ($g > kappa, dece$), el sistema se encuentra en el régimen de acomplamiento fuerte.ón de un átomo de dos niveles en cuasiresonancia con un campo electromagético, con detuning $Delta$.]
+  caption: [Diagrama de la interacción de un átomo de dos niveles en cuasiresonancia con un campo electromagético, con desintonía $Delta$.]
 ) <fig:1at2lvl_sistema>
 
 
 El sistema cuántico de interacción luz-materia más elemental es un átomo de dos niveles (@fig:1at2lvl_sistema), interactuando con un campo electromagnético clásico. De acuerdo con la teoría clásica de interacción, ignorando efectos de decaimiento y bajo la aproximación de onda rotante (RWA), la probabilidad de encontrar al átomo en el estado excitado evoluciona en el tiempo y está dada analíticamente por la fórmula de Rabi @gerry_introductory_2005[cap.4]:
 
 #figure(
-  image("../assets/figuras/fig:deltas_atomo.png", width: 100%),
-  caption: [Evolución temporal de la probabilidad de excitación $P_e (t)$ para un átomo de dos niveles interactuando con un campo clásico, partiendo del estado base $kg$. Los marcadores cuadrados representan los resultados obtenidos numéricamente usando la integración de la ecuación maestra (@eq:1at2lvl_maestra) con OpenKet, mientras que las líneas continuas corresponden a la solución analítica de la @eq:1at2lvl_analitica. Se observan tres valores de detuning: total resonancia $Delta = 0.0$ (verde), y fuera de resonancia $Delta = 2.0$ (morado), $Delta = 4.0$ (naranja). El tiempo está normalizado respecto a la frecuencia de Rabi $rabic$, cuyo valor es $rabic = 2.0$.],
-) <fig:deltas_atomo>
+  image("../assets/figuras/1at2lvl.png", width: 100%),
+  caption: [Evolución temporal de la probabilidad de excitación $P_e (t)$ para un átomo de dos niveles interactuando con un campo clásico, partiendo del estado base $kg$. Los marcadores cuadrados representan los resultados obtenidos numéricamente usando la integración de la ecuación maestra (@eq:1at2lvl_maestra) con OpenKet, mientras que las líneas continuas corresponden a la solución analítica de la @eq:1at2lvl_analitica. Se observan tres valores de desintonía: total resonancia $Delta = 0.0$ (verde), y fuera de resonancia $Delta = 2.0$ (morado), $Delta = 4.0$ (naranja). El tiempo está normalizado respecto a la frecuencia de Rabi $rabic$, cuyo valor es $rabic = 2.0$.],
+) <fig:1at2lvl>
 
-$ P_e (t) = rabic^2 / rabir^2 sin^2((rabir t) / 2) $ <eq:1at2lvl_analitica>
+$ P_e (t) = rabic^2 / rabir^2 sin^2(rabir/2 t) $ <eq:1at2lvl_analitica>
 
-donde $rabic$ es la frecuencia de Rabi que caracteriza la intensidad de acomplamiento entre los niveles $kg <-> ke$, y $rabir = sqrt(rabic^2 + Delta^2)$ es la frecuencia de Rabi generalizada, la cual depende del detuning $Delta$ entre la frecuencia del láser y la frecuencia de transición atómica.
+donde $rabic$ es la frecuencia de Rabi que caracteriza la intensidad de acomplamiento entre los niveles $kg <-> ke$, y $rabir = sqrt(rabic^2 + Delta^2)$ es la frecuencia de Rabi generalizada, la cual depende de la desintonía $Delta$ entre la frecuencia del láser y la frecuencia de transición atómica.
 
 Para poder simular este sistema, se truncó el espacio de Hlbert a un sistema sin cavidad y de un solo átomo, $HH = HHa1$, del que se consideraron únicamente sus primeros dos niveles, aislando los términos correspondientes en el Hamiltoniano general (@eq:hamiltoniano_total). Así, los Hamiltonianos utilizado son
 
@@ -45,13 +45,13 @@ $ Hi = -hbar/2 rabic (sig(e,g) + sig(g,e)) $ <eq:1at2lvl_Hi>
 
 y, debido a que no se consideraron efectos de decaimiento, la ecuación maestra de Lindblad se reduce simplemente a la ecuación de Von Neumann:
 
-$ dot(rr) = -i/h [Ha + Hi, rr] $ <eq:1at2lvl_maestra>
+$ dot(rr) = -i/hbar [Ha + Hi, rr] $ <eq:1at2lvl_maestra>
 
 con condiciones iniciales $rr (t_(=0)) = ketbra(g,g)$.
 
-Como se observa en la @fig:deltas_atomo, la integración numérica es bastante precisa con la solución analítica para todos los regímenes de detuning evaluados. En el caso de total resonancia $Delta = 0.0$, el sistema oscila perfectamente entre los valores 0 y 1 a una frecuencia dada puramente por $rabic$.
+Como se observa en la @fig:1at2lvl, la integración numérica es bastante precisa con la solución analítica para todos los regímenes de desintonía evaluados. En el caso de total resonancia $Delta = 0.0$, el sistema oscila perfectamente entre los valores 0 y 1 a una frecuencia dada puramente por $rabic$.
 
-Al introducir detuning no nulo ($Delta = 2.0$ y $Delta = 4.0$), se observan dos efectos explicados por la teoría semiclásica @gerry_introductory_2005[cap.4]: por un lado, la amplitud máxima de excitación es menor, disminuyendo drásticamente la probabilidad de que el átomo se encuentre excitado; y, por otro lado, la frecuencia de las oscilaciones aumenta conforme el sistema oscila a la frecuencia de Rabi generalizada $rabir$.
+Al introducir desintonía no nula ($Delta = 2.0$ y $Delta = 4.0$), se observan dos efectos explicados por la teoría semiclásica @gerry_introductory_2005[cap.4]: por un lado, la amplitud máxima de excitación es menor, disminuyendo drásticamente la probabilidad de que el átomo se encuentre excitado; y, por otro lado, la frecuencia de las oscilaciones aumenta conforme el sistema oscila a la frecuencia de Rabi generalizada $rabir$.
 
 Esto valida que OpenKet logra simular correctamente los efectos de desintonía en el acoplamiento átomo-láser.
 
@@ -70,7 +70,7 @@ $ Hb = i hbar rabip (cre - anh) $ <eq:cavidad_Hb>
 
 donde $Delta$ en este contexto corresponde a la desintonía entre la frecuencia del láser de bombeo y la resonancia de la cavidad, por lo que la ecuación maestra que describe el proceso de esta subsección es:
 
-$ dot(rr) = -i/h [Hc + Hb, rr] + kappa/2 LL[anh] $ <eq:maestra_cavidad>
+$ dot(rr) = -i/hbar [Hc + Hb, rr] + kappa/2 LL[anh] $ <eq:maestra_cavidad>
 
 y se usaron las condiciones iniciales $rr (t_(=0)) = ketbra(0,0)$.
 
@@ -81,17 +81,17 @@ $ alpha(t) = alpha_"ss" (1 - e^(-(kappa/2 + i Delta) t)) $ <eq:analitica_cavidad
 donde $alpha_"ss" = rabip / (kappa/2 + i Delta)$ es la amplitud del campo en el límite $t -> infinity$ @walls_quantum_2008[cap.7]. Por lo tanto, el número medio de fotones se calcula como $Nexp (t) = abs(alpha(t))^2$.
 
 #figure(
-  image("../assets/figuras/fig:conv_fotones.png"),
+  image("../assets/figuras/cavidad.png"),
   caption: [Evolución temporal del número medio de fotones $Nexp$ en una cavidad bombeada con disipación, en calidad de resonancia $Delta=0$. Los marcadores cuadrados representan la simulación numérica obtenida de alimentar a OpenKet con la @eq:maestra_cavidad, partiendo del estado de vacío $ket(0)$, mientras que la línea continua representa la solución analítica dada por la @eq:analitica_cavidad. El tiempo está normalizado respecto a la frecuencia de Rabi $rabip$. Los valores de los parámetros usados son: $rabip = 1.0$, $kappa = 1.0$, $N_max = 15$, dando un valor de $abs(alpha_"ss")^2 = 4$.]
-) <fig:conv_fotones>
+) <fig:cavidad>
 
-Luego, para caracterizar la espectroscopía del sistema, se simuló su dinámica hasta alcanzar el estado estacionario ($t -> infinity$) para un barrido de valores de detuning $Delta$. Como se muestra en la @fig:deltas_fotones, el número medio de fotones dentro de la cavidad $Nss$ muestra una directa dependencia con respecto a $Delta$.
+Luego, para caracterizar la espectroscopía del sistema, se simuló su dinámica hasta alcanzar el estado estacionario ($t -> infinity$) para un barrido de valores de desintonía $Delta$. Como se muestra en la @fig:cavidad_fotones, el número medio de fotones dentro de la cavidad $Nss$ muestra una directa dependencia con respecto a $Delta$.
 
 #figure(
-  image("../assets/figuras/fig:deltas_fotones.png"),
-  caption: [Espectro de trasmisión de la cavidad vacía en el estado estacionario. Se grafica el número de fotones $Nss$ en función del detuning del campo de bombeo $Delta$. La curva describe una distrución Lorentziana, con un máximo de transmisión en resonancia perfecta $Delta=0$. El detuning está normalizado respecto a la disipación $kappa$. Los valores de los parámetros usados son $rabip = 1.0$, $kappa = 1.0$, $nmax = 10$.]
-) <fig:deltas_fotones>
+  image("../assets/figuras/cavidad_fotones.png"),
+  caption: [Espectro de trasmisión de la cavidad vacía en el estado estacionario. Se grafica el número de fotones $Nss$ en función de la desintonía del campo de bombeo $Delta$. La curva describe una distrución Lorentziana, con un máximo de transmisión en resonancia perfecta $Delta=0$. La desintonía está normalizada respecto a la disipación $kappa$. Los valores de los parámetros usados son $rabip = 1.0$, $kappa = 1.0$, $nmax = 10$.]
+) <fig:cavidad_fotones>
 
-El perfil de la curva obtenida corresponde a una Lorentziana centrada en $Delta=0$, característica de una cavidad óptica @carmichael_statistical_1999[cap.1]. Es decir, la máxima inyección de fotones ocurre cuando el láser de bombeo y el modo de la cavidad están perfectamente sincronizados. Además, conforme aumenta la magntud de detuning, $abs(Delta) > 0$, la probabilidad de que un fotón ingrese a la cavidad disminuye de manera significativa.
+El perfil de la curva obtenida corresponde a una Lorentziana centrada en $Delta=0$, característica de una cavidad óptica @carmichael_statistical_1999[cap.1]. Es decir, la máxima inyección de fotones ocurre cuando el láser de bombeo y el modo de la cavidad están perfectamente sincronizados. Además, conforme aumenta la magntud de desintonía, $abs(Delta) > 0$, la probabilidad de que un fotón ingrese a la cavidad disminuye de manera significativa.
 
 El análisis de este fenómeno se vuelve importante para el del sistema posterior, ya que la modificación de esta curva al introducir la presencia de átomos será una evidencia del acoplamiento luz-materia del régimen de electrodinámica cuántica de cavidades.

@@ -9,7 +9,7 @@
 
 Para el sistema propuesto en este trabajo, el espacio de Hilbert total se construye como el producto tensorial de los subespacios individuales:
 
-$ HH = HH_"cavidad" ** HH_"átomo1" ** HH_"átomo2". $
+$ HH = HH_"cavidad" ** HH_"átomo1" ** HH_"átomo2". $ <eq:hilbert_total>
 
 Dado que cada átomo posee 4 niveles de energía, y el espacio de Fock de la cavidad debe ser truncado un número máximo de fotones, $nmax$, la dimensión total del espacio de Hilbert es $D = 4^2 nmax$. Por lo tanto, la matriz densidad $rr(t)$ contiene $D = (16 nmax)^2$ elementos #footnote[En realidad, la dimensión final es $2D$, debido que cada elemento de la matriz densidad tiene una parte real y una parte imaginaria, que se operan como elementos independientes.].
 

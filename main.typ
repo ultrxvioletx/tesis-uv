@@ -38,40 +38,30 @@
   === Interacción luz-materia
     ==== Átomo de dos niveles y la aproximación de onda rotante (RWA)
     ==== Cuantización del campo: Modelo de Jaynes-Cummings
+    ==== Dressed states y fenómeno Autler Townes
   === Entornos disipativos
     ==== Operador densidad y pérdida de coherencia
     ==== Ecuación maestra de Lindblad
-  === Interacciones de largo alcance
-    ==== Átomos de cuatro niveles en configuración cascada
-    ==== Fenómeno de bloqueo de excitación
+  === Interacciones interatómicas y bloqueo de Rydberg
 
 
-== Formulación del sistema: dos átomos de Rydberg dentro de una cavidad óptica
+== Formulación del sistema
 #include "capitulos/03_descripcion_sistema.typ"
 #include "capitulos/03_implem_numerica.typ"
 
 
 == Calibración del modelo y dinámica de sistemas de referencia
 #include "capitulos/04_validacion.typ"
-#include "capitulos/04_1at4lvl.typ"
+#include "capitulos/04_1at3lvl.typ"
+#include "capitulos/04_elim_adiabatica.typ"
+===== AC Stark Shift
 
 
-== Bloqueo y reducción dimensional del sistema <cap:bloqueo>
+== Dinámica de excitación colectiva y bloqueo de Rydberg <cap:bloqueo>
+#include "capitulos/05_2at4lvl_independientes.typ"
+=== Bloqueo de Rydberg en la cavidad
 
-  === Dinámica acoplada de dos átomos de cuatro niveles
-    ==== Evolución temporal de las poblaciones conjuntas
-    ==== Comportamiento del campo intracavidad ante la presencia de dos átomos
-  === Evidencia del bloqueo de excitación
-    ==== Supresión de los estados doblemente excitados ($|s,s>$, $|p,p>$)
-    ==== El rol de las interacciones $H_(e e)$ y $H_(d r)$
-  === Comportamiento colectivo efectivo
-    ==== Comparativa entre el ensamble interactuante y un átomo de dos niveles
-    ==== Discusión física de la reducción del espacio de Hilbert
-
-== Conclusiones y perspectivas
-  === Síntesis de resultados y el éxito de la simulación
-  === Implicaciones físicas del bloqueo en sistemas multinivel
-  === Trabajo futuro y posibles extensiones del modelo
+== Conclusiones
 
 // --- Apéndice ---
 // #appendix // Esto cambia el estilo de los capítulos siguientes.

@@ -64,7 +64,7 @@ El campo EM de la cavidad se modela como un oscilador armónico cuántico. El Ha
 
 $ Hc = hbar Dpa (cre anh + 1/2) $
 
-donde $anh$ y $cre$ son los operadores de creación y aniquilación de fotones, respectivamente, y $Dpa = wp - weg$ es la desintonía (detuning) entre la frecuencia del campo de prueba y la distancia entre los niveles $kg$ y $ke$.
+donde $anh$ y $cre$ son los operadores de creación y aniquilación de fotones, respectivamente, y $Dpa = wp - weg$ es la desintonía (_detuning_) entre la frecuencia del campo de prueba y la distancia entre los niveles $kg$ y $ke$.
 
 Luego, la inyección de fotones al sistema de la cavidad se describe mediante el Hamiltoniano de bombeo:
 
@@ -85,7 +85,7 @@ El Hamiltoniano libre para los dos átomos ($Ha = hat(H)_(A 1) + hat(H)_(A 1)$) 
 
 $ hat(H)_(A,k) = E_g sigk(g,g,k)+ E_e sigk(e,e,k) + E_s sigk(s,s,k) + E_p sigk(p,p,k) $
 
-donde las energías relativas de los niveles atómicos dependen de las desintonías del sistema ($Dpa$, $Dac$), siendo $Dac = wc - wse$ el detuning entre la frecuencia del campo de control y la distancia entre los niveles $ke$ y $ks$, y
+donde las energías relativas de los niveles atómicos dependen de las desintonías del sistema ($Dpa$, $Dac$), siendo $Dac = wc - wse$ la desintonía entre la frecuencia del campo de control y la distancia entre los niveles $ke$ y $ks$, y
 - $E_g = 0$ (nivel de referencia)
 - $E_e = E_g + hbar Dpa$
 - $E_s = E_e + hbar Dac$
@@ -123,7 +123,7 @@ Debido a que el sistema es abierto, ya que los espejos de la cavidad no son perf
 
 Estas pérdidas de energía se introducen utilizando el formalismo de la Ecuación Maestra de Lindblad #footnote[Con el objetivo de mantener simple y general la ecuación maestra, en todas las simulaciones descritas en esta tesis se utlizaron unidades naturales, tal que $hbar = 1$.] para la matriz densidad $rr$:
 
-$ dot(rr) = -i/h [hat(H),rr] + kappa LL[anh] + sum_(j = 1,2) (dece/2 LL[sigk(g,e,j)] + decs/2 LL[sigk(e,s,j)]) + dec12/2 LL[sigk(g,e,1) + sigk(g,e,2)] $
+$ dot(rr) = -i/h [hat(H),rr] + kappa LL[anh] + sum_(j = 1,2) (dece/2 LL[sigk(g,e,j)] + decs/2 LL[sigk(e,s,j)]) + dec12/2 LL[sigk(g,e,1) + sigk(g,e,2)] $ <eq:lindblad_total>
 
 donde el superoperador de Lindblad $LL$ se define como $LL[OO] = 2 OO rr OO^dagger - OO^dagger OO rr - rr OO^dagger OO$
 
