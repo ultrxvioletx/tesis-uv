@@ -5,7 +5,7 @@ latex = {
     "rabic": "\\Omega_c t",
     "scan": "\\delta_p / \\kappa",
     "Dpa": "\\Delta_p / \\kappa",
-    "Oee": "C_3",
+    "Oee": "\\Omega_{EE} / \\kappa",
     "P": "P_",
     "Nt": "\\langle N \\rangle",
     "Nss": "\\langle N \\rangle _{ss}"
@@ -70,10 +70,9 @@ def format_ax(ax, xstep=2, ystep=2, ymax=None, xlim=None):
     ax.yaxis.set_major_formatter(plt.ScalarFormatter())
     ax.yaxis.set_minor_formatter(plt.ScalarFormatter())
 
-def segmento(ax, x1, x2, y, frac=0.02):
+def segmento(ax, x1, x2, y, h=0.05):
     color="gray"
     lw=1
-    h = 0.05
     y = y+h
     bar_h = y*0.02
     distancia = x2 - x1

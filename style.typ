@@ -24,9 +24,12 @@
 
 // EXPRESIONES MATEMÁTICAS COMÚNES
 // operadores
-#let Ha = $hat(H)_"atomos"$ //hamiltoniano atomos
+#let Ha = $hat(H)_A$ //hamiltoniano atomo
+#let Haa = $hat(H)_"atomos"$ //hamiltoniano atomos
 #let Hb = $hat(H)_"bombeo"$ //hamiltoniano bombeo
 #let Hc = $hat(H)_"cavidad"$ //hamiltoniano cavidad
+#let Hca = $hat(H)_(I M)$ //hamiltoniano interaccion cavidad-atomo
+#let Hla = $hat(H)_(I L)$ //hamiltoniano interaccion luz-atomo
 #let Hi = $hat(H)_"interaccion"$ //hamiltoniano interaccion
 #let Hdr = $hat(H)_"DR"$ //hamiltoniano dipolo resonante
 #let Hee = $hat(H)_"EE"$ //hamiltoniano estados excitados
@@ -52,6 +55,15 @@
 #let ke = $ket(e)$ //e
 #let ks = $ket(s)$ //s
 #let kp = $ket(p)$ //p
+#let kss = $ket(s s)$ //ss
+#let kpp = $ket(p p)$ //pp
+// poblaciones
+#let Pg = $P_g$
+#let Pe = $P_e$
+#let Ps = $P_s$
+#let Pp = $P_p$
+#let Pss = $P_(s s)$
+#let P1s = $P_(g s) + P_(s g)$
 // parámetros
 #let nmax = $N_"max"$ //truncamiento base Fock
 #let wp = $omega_p$ //frecuencia prueba
@@ -65,13 +77,15 @@
 #let rabip = $Omega_p$ //rabi prueba
 #let rabic = $Omega_c$ //rabi control
 #let rabir = $Omega_R$ //rabi generalizada
-#let rabieff = $Omega_"eff"$ //rabi efectiva
 #let scan = $delta_p$ //delta scan
 #let Dpa = $Delta_(p)$ //detuning prueba-atomo
 #let Dac = $Delta_(c)$ //detuning atomo-control
-#let geff = $g_"eff"$ //rabi generalizada
 #let Odr = $Omega_"12"$ //intensidad dipolo resonante
-#let Oee = $C_3$ //intensidad estado excitado
+#let C3 = $C_3$ //intensidad dipolo resonante
+#let Oee = $Omega_"EE"$ //intensidad estado excitado
+// variables
+#let rabieff = $Omega_"eff"$ //rabi efectiva
+#let geff = $g_"eff"$ //rabi generalizada
 #let sg = $S_g$ //stark |g>
 #let ss = $S_s$ //stark |s>
 #let d1 = $d_"1at"$ //distancia 1at

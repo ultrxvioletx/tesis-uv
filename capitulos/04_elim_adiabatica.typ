@@ -4,47 +4,116 @@
 #import "../style.typ": *
 
 
-El análisis del capítulo anterior nos permitió establecer una base constructiva de los fenómenos dados con átomos en cavidades. Sin embargo, en experimentos reales como los reportados por @gaetan_observation_2009, la excitación directa desde el estado base $kg$ hasta un estado altamente excitado de Rydberg $ks$ presenta dificultades técnicas, donde generalmente este proceso requiere láseres de alta potencia y frecuencias específicas, lo que puede resultar en una implementación experimental complicada.
-
-Para superar esta limitación, se recurre a excitaciones de múltiples fotones, en donde se acopla el estado base $kg$ con el estado de Rydberg $ks$ a través de un estado intermedio $ke$, utilizando dos láseres en configuración cascada. Sin embargo, el costo de esta técnica es el rápido decaimiento espontáneo asociado al nivel $ke$ ($dece$), el cual destruye la coherencia del sistema antes de que las interacciones interatómicas de Rydberg puedan presentarse. En este capítulo, se implementa la técnica de eliminación adiabática para suprimir dicha decoherencia, estudiaremos diversos fenómenos relacionados con esta técnica y, finalmente, se analizará el fenómeno de bloqueo de excitación en el sistema acoplado de dos átomos de cuatro niveles.
-
-
 ==== Eliminación adiabática del estado intermedio <sec:elim_adiabatica>
 
 
-La estrategia usada para poblar de manera coherente el estado de Rydberg $ks$ sin tener pérdidas radiativas del nivel intermedio $ke$, consiste en operar al sistema en un régimen de desintonía muy grande (_large detuning_) [CITAR AKI].
+En los apartados anteriores, se estudiaron regímenes donde el campo de prueba se encontraba en cuasi-resonancia con el estado intermedio $ke$. Sin embargo, como se menciona en la introducción de esta sección, el rápido decaimiento asociado el nivel intermedio destruye la coherencia del sistema antes de que las interacciones interatómicas de Rydberg puedan presentarse (las cuales son de especial interés en esta tesis). Por ello, se implementa la técnica de eliminación adiabática #footnote[Las ideas, conceptos y fórmulas relacionados con esta sección fueron sacadas de @lambropoulos_fundamentals_2007[cap. 3.6, cap. 10.2.2], @gerry_introductory_2005[cap. 4.8], @scully_quantum_2008[cap. 5.5.2, cap. 10.2.2], @loudon_quantum_2010[cap. 2.7].] para suprimir esta decoherencia, la cual se consigue operando en un régimen de desintonía muy grande (_large detuning_).
 
-#figure(
-  diagrama(cell-size: 1mm,
-          mark-scale: 130%,
-          edge((0,2),(2,2)),
-          node((2,2), $kg$),
-          edge((0.5,2),(0.5,1.4), "<->", $wp$, label-side: left, "wave"),
-          edge((-0.5,1.4),(1.5,1.4), "--", $Dpa$),
-          edge((0,1),(2,1)),
-          node((2,1), $ke$),
-          edge((0,0),(2,0)),
-          node((2,0), $ks$),
-          edge((0.5,0),(0.5,0.6), "<->", $wc$, label-side: left, "wave"),
-          edge((-0.5,0.6),(1.5,0.6), "--", label-side: right, $Dac$),
+#{
+  let hg = 3
+  let he = 2.5
+  let hev = 1.4
+  let hs = 0
+  let d = 0.6
+  figure(diagrama(
+    cell-size: 1mm,
+    mark-scale: 130%,
+    
+    edge((0,hs),(2.5,hs),),
+    node((2.5,hs), $ks$),
+    edge((0,he),(2.5,he),),
+    node((2.5,he), $ke$),
+    edge((0,hev),(2.5,hev),"--"),
+    node((2.7,hev), $ke_"virt"$),
+    edge((0,hg),(2.5,hg),),
+    node((2.5,hg), $kg$),
+    // láseres
+    edge((1.5,hg),(1.5,hev), "<->", $wp$, label-side: left, "wave"),
+    edge((1.7,hev),(1.7,hs), "<->", $wc$, label-side: left, "wave"),
+    // deltas
+    edge((-0.5,he),(-0.5,hev), "<->", $Delta$, label-side: left),
   ),
-  caption: [Diagrama de la interacción de un átomo de tres niveles con desintonías $Dpa$ y $Dac$ con los niveles atómicos.]
-) <fig:1at4lvl_sistema>
+  caption: [Diagrama de la interacción de un átomo de tres niveles fuertemente desintonizado por $Delta$.]
+)} <fig:1at4lvl_sistema>
 
-El esquema físico, mostraso en la @fig:1at4lvl_sistema, se configuró tal que ambos láseres tengan una desintonía idéntica, $Delta$, pero de signo opuesto respecto al nivel $ke$, es decir, $Delta = Dpa = -Dac$, de manera que la transición de dos fotones $kg <-> ks$ mantenga la resonancia exacta. Esta aproximación de eliminación adiabática es válida solamente en el régimen de _large detuning_ donde la desintonía es mucho mayor que las tasas de disipación del sistema ($Delta >> kappa, dece, decs$). Así, el nivel intermedio $ke$ se vuelve virtual y su función es solamente mediar la transición, por lo que su población es despreciable. Matemáticamente, esto permite que el átomo se comporte como un sistema de dos niveles $kg$, $ks$.
+El esquema físico, mostrado en la @fig:1at4lvl_sistema, se configura tal que ambos láseres se encuentren fuertmente desintonizados del nivel intermedio $ke$ por una cantidad $Delta$, pero manteniendo la resonancia de dos fotones de la transición $kg <-> ks$ discutida en la sección anterior (i.e., $Delta = Dpa = -Dac$). Cuando la desintonía es mucho mayor que cualquier otra escala del sistema ($Delta >> g, rabic, kappa, dece$), el nivel intermedio $ke$ se vuelve un estado virtual y su función es solamente mediar la transición, por lo que su población real es despreciable. Esto permite reducir el sistema de tres niveles a un sistema efectivo de dos niveles que acopla los estados $kg$ y $ks$.
 
-Dado que los campos EM intensos inducen desplazamientos de energía en los niveles de energía atómicos (_AC Stark shift_) [CITAR AKI - cohen atom photom], el sistema sufre una perturbación adicional. El estado base $kg$ y el de Rydberg $ks$ son afectados por corrimientos proporcionales a $sg = rabip^2/(4 Delta)$ y $ss = rabic^2/(4 Delta)$, respectivamente, lo que lleva a una pérdida de resonancia en la transición de dos fotones. Por ello, en la simulación numérica se tiene que aplicar una compensación de dichos desplazamientos ajustando las frecuencias de los láseres, tales que
+Como el sistema se encuentra fuertemente desintonizado, el átomo oscila entre los estados de los extremos con una frecuencia de Rabi efectiva de dos fotones dada por:
 
-$ Dpa = Delta + sg, $
-$ Dac = - Delta + ss. $
+$ rabieff approx (rabip rabic)/(2 Delta), $ <eq:rabi_eff>
 
-Para exponer numéricamente estos efectos, se simuló en OpenKet la dinámica de un solo átomo de tres niveles ($kg <-> ke <-> ks$) bajo dos configuraciones: primero, un átomo aislado interactuando con dos campos clásicos en el espacio libre; y segundo, un átomo dentro de la cavidad óptica acoplada a un campo de bombeo.
+y decaimiento efectivo del nivel $ks$ dado por $decs approx dece (rabic/(2 Delta))^2$.
 
+Por otro lado, cuando el átomo es acoplado a una cavidad en régimen de acoplamiento fuerte, el sistema se reduce a un modelo de Jaynes-Cummings efectivo con una frecuencia de acoplamiento dada por:
+
+$ geff approx (g rabic)/(2 Delta). $ <eq:geff>
+
+Ahora que las magnitudes del sistema efectivo están reajustadas, la intensidad del campo clásico $rabic$ y del acoplamiento $g$ tienen que aumentar considerablemente para poder compensar la disminución ocasionada por $Delta$.
+
+===== AC Stark Shift y Vacuum Stark Shift <subsub:stark>
+
+El costo de esta compensación en la eliminación adiabática, es que la interacción con estos campos muy intensos provoca que el sistema sufra una perturbación adicional en los niveles de energía del átomo, que se conoce como _AC Stark Shift_.
+
+En el régimen de gran desintonía, la magnitud del desplazamiento energético del nivel $ket(i)$ acoplado al nivel $ket(j)$ por un campo con frecuencia de Rabi $Omega_(i j)$ y con desintonía $Delta_(i j)$ puede aproximarse por la teoría de perturbaciones de segundo orden como $S_i approx (hbar Omega^2_(i j))/(4 Delta_(i j))$.
+
+En nuestro sistema, el corrimiento particulamente relevante es el del estado de Rydberg $ks$. El láser de control acopla los niveles $ke$ y $ks$ con una desintonía $Dac<0$, por lo que la energía del láser es menor que la energía de la transición. Como el láser está por debajo, empuja al nivel $ks$ hacia arriba, provocando un desplazamiento de
+
+$ ss = rabic^2/(4 Dac) >0. $ <eq:shifts>
+
+Además, el láser de prueba $rabip$ es reemplazado por la interacción luz-materia, y la expresión para el corrimiento en el estado $g$ tiene la forma $sg approx (g^2 (n+1))/Dpa$, donde $n$ es el número de fotones en la cavidad. Notemos que incluso en el vacío ($n=0$), el nivel $kg$ presenta un desplazamiento no nulo ocasionado por la interacción con el campo del punto cero de la cavidad, lo que se conoce como _Vacuum Stark shift_.
+
+Como $Dpa>0$, la energía del láser es mayor que la energía de la transición entre $kg$ y $ke$, por lo que el láser está por arriba y empuja al nivel hacia abajo. Entonces, se genera un desplazamiento permanente del estado base de:
+
+$ sg = - g^2/Dpa <0. $ <eq:shiftg>
+
+#{
+  let hg = 3
+  let he = 2.5
+  let hev = 1.4
+  let hs = 0
+  let dS = 0.3
+  figure(diagrama(
+    cell-size: 1mm,
+    mark-scale: 130%,
+
+    // niveles sin corrimiento
+    edge((0,hs),(2.5,hs),),
+    node((2.5,hs), $ks$),
+    edge((0,he),(2.5,he),),
+    node((2.5,he), $ke$),
+    edge((0,hev),(2.5,hev), "--"),
+    node((2.7,hev), $ke_"virt"$),
+    edge((0,hg),(2.5,hg),),
+    node((2.5,hg), $kg$),
+    // niveles con corrimiento
+    edge((0,hs -dS),(2,hs -dS), "--"),
+    edge((0,hg+dS),(2,hg+dS), "--"),
+    // flechas de corrimiento
+    edge((0.1,hg),(0.1,hg+dS), "->", label-side: left, text(size:8pt)[$-S_g$]),
+    edge((0.1,0),(0.1,hs -dS), "->", label-side: right, text(size:8pt)[$S_s$]),
+    // láseres
+    edge((1.5,hg),(1.5,hev), "<->", $wp$, label-side: left, "wave"),
+    edge((1.7,hev),(1.7,hs), "<->", $wc$, label-side: left, "wave"),
+    // deltas
+    edge((-0.5,he),(-0.5,hev), "<->", $Delta$, label-side: left),
+  ),
+  caption: [Diagrama de corrimiento de niveles de energía ocasionados por campos fuertes.]
+)}
+
+La consecuencia de estos corrimientos es la pérdida de resonancia de la transición de dos fotones $kg <-> ks$ @anton_spontaneously_2005. Por ello, para que la transición sea eficiente, se tiene que aplicar una compensación ajustando las frecuencias de los láseres. La condición de resonancia ya no ocurre cuando $Dpa+Dac=0$, sino cuando:
+
+$ Dpa + Dac = ss + sg $
+
+por tanto, las desintonías se reajustan a:
+
+$
+Dpa &= Delta + sg \
+Dac &= - Delta + ss.
+$
 
 ===== Átomo aislado con dos campos clásicos en el espacio libre
 
-
-El primer caso corresponde a un átomo aislado ($HH = HHa1$), donde un láser de prueba (clásico y débil) acopla la transición $kg <-> ke$, y un láser de control (clásico y fuerte) acopla la transición $ke <-> ks$. El Hamiltoniano de interacción semiclásico para este sistema es:
+El primer paso para observar la técnica de reducción adiabática consiste en analizar la dinámica de un solo un átomo aislado ($HH = HHa1$). En esta configuración, el sistema es perturbado por dos campos clásicos en el espacio libre: un láser de prueba débil que acopla la transición inferior $kg <-> ke$ con intensidad $rabip$, y un láser de control fuerte que acopla la transición superior $ke <-> ks$ con intensidad $rabic$. Bajo aproximación de onda rotante, el Hamiltoniano de interacción semiclásico para este sistema es:
 
 $ Hi = -hbar/2 {rabip (sig(g,e) + sig(e,g)) + rabic (sig(e,s) + sig(s,e))} $
 
@@ -52,28 +121,22 @@ y la ecuación maestra de Lindblad con términos de decaimiento para el nivel in
 
 $ dot(rr) = -i/hbar [Ha + Hi, rr] + dece/2 LL[sig(g,e)] + decs/2 LL[sig(e,s)]. $
 
-Como el sistema se encuentra fuertemente desintonizado, la teoría de perturbaciones explica que el átomo oscila entre los estados de los extremos, con una frecuencia de Rabi efectiva de dos fotones [CITAR AKI] dada por:
-
-$ rabieff approx (rabip rabic)/(2 Delta) = 0.05 $
+Se simuló la evolución temporal partiendo del estado base $rr(t_(=0)) = ketbra(0,0)$ y aplicando las compensaciones de desintónia $Dpa$ y $Dac$ discutidas anteriormente para garantizar la resonancia de dos fotones.
 
 #figure(
   image("../assets/figuras/1at4lvl.png"),
-  caption: [Evolución temporal de las poblaciones atómicas en el régimen de eliminación adiabática. Se observa que la población del estado intermedio $P_e$ (rosa) permanece en cero a lo largo de la evolución, mientras que el átomo muestra oscilaciones de Rabi entre el estado base $kg$ y el estado de Rydberg $ks$ (beige), comportándose como un sistema de dos niveles efectivo. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $Delta = 100.0$, $dece = 0.0$, $decs = 0.0$.]
+  caption: [Evolución temporal de las poblaciones atómicas en el régimen de eliminación adiabática. Se observa que la población del estado intermedio $Pe$ (rosa) permanece en cero a lo largo de la evolución, mientras que el átomo muestra oscilaciones de Rabi entre el estado base $kg$ y el estado de Rydberg $ks$ (beige), comportándose como un sistema de dos niveles efectivo. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $Delta = 100.0$, $dece = 0.0$, $decs = 0.0$.]
 ) <fig:1at4lvl>
 
-Veamos en la @fig:1at4lvl que, a pesar de que existe un acoplamiento entre los estados $kg <-> ke$ y $ke <-> ks$ de manera directa, el estado intermedio $ke$ no presenta población significativa, lo que demuestra físicamente que el electrón no transita por ese estado. Este resultado confirma que el sistema atómico se ha reducido a un modelo de dos niveles con probabilidad de excitación $P_s (t) = sin^2(rabieff/2 t)$.
+En la @fig:1at4lvl se observa que, a lo largo de la evolución temporal, la población del estado intermedio $Pe$ permanece prácticamente nula, lo que confirma que el electrón salta al nivel superior sin poblar físicamente el estado $ke$ cuyas pérdidas son no despreciables, por lo que el sistema queda protegido ante la tasa de decaimiento $dece$.
 
+De igual forma, vemos que se muestran oscilaciones de Rabi asociadas al nivel de Rydberg $ks$. La población $Ps$ oscila de forma periódica entre $0$ y $sim 1$, lo que confirma la existencia del sistema efectivo de dos niveles con probabilidad de excitación $Ps (t) = sin^2(rabieff/2 t)$. Para los parámetros dados, la frecuencia de Rabi efectiva es $rabieff approx 0.05 kappa$, lo que corresponde a un periodo de oscilación de $T = (2 pi)/rabieff approx 125.6 kappa^(-1)$.
 
 ===== Átomo acoplado a la cavidad óptica
 
+Ya que hemos aplicado la eliminación adiabática en el átomo aislado, ahora se introduce el modo de la cavidad ($HH = HHa1 ** Hc$). En esta configuración, la cavidad reemplaza al láser de prueba clásico, acomplando la transición inferior $kg <-> ke$ con un acoplamiento de Jaynes-Cummings $g$, y es alimentado por el láser de prueba externo de intensidad $rabip$. El láser intenso de control que acopla $ke <-> ks$ se mantiene sin cambios. Por lo tanto, el Hamiltoniano total y la ecuación maestra de Lindblad para este sistema son los mismos que los usados en @eq:1at3lvl_hamtotal y @eq:1at3lvl_maestra, respectivamente, pero con los términos de interacción y disipación correspondientes a esta nueva configuración.
 
-Una vez que se ha validado la eliminación adiabática en el átomo aislado, ahora se introduce el modo de la cavidad ($HH = HHa1 ** Hc$). En esta configuración, la cavidad reemplaza al láser de prueba clásico, acomplando la transición inferior $kg <-> ke$ con un acoplamiento de Jaynes-Cummings $g$, y es alimentado por el láser de prueba externo de intensidad $rabip$. El láser intenso de control que acopla $ke <-> ks$ se mantiene sin cambios. Por lo tanto, el Hamiltoniano total y la ecuación maestra de Lindblad para este sistema son los mismos que los usados en @eq:1at3lvl_hamtotal y @eq:1at3lvl_maestra, respectivamente, pero con los términos de interacción y disipación correspondientes a esta nueva configuración.
-
-Debido a que el nivel $ke$ está suprimido adiabáticamente, la interacción efectiva ya no ocurre entre el átomo de dos niveles aislado y el modo de la cavidad, sino que ahora el modo de la cavidad interactúa con la transición de dos fotones $kg <-> ks$. El sistema se reduce a un modelo de Jaynes-Cummings efectivo con una frecuencia de acoplamiento dada por [CITAR AKI]:
-
-$ geff approx (g rabic)/(2 Delta) $
-
-Para los parámetros usados, este acomplamiento es $geff = 1.5 kappa$, lo que coloca al sistema en el régimen de acoplamiento fuerte cooperativo. Se simuló la respuesta estacionaria conforme el barrido de $scan$ alrededor de la desintonía $Delta=100$.
+Debido a que el nivel $ke$ está suprimido adiabáticamente, la interacción efectiva ya no ocurre entre el átomo de dos niveles aislado y el modo de la cavidad, sino que ahora el modo de la cavidad interactúa con la transición de dos fotones $kg <-> ks$. Para los parámetros usados, el acomplamiento de la @eq:geff tiene un valor de $geff approx 1.5 kappa$, lo que coloca al sistema en el régimen de acoplamiento fuerte cooperativo ($geff > kappa$). Para estudiar este sistema, se simuló la espectroscopía de la cavidad realizando un barrido de $scan$ alrededor de la desintonía $Delta=100$.
 
 #figure(
   stack(
@@ -94,19 +157,23 @@ Para los parámetros usados, este acomplamiento es $geff = 1.5 kappa$, lo que co
       image("../assets/figuras/1at4lvl_excitado.png"),
     ),
   ),
-  caption: [*(a)* Número medio de fotones en el estado estacionario *(b)* Probabilidad de excitación atómica del nivel intermedio $P_e$ (rosa) y el nivel de Rydberg $P_s$ (beige), para el sistema átomo-cavidad bajo eliminación adiabática, en función de la variación $delta$ de la desintonía alrededor de $Dpa = 100$. Se exhibe un desdoblamiento asimétrico de los estados luz-materia. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $g = 15.0$, $kappa = 1.0$, $dece = 1.0$, $decs = 0.0$, $nmax = 3$.]
+  caption: [*(a)* Número medio de fotones en el estado estacionario *(b)* Probabilidad de excitación atómica del nivel intermedio $Pe$ (rosa) y el nivel de Rydberg $Ps$ (beige), para el sistema átomo-cavidad bajo eliminación adiabática, en función de la variación $delta$ de la desintonía alrededor de $Dpa = 100$. Se exhibe un desdoblamiento asimétrico de los estados luz-materia. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $g = 15.0$, $kappa = 1.0$, $dece = 1.0$, $decs = 0.0$, $nmax = 3$.]
 ) <fig:1at4lvl_cavidad>
 
-Como se observa en @fig:1at4lvl_cavidad, el estado intermedio permanece suprimido a lo largo del barrido, lo que confirma que, incluso en el régimen de acoplamiento fuerte con la cavidad ($g > kappa$), el sistema de 3 niveles continúa comportándose efectivamente como uno de dos niveles; y el electrón no experimenta las pérdidas asociadas a $dece$.
+Como se observa en @fig:1at4lvl_cavidad, la población del estado intermedio $Pe$ (curva rosa) permanece nula a lo largo del barrido, lo que confirma que, incluso en el régimen de acoplamiento fuerte con la cavidad ($geff > kappa$), el sistema de 3 niveles continúa comportándose efectivamente como uno de 2 niveles; y el electrón no experimenta las pérdidas asociadas a $dece$.
 
-Sin embargo, se puede notar claramente la nueva presencia de dos picos de resonancia asimétricos y desplazados del origen, causado por los ya conocidos polaritones del desdoblamiento _Vacuum Rabi_ efectivo [CITAR AKI] y los corrimientos Stark inducidos por la grande desintonía. Por un lado, el láser de control fuerte desplaza el nivel $ks$ una cantidad de $ss = 1.0 kappa$; y por otro lado, las fluctuaciones del vacío en la cavidad empujan al nivel $kg$, desplazando la resonancia efectiva una cantidad $sg = g^2 / Delta = 2.25 kappa$
+Luego, se muestra un desdoblamiento en dos picos de resonancia, causados por los ya conocidos polaritones del _Vacuum Rabi splitting_ debido al acoplamiento fuerte efectivo $geff = 1.5 kappa$. Sin embargo, a comparación del desdoblamiento observado en la @fig:1at3lvl_sinrabi, estos picos se encuentran desplazados hacia la derecha de origen y con una evidente asimetría en sus amplitudes.
 
-La desalineación de la energía entre la cavidad y el átomo _vestido_ por el láser ($ss != sg$) rompe la degeneración de dichos polaritones [CITAR AKI], generando una asimetría en la amplitud de los picos. El pico izquierdo ($scan\/kappa approx -0.5$) se encuentra más cerca de la resonancia atómica desplazada, por lo que tiene mayor carácter de excitación material (polaritón tipo atómico), y que se refleja en una alta probabilidad de encontrar al átomo en el estado $ks$ con un menor número de fotones en la cavidad. De forma inversa, el pico derecho ($scan\/kappa approx 2.5$) tiene un mayor carácter fotónico (polaritón tipo luz), maximizando la transmisión dentro de la cavidad mientras que el nivel de excitación del átomo decrece.
+La asimetría es causada por los corrimientos Stark clásicos y cuánticos introducidos en la @subsub:stark. Por un lado el láser de control desplaza al estado de Rydberg una cantidad de $ss = rabic^2/(4 Delta) = 1.0 kappa$; y por otro lado, las fluctuaciones del vacío en la cavidad desplazan al estado base por $sg = g^2/Delta = 2.25 kappa$.
 
-Analíticamente, la separación entre los polaritones [CITAR AKI] está descrita por la diferencia de los corrimientos y el acoplamiento efectivo:
+Como la cavidad y el átomo tienen corrimientos de magnitudes distintas, $ss != sg$, los subsistemas quedan desintonizados por una distancia $Delta S = sg - ss = 1.25 kappa$ (ocasionando la asimetría en la amplitud de los picos) y, en consecuencia, se rompe la degeneración de los polaritones híbridos @kolaric_strong_2018 @kavokin_microcavities_2007[cap.5.3.2]. Por lo tanto, los nuevos polaritones dejan de ser mezclas mitad luz mitad materia, y se desequilibran de la siguiente forma:
+
+- Polaritón tipo átomo: El pico izquierdo, $scan\/kappa approx -0.4$, se encuentra más cercano a la resonancia del átomo desplazado, por lo que tiene un mayor carácter de excitación material, y se refleja en una mayor probabilidad de encontrar al átomo en el estado $ks$ con un menor número de fotones en la cavidad.
+
+- Polaritón tipo luz: De forma inversa, el pico derecho en $scan\/kappa approx 2.5$ está más cerca de la resonancia que posee la cavidad intrínsecamente, por lo que tiene un mayor carácter fotónico y se refleja maximizando la transmisión dentro de la cavidad, mientras que el nivel de excitación del átomo decrece.
+
+La separación entre los polaritones puede escribirse de forma analítica y está acotada superiormente por la diferencia de los corrimientos y el acoplamiento efectivo:
 
 $ d1 = sqrt((ss - sg)^2 + 4geff^2) approx 3.25 kappa $
 
-La contracción mostrada en la @fig:1at4lvl_cavidad es causada por la disipación $kappa$ que tiende a jalar las resonancias hacia el centro [CITAR AKI].
-
-Finalmente, debido al fuerte acoplamiento del láser de control, la resonancia efectiva de dos fotones es desplazada y ya no se encuentra en el origen $scan = 0$ [CITAR AKI]. Mientras que la frecuencia de resonancia intrínsieca de la cavidad permanece sin alteraciones, el desplazamiento $ss$ hace que el sistema híbrido deba compensar esa energía extra, moviendo el centro del espectro hacia la derecha, por lo que la resonancia se encuentra en $scan approx 1$.
+Finalmente, la asimetría de los _shifts_ provoca que la transición efectiva de dos fotones entre $ket(g 1)$ y $ket(s 0)$ ya no ocurra a la frecuencia natural del átomo, y el sistema ahora se rige por una renormalización del Hamiltoniano no perturbado, cuya energía central ha sido desplazada.

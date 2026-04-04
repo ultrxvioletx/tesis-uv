@@ -27,14 +27,14 @@ Posteriormente, en la @sec:1at4lvl, se introduce un único átomo de cuatro nive
 ) <fig:1at2lvl_sistema>
 
 
-El sistema cuántico de interacción luz-materia más elemental es un átomo de dos niveles (@fig:1at2lvl_sistema), interactuando con un campo electromagnético clásico. De acuerdo con la teoría clásica de interacción, ignorando efectos de decaimiento y bajo la aproximación de onda rotante (RWA), la probabilidad de encontrar al átomo en el estado excitado evoluciona en el tiempo y está dada analíticamente por la fórmula de Rabi @gerry_introductory_2005[cap.4]:
+El sistema cuántico de interacción luz-materia más elemental es un átomo de dos niveles (@fig:1at2lvl_sistema), interactuando con un campo electromagnético clásico. De acuerdo con la teoría clásica de interacción, ignorando efectos de decaimiento y bajo la aproximación de onda rotante (RWA), la probabilidad de encontrar al átomo en el estado excitado evoluciona en el tiempo y está dada analíticamente por la fórmula de Rabi (descrita en @cap:teoría):
 
 #figure(
   image("../assets/figuras/1at2lvl.png", width: 100%),
-  caption: [Evolución temporal de la probabilidad de excitación $P_e (t)$ para un átomo de dos niveles interactuando con un campo clásico, partiendo del estado base $kg$. Los marcadores cuadrados representan los resultados obtenidos numéricamente usando la integración de la ecuación maestra (@eq:1at2lvl_maestra) con OpenKet, mientras que las líneas continuas corresponden a la solución analítica de la @eq:1at2lvl_analitica. Se observan tres valores de desintonía: total resonancia $Delta = 0.0$ (verde), y fuera de resonancia $Delta = 2.0$ (morado), $Delta = 4.0$ (naranja). El tiempo está normalizado respecto a la frecuencia de Rabi $rabic$, cuyo valor es $rabic = 2.0$.],
+  caption: [Evolución temporal de la probabilidad de excitación $Pe (t)$ para un átomo de dos niveles interactuando con un campo clásico, partiendo del estado base $kg$. Los marcadores cuadrados representan los resultados obtenidos numéricamente usando la integración de la ecuación maestra (@eq:1at2lvl_maestra) con OpenKet, mientras que las líneas continuas corresponden a la solución analítica de la @eq:1at2lvl_analitica. Se observan tres valores de desintonía: total resonancia $Delta = 0.0$ (verde), y fuera de resonancia $Delta = 2.0$ (morado), $Delta = 4.0$ (naranja). El tiempo está normalizado respecto a la frecuencia de Rabi $rabic$, cuyo valor es $rabic = 2.0$.],
 ) <fig:1at2lvl>
 
-$ P_e (t) = rabic^2 / rabir^2 sin^2(rabir/2 t) $ <eq:1at2lvl_analitica>
+$ Pe (t) = rabic^2 / rabir^2 sin^2(rabir/2 t) $ <eq:1at2lvl_analitica>
 
 donde $rabic$ es la frecuencia de Rabi que caracteriza la intensidad de acomplamiento entre los niveles $kg <-> ke$, y $rabir = sqrt(rabic^2 + Delta^2)$ es la frecuencia de Rabi generalizada, la cual depende de la desintonía $Delta$ entre la frecuencia del láser y la frecuencia de transición atómica.
 

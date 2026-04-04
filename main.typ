@@ -34,11 +34,9 @@
 == Introducción
 #include "capitulos/01_introduccion.typ"
 
-== Fundamentos teóricos
-  === Interacción luz-materia
-    ==== Átomo de dos niveles y la aproximación de onda rotante (RWA)
-    ==== Cuantización del campo: Modelo de Jaynes-Cummings
-    ==== Dressed states y fenómeno Autler Townes
+== Fundamentos teóricos <cap:teoría>
+#include "capitulos/02_luz_materia.typ" 
+#include "capitulos/02_atomo3lvl.typ"
   === Entornos disipativos
     ==== Operador densidad y pérdida de coherencia
     ==== Ecuación maestra de Lindblad
@@ -50,16 +48,17 @@
 #include "capitulos/03_implem_numerica.typ"
 
 
-== Calibración del modelo y dinámica de sistemas de referencia
+== Dinámica de la base constructiva
 #include "capitulos/04_validacion.typ"
+=== Múltiples átomos en la cavidad
 #include "capitulos/04_1at3lvl.typ"
 #include "capitulos/04_elim_adiabatica.typ"
-===== AC Stark Shift
 
 
-== Dinámica de excitación colectiva y bloqueo de Rydberg <cap:bloqueo>
+== Excitación colectiva y bloqueo de Rydberg <cap:bloqueo>
 #include "capitulos/05_2at4lvl_independientes.typ"
-=== Bloqueo de Rydberg en la cavidad
+#include "capitulos/05_2at4lvl_bloqueo.typ"
+==== Amplificación de acoplamiento provocada por interacciones
 
 == Conclusiones
 
