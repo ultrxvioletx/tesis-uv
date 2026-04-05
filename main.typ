@@ -35,11 +35,8 @@
 #include "capitulos/01_introduccion.typ"
 
 == Fundamentos teóricos <cap:teoría>
-#include "capitulos/02_luz_materia.typ" 
-#include "capitulos/02_atomo3lvl.typ"
-  === Entornos disipativos
-    ==== Operador densidad y pérdida de coherencia
-    ==== Ecuación maestra de Lindblad
+#include "capitulos/02_luz_materia.typ"
+#include "capitulos/02_operador_densidad.typ"
   === Interacciones interatómicas y bloqueo de Rydberg
 
 

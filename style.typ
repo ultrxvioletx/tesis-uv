@@ -270,6 +270,7 @@
       it
     }
     show outline.entry.where(level: 1): it => { spaced-smallcaps(it) }
+    show outline.entry.where(level: 2): it => { strong(text(size: 1.1em, it)) }
     show outline.entry.where(level: 5): it => none
     show outline.entry.where(level: 4): it => {
       it
