@@ -1,14 +1,14 @@
 // ===================================================================
-// 04_validacion.typ
+// 04_sistemas_base.typ
 // ===================================================================
 #import "../style.typ": *
 
 
-Antes de estudiar la dinámica acoplada de dos átomos interaccionando, es importante establecer la validez del método numérico implementado y definir las bases físicas que rigen el sistema principal. En este capítulo, se utiliza la paquetería OpenKet para analizar fenómenos cuánticos bien conocidos analíticamente. Dicha discusión se divide en dos etapas.
+Antes de estudiar la dinámica acoplada de dos átomos interactuando, definiremos las bases físicas que rigen el sistema principal. En este capítulo, se utiliza la paquetería OpenKet para analizar fenómenos cuánticos bien conocidos analíticamente, dividiendo la discusión en dos etapas.
 
-Primero, en las primeras dos secciones se aíslan los subsistemas más elementales: el átomo de dos niveles y el modo de cavidad disipativo, esto con el objetivo de garantizar que los términos del Hamiltoniano y los superoperadores de pérdida funcionan de manera precisa.
+Primero, en las primeras dos secciones se aíslan los subsistemas más elementales: el átomo de dos niveles en interacción semiclásica y el modo de cavidad disipativo, esto con el objetivo de observar y discutir las propiedades de dichos sistemas en los regímenes seleccionados.
 
-Posteriormente, en la @sec:1at4lvl, se introduce un único átomo de cuatro niveles en la cavidad. A través del análisis de las poblaciones atómicas y del campo intracavidad, se caracterizarán fenómenos de interferencia cuántica como el desdoblamiento _vacuum Rabi_, el efecto Autler-Townes y la Transparencia Inducida Electromagnética (EIT). Esto nos permite obtener sistemas de referencia para lograr identificar la fenomenología nueva causada en nuestro sistema de interés al introducir un segundo átomo en el @cap:bloqueo.
+Posteriormente, en @sec:1at4lvl, se introduce un único átomo de cuatro niveles en la cavidad. A través del análisis de las poblaciones atómicas y del campo intracavidad, se caracterizarán fenómenos de interferencia cuántica como el desdoblamiento _vacuum Rabi_, el efecto Autler-Townes y la Transparencia Inducida Electromagnética (EIT). Esto nos permite obtener un punto de partida controlado para lograr identificar la fenomenología nueva causada en nuestro sistema de interés al introducir un segundo átomo en el @cap:bloqueo.
 
 
 === Oscilaciones de Rabi en un átomo de dos niveles <sec:1at2lvl>
@@ -51,34 +51,32 @@ con condiciones iniciales $rr (t_(=0)) = ketbra(g,g)$.
 
 Como se observa en la @fig:1at2lvl, la integración numérica es bastante precisa con la solución analítica para todos los regímenes de desintonía evaluados. En el caso de total resonancia $Delta = 0.0$, el sistema oscila perfectamente entre los valores 0 y 1 a una frecuencia dada puramente por $rabic$.
 
-Al introducir desintonía no nula ($Delta = 2.0$ y $Delta = 4.0$), se observan dos efectos explicados por la teoría semiclásica @gerry_introductory_2005[cap.4]: por un lado, la amplitud máxima de excitación es menor, disminuyendo drásticamente la probabilidad de que el átomo se encuentre excitado; y, por otro lado, la frecuencia de las oscilaciones aumenta conforme el sistema oscila a la frecuencia de Rabi generalizada $rabir$.
-
-Esto valida que OpenKet logra simular correctamente los efectos de desintonía en el acoplamiento átomo-láser.
+Al introducir desintonía no nula ($Delta = 2.0$ y $Delta = 4.0$), se observan dos efectos explicados por la teoría semiclásica @gerry_introductory_2005[$section 4.4$]: por un lado, la amplitud máxima de excitación es menor, disminuyendo drásticamente la probabilidad de que el átomo se encuentre excitado; y, por otro lado, la frecuencia de las oscilaciones aumenta conforme el sistema oscila a la frecuencia de Rabi generalizada $rabir$.
 
 
 === Inyección y disipación de fotones en una cavidad vacía <sec:cavidad>
 
 
-Ahora, el siguiente paso para la calibración del modelo es la implementación de términos no unitarios, es decir, la inyección y pérdida de excitaciones en un sistema abierto. Para ello, se realizó la simulación de un modo de cavidad en ausencia de átomos.
+Ahora, el siguiente paso es la implementación de términos no unitarios, es decir, la inyección y pérdida de excitaciones en un sistema abierto. Para ello, se realizó la simulación de un modo de cavidad en ausencia de átomos.
 
 La dinámica de este sistema se rige por la _competencia_ entre el bombeo externo (con intensidad $rabip$) que inyecta fotones al modo de la cavidad, y la tasa de decaimiento $kappa$ que modela la fuga de los fotones a través de los espejos.
 
-Nuevamente, reducimos el espacio de Hilbert, pero ahora a un sistema de la cavidad sin átomos, $HH = HHc$, por lo que los términos sobrevivientes del Hamiltoniano de la @eq:hamiltoniano_total son:
+Hacemos una reducción del espacio de Hilbert a un sistema de la cavidad sin átomos, $HH = HHc$, por lo que los términos sobrevivientes del Hamiltoniano de la @eq:hamiltoniano_total son:
 
 $ Hc = hbar Delta (cre anh + 1/2) $ <eq:cavidad_Hc>
 $ Hb = i hbar rabip (cre - anh) $ <eq:cavidad_Hb>
 
-donde $Delta$ en este contexto corresponde a la desintonía entre la frecuencia del láser de bombeo y la resonancia de la cavidad, por lo que la ecuación maestra que describe el proceso de esta subsección es:
+donde $Delta$ en este contexto corresponde a la desintonía entre la frecuencia del láser de bombeo y la resonancia de la cavidad. La ecuación maestra que describe el proceso de esta subsección es:
 
 $ dot(rr) = -i/hbar [Hc + Hb, rr] + kappa/2 LL[anh] $ <eq:maestra_cavidad>
 
 y se usaron las condiciones iniciales $rr (t_(=0)) = ketbra(0,0)$.
 
-Analíticamente, el número medio de fotones dentro de la cavidad $Nexp (t)$ evoluciona hacia un estado estacionario dado por el balance entre la ganacia de fotones y la pérdida de estos. Si el sistema parte del vacío cuántico, la solución analítica establece que el campo dentro de la cavidad evoluciona como un estado coherente $ket(alpha (t))$ @gerry_introductory_2005[cap.8], cuya amplitud compleja está descrita por:
+Analíticamente, el número medio de fotones dentro de la cavidad $Nexp (t)$ evoluciona hacia un estado estacionario dado por el balance entre la ganacia de fotones y la pérdida de estos. Si el sistema parte del vacío cuántico, la solución analítica establece que el campo dentro de la cavidad evoluciona como un estado coherente $ket(alpha (t))$ @gerry_introductory_2005[$section 8.3, 8.5$] @walls_quantum_2008[$section 7.2$], cuya amplitud compleja está descrita por:
 
 $ alpha(t) = alpha_"ss" (1 - e^(-(kappa/2 + i Delta) t)) $ <eq:analitica_cavidad>
 
-donde $alpha_"ss" = rabip / (kappa/2 + i Delta)$ es la amplitud del campo en el límite $t -> infinity$ @walls_quantum_2008[cap.7]. Por lo tanto, el número medio de fotones se calcula como $Nexp (t) = abs(alpha(t))^2$.
+donde $alpha_"ss" = rabip / (kappa/2 + i Delta)$ es la amplitud del campo en el límite $t -> infinity$. Por lo tanto, el número medio de fotones se calcula como $Nexp (t) = abs(alpha(t))^2$.
 
 #figure(
   image("../assets/figuras/cavidad.png"),
@@ -92,6 +90,6 @@ Luego, para caracterizar la espectroscopía del sistema, se simuló su dinámica
   caption: [Espectro de trasmisión de la cavidad vacía en el estado estacionario. Se grafica el número de fotones $Nss$ en función de la desintonía del campo de bombeo $Delta$. La curva describe una distrución Lorentziana, con un máximo de transmisión en resonancia perfecta $Delta=0$. La desintonía está normalizada respecto a la disipación $kappa$. Los valores de los parámetros usados son $rabip = 1.0$, $kappa = 1.0$, $nmax = 10$.]
 ) <fig:cavidad_fotones>
 
-El perfil de la curva obtenida corresponde a una Lorentziana centrada en $Delta=0$, característica de una cavidad óptica @carmichael_statistical_1999[cap.1]. Es decir, la máxima inyección de fotones ocurre cuando el láser de bombeo y el modo de la cavidad están perfectamente sincronizados. Además, conforme aumenta la magntud de desintonía, $abs(Delta) > 0$, la probabilidad de que un fotón ingrese a la cavidad disminuye de manera significativa.
+El perfil de la curva obtenida corresponde a una Lorentziana centrada en $Delta=0$, característica de una cavidad óptica @carmichael_statistical_1999[$section 1.5.3$]. Es decir, la máxima inyección de fotones ocurre cuando el láser de bombeo y el modo de la cavidad están perfectamente sincronizados. Además, conforme aumenta la magntud de desintonía, $abs(Delta) > 0$, la probabilidad de que un fotón ingrese a la cavidad disminuye de manera significativa.
 
 El análisis de este fenómeno se vuelve importante para el del sistema posterior, ya que la modificación de esta curva al introducir la presencia de átomos será una evidencia del acoplamiento luz-materia del régimen de electrodinámica cuántica de cavidades.

@@ -37,7 +37,7 @@
 == Fundamentos teóricos <cap:teoría>
 #include "capitulos/02_luz_materia.typ"
 #include "capitulos/02_operador_densidad.typ"
-  === Interacciones interatómicas y bloqueo de Rydberg
+#include "capitulos/02_bloqueo_rydberg.typ"
 
 
 == Formulación del sistema
@@ -46,7 +46,7 @@
 
 
 == Dinámica de la base constructiva
-#include "capitulos/04_validacion.typ"
+#include "capitulos/04_sistemas_base.typ"
 === Múltiples átomos en la cavidad
 #include "capitulos/04_1at3lvl.typ"
 #include "capitulos/04_elim_adiabatica.typ"

@@ -3,27 +3,25 @@
 // ===================================================================
 #import "../style.typ": *
 
-    En el presente capítulo se establece la formulación matemática del sistema bajo estudio, que consiste en dos átomos de cuatro niveles en cascada interactuando dentro de una cavidad óptica, realizando la construcción del Hamiltoniano total como la suma de las contribuciones de los Hamiltonianos de los subsistemas que lo componen e incluyendo las aportaciones energéticas individuales y los acoplamientos entre los subsistemas, y formulando finalmente los mecanismos disipativos que dictan la interacción del sistema con su entorno. El objetivo es obtener una descripción analítica que exprese la física de las simulaciones numéricas posteriores.
+En este capítulo se establece la formulación matemática dos átomos de cuatro niveles ($kg, ke, ks, kp$) en configuración cascada interactuando entre sí dentro de una cavidad óptica y con la cavidad misma.
 
-    Debido a que la complejidad de los sistemas cuánticos de muchos niveles dificulta la búsqueda de soluciones analíticas exactas, esta investigación utiliza un enfoque computacional para la resolución del modelo que a continuación se formula. En la @sec:implem-numerica de este capítulo se detallan las técnicas numéricas utilizadas para resolver la ecuación maestra de Lindblad, describiendo el algoritmo de la simulación y las herramientas computacionales usadas.
+Se hace la construcción del Hamiltoniano total como la suma de las contribuciones de los Hamiltonianos de los subsistemas que lo componen, incluyendo las aportaciones energéticas individuales y los acoplamientos entre los subsistemas, y aplicando las condiciones disipativas que muestran la interacción del sistema con su entorno.
+
+Debido a que en los sistemas cuánticos de varios niveles es difícil encontrar soluciones analíticas exactas, esta tesis utiliza un enfoque numérico para resolver el modelo que a continuación se formula. En la @sec:implem-numerica de este capítulo se detallan las técnicas numéricas utilizadas para resolver la ecuación maestra del sistema, describiendo el algoritmo de la simulación y las herramientas usadas.
 
 
 === Descripción del sistema físico <sec:descripcion-sistema>
 
 
-El sistema que se estudia en este trabajo está conformado por dos átomos idénticos de cuatro niveles, confinados dentro de una cavidad óptica de un solo modo. Los niveles de energía de los átomos se encuentran en configuración de cascada, y como los siguientes estados:
+El sistema que se estudia en este trabajo está conformado por dos átomos idénticos de cuatro niveles, confinados dentro de una cavidad óptica de un solo modo. Los niveles de energía de los átomos se encuentran en configuración de cascada (@fig:sistema), y como los siguientes estados:
 - $kg$: estado base
 - $ke$: estado intermedio
 - $ks$: estado altamente excitado (Rydberg)
-- $kp$: estado de bloqueo
+- $kp$: estado auxilar
 
-Para la dinámica del sistema se usan dos campos externos: un láser de prueba cuya naturaleza es un bombeo que inyecta fotones a la cavidad a frecuencia $wp$ y es considerado cuántico; y un láser de control clásico de intensidad constante y frecuencia $wc$ que acopla los niveles $ke$ y $ks$, con desintonía (_detuning_) entre la frecuencia del campo y la frecuencia de transición entre los niveles $Dac = wc - wse$.
-
-La cavidad, a su vez, acopla la transición entre los niveles $kg$ y $ke$, con desintonía $Dpa = wp - weg$.
+Para la dinámica del sistema se usan dos campos externos: un láser de prueba débil de intensidad $rabip$ cuya caracterísitica es ser un bombeo que inyecta fotones a la cavidad a frecuencia $wp$; y un láser de control clásico de intensidad fuerte $rabic$ y frecuencia $wc$ que acopla los niveles $ke$ y $ks$, con desintonía entre la frecuencia del campo y la frecuencia de transición de $Dac = wc - wse$. El láser de prueba, a su vez, acopla la transición entre los niveles $kg$ y $ke$, con desintonía $Dpa = wp - weg$.
 
 Además, los átomos descaen espontáneamente de los niveles $ks$ y $ke$ con tasas de decaimiento de $decs$ y $dece$, respectivamente.
-
-La configuración descrita anteriormente queda representada en la @fig:sistema. No existe ningún campo externo que acople directamente los niveles $ks$ y $kp$, pero la dinámica de este último nivel estará únicamente determinada por las interacciones interatómicas, que se modelan a través de términos de interacción de tipo dipolar y de tipo de intercambio.
 
 #{
   let hg = 3
@@ -63,84 +61,125 @@ La configuración descrita anteriormente queda representada en la @fig:sistema. 
     edge((4,he+0.5),(3.6,he+0.2), "<-", $dece$, label-side: left, "wave"),
     edge((4,hs+0.5),(3.6,hs+0.2), "<-", $decs$, label-side: left, "wave"),
   ),
-  caption: [Diagrama de la interacción de un átomo de cuatro niveles con un campo de prueba con frecuencia $wp$ que acopla los niveles $kg -> ke$ y un campo de control con frecuencia $wc$ que acopla $ke -> ks$, así como decaimientos espontáneos $decs$ y $dece$ entre los niveles $ks -> ke$ y $ke -> kg$, respectivamente.]
+  caption: [Diagrama de la interacción de un átomo de cuatro niveles con un campo de prueba con frecuencia $wp$ que acopla los niveles $kg -> ke$ con desintonía $Dpa$, y un campo de control con frecuencia $wc$ que acopla $ke -> ks$ y desintonía $Dac$, así como decaimientos espontáneos $decs$ y $dece$ entre los niveles $ks -> ke$ y $ke -> kg$, respectivamente.]
 )} <fig:sistema>
+
+La configuración descrita anteriormente queda representada en la @fig:sistema. Nótese que no existe ningún campo externo que acople directamente los niveles $ks$ y $kp$, pero la población de este último nivel estará únicamente determinada por las interacciones interatómicas, que se modelan a través de términos de interacción de tipo dipolar y de tipo de intercambio.
 
 
 ==== Construcción del Hamiltoniano
 
 
-A partir de la dinámica descrita anteriormente, se construye el operador Hamiltoniano total $hat(H)$ del sistema. Este operador es el responsable de la evolución unitaria del mismo y se descompone como la suma de la energía de la cavidad, y las contribuciones individuales de cada átomo y de interacción entre ellos y con los campos externos.
+A partir del sistema descrita anteriormente, se construye el operador Hamiltoniano total $hat(H)$. Este operador es el responsable de la evolución unitaria del sistema; se descompone como la suma de la energía de la cavidad, las contribuciones individuales de cada átomo y la interacción entre ellos y con los campos externos.
 
 Bajo la aproximación de onda rotante (RWA), $hat(H)$ queda escrito como:
 
 $ hat(H) = Hc + Hb + Haa + Hi + Hdr + Hee. $ <eq:hamiltoniano_total>
 
-A continuación, se detalla el significado físico de cada uno de estos términos.
+A continuación, se detalla la expresiónon matemática de cada uno de estos términos:
 
-===== Dinámica de la cavidad y el campo de bombeo
+- El campo electromagético de la cavidad se modela como un oscilador armónico cuántico, por lo que para modelar su dinámica usaremos el Hamiltoniano de Jaynes-Cummings descrito en @eq:ham_jaynescummings. Asumiremos que el sistema se encuentra en un marco de referencia que rota a la frecuencia del láser de prueba, por lo que $weg$ queda en términos de $Dpa$, y $w=wp$ en términos de su desintonía con la cavidad. Sin embargo, como estamos asumiendo que la cavidad y el átomo están en resonancia perfecta, esta desintonía es exactamente $Dpa$.
 
-El campo EM de la cavidad se modela como un oscilador armónico cuántico. El Hamiltoniano libre de la cavidad, en un marco de referencia que rota a la frecuencia del láser de prueba (bombeo), queda escrito como #footnote[Al segundo término de @eq:ham_jaynescummings lo movemos de lugar para que quede representado en $Ha$. Además, como asumimos un marco de referencia que rota a la frecuencia del láser de prueba, $w=wp$ queda en términos de la desintonía.]:
+  Por tanto, el Hamiltoniano de la cavidad queda descrito de la siguiente forma:
 
-$ Hc = hbar Dpa cre anh $
+  $ Hc = hbar Dpa cre anh $
 
-donde $anh$ y $cre$ son los operadores de creación y aniquilación de fotones, respectivamente.
+  donde se han reacomodado los otros términos a sus respectivos Hamiltonianos atómicos y de interacción.
 
-Luego, la inyección de fotones al sistema de la cavidad se describe mediante el Hamiltoniano de bombeo:
+- La inyección de fotones al sistema de la cavidad se describe mediante el Hamiltoniano de bombeo:
 
-$ Hb = i hbar rabip (cre - anh) $
+  $ Hb = i hbar rabip (cre - anh). $
 
-donde $rabip$ representa la intensidad (frecuencia de Rabi) del campo de prueba.
+- La interacción de los átomos con los campos electromagnéticos, dado por $Hi$, consta de dos partes: el acoplamiento cuántico con el modo de la cavidad ($Hca$) y el acoplamiento clásico con el láser de control #footnote[Al Hamiltoniano expresado en @eq:ham_luzmateria se le aplica una transformación unitaria para moverse en un marco rotante a la frecuencia del láser de control, lo que hace que las matrices sean constantes en el tiempo y facilita la simulación. Esto provoca que la dependencia temporal de estos Hamiltonianos esté absorbida en las energías diagonales del átomo, expresadas en desintonías, y por esa razón aparecen en $Ha$.] ($Hla$). Para el átomo $k$-ésimo, con $k=1,2$, se tiene:
 
+  $ Hi_(,k) &= Hca + Hla \
+    &=hbar g (sigk(g,e,k) cre + sigk(e,g,k) anh) - hbar rabic/2 (sigk(e,s,k) + sigk(s,e,k)). $
 
-===== Energía atómica y acoplamiento átomo-láser
+  donde, $g$ es la constante de acoplamiento átomo-cavidad y $sigk(i,j,k)$ el operador $ketbra(i,j)$ del átomo $k$.
 
-La interacción de los átomos con los campos EM, dado por $Hi$ consta de dos partes: el acoplamiento cuántico con el modo de la cavidad ($Hca$) y el acoplamiento clásico con el láser de control #footnote[Al Hamiltoniano expresado en @eq:ham_luzmateria se le aplica una transformación unitaria para moverse en un marco rotante a la frecuencia del láser de control, lo que hace que las matrices sean constantes en el tiempo y facilita la simulación. Esto provoca que la dependencia temporal de estos Hamiltonianos esté absorbida en las energías diagonales del átomo, expresadas en desintonías, y por esa razón aparecen en $Ha$.] ($Hla$). Para el átomo $k$-ésimo, con $k=1,2$, se tiene:
+- El Hamiltoniano libre para los dos átomos ($Haa = hat(H)_(A 1) + hat(H)_(A 1)$) está dado por la suma de las energías de cada nivel atómico:
 
-$ Hi_(,k) &= Hca + Hla \
-  &=hbar g (sigk(g,e,k) cre + sigk(e,g,k) anh) - hbar rabic/2 (sigk(e,s,k) + sigk(s,e,k)). $
+  $ hat(H)_(A,k) = E_g sigk(g,g,k)+ E_e sigk(e,e,k) + E_s sigk(s,s,k) + E_p sigk(p,p,k) $
 
-Aquí, $g$ es la constante de acoplamiento átomo-cavidad, que dicta el intercambio de excitaciones entre la cavidad y la transición $kg <-> ke$, mientras que $rabic$ es la intensidad del láser de control clásico aplicado a la transición $ke <-> ks$, y $sigk(i,j,k)$ el operador $ketbra(i,j)$ del átomo $k$.
+  donde las energías relativas de los niveles atómicos dependen de las desintonías del sistema ($Dpa$, $Dac$), y
+  - $E_g = 0$
+  - $E_e = hbar Dpa$
+  - $E_s = hbar (Dpa + Dac)$
+  - $E_p = E_s $
 
-El Hamiltoniano libre para los dos átomos ($Haa = hat(H)_(A 1) + hat(H)_(A 1)$) está dado por la suma de las energías de cada nivel atómico:
+- Como se mencionó en @sec:bloqueo_rydberg, la interacción dipolo-dipolo $Wdd$ entre dos átomos acopla pares de estados con distinta paridad. En el modelo de cuatro niveles, esta interacción se divide en dos Hamiltonianos:
 
-$ hat(H)_(A,k) = E_g sigk(g,g,k)+ E_e sigk(e,e,k) + E_s sigk(s,s,k) + E_p sigk(p,p,k) $
+  - $Hdr$, describe el intercambio resonante de excitaciones en la transición inferior $kg <-> ke$, es decir, que una excitación salte de un átomo a otro entre ese par de niveles:
 
-donde las energías relativas de los niveles atómicos dependen de las desintonías del sistema ($Dpa$, $Dac$), y
-- $E_g = 0$ (nivel de referencia)
-- $E_e = hbar Dpa$
-- $E_s = hbar (Dpa + Dac)$
-- $E_p = E_s $
+    $
+    Hdr &= hbar Cdr/R^3 (sigk(g,e,1)^dagger ** sigk(g,e,2) + sigk(g,e,1) ** sigk(g,e,2)^dagger) \
+      &= hbar Cdr/R^3 (ketbra(e g,g e) + ketbra(g e,e g))
+    $
 
-===== Acoplamiento interatómiico y términos de interacción
+    donde $Cdr$ es la fuerza de interacción del intercambio y $R$ la distancia interatómica.
 
-Cuando dos átomos se encuentran a distancias cortas, la interacción dipolo-dipolo provoca un desplazamiento en los niveles de energía @pillet_controllable_2009. Para describir correctamente el sistema, es necesario recurrir a dos mecanismos de interacción interatómica.
+  - $Hee$, describe el intercambio resonante en la transición $ks <-> kp$ y es muy importante para este trabajo, ya que modela la fuerte interacción cuando los átomos alcanzan el nivel altamente excitado:
 
-El primer término, $Hdr$ (dipolar resonante), describe el intercambio resonante de excitaciones en la transición inferior $kg <-> ke$. Ocurre cuando los átomos están en niveles que permiten transferencia de energía interna, es decir, que una excitación salte de un átomo a otro de manera no radiativa:
+    $
+    Hee &= hbar Cee/R^3 (sigk(s,p,1) + sigk(s,p,1)^dagger) ** (sigk(s,p,2) + sigk(s,p,2)^dagger) \
+      &= hbar Oee (ketbra(p s,s p) + ketbra(s p,p s)) + ketbra(s s, p p) + ketbra(p p, s s))
+    $
 
-$
-Hdr &= hbar Odr/R^3 (sigk(g,e,1)^dagger ** sigk(g,e,2) + sigk(g,e,1) ** sigk(g,e,2)^dagger) \
-  &= hbar Odr/R^3 (ketbra(e g,g e) + ketbra(g e,e g))
-$
+    #{
+      let gg = 3
+      let gs = 1.5
+      let ss = 0
+      let d = 0.5
+      let sep = 0.5
+      let L = 1
+      figure(diagrama(
+        cell-size: 1mm,
+        mark-scale: 130%,
+        //diagrama 1
+        //niveles
+        edge((-2 -L,gg -sep),(-2 -L/2,gg -sep)),
+        edge((-2 -L,ss+sep),(-2 -L/2,ss+sep), $kss$),
+        edge((-1 -L,ss+sep),(-1 -L/2,ss+sep), $kpp$),
+        //laseres
+        edge((-2 -L+0.1,gg -sep),(-2 -L+0.1,ss+sep), "-|>", "wave"),
+        edge((-2 -L/2 -0.2,ss+sep+0.1),(-1 -L + 0.2,ss+sep+0.1), bend:-40deg, "<=>", $Wdd$),
 
-donde $Odr$ es la fuerza de interacción del intercambio y $R$ la distancia interatómica.
+        edge((-1.5,gs),(-1,gs), "=>"),
 
-El segundo término, $Hee$ (estados excitados), es muy importante para este trabajo, ya que modela la fuerte interacción inducida cuando los átomos alcanzan niveles superiores. Aunque estos niveles no estén poblados, su existencia aún distorsiona los niveles del estado base @cohentannoudji_atomphoton_2008:
+        //diagrama 2
+        //niveles
+        edge((0,gg),(L,gg)),
+        edge((0,gs),(L,gs)),
+        edge((0,ss),(L,ss), "--"),
+        node((-0.5,gg), $ket(g g)$),
+        node((-0.5,gs), $ket(g s), ket(s g)$),
+        node((-0.5,ss), $kss$),
+        //distancias energias
+        edge((0,ss),(L,ss -d), bend: -10deg),
+        edge((0,ss),(L,ss+d), bend: 10deg),
+        edge((L,ss),(L,ss -d), "-", $Delta E$),
+        node((L -0.2,ss -d - 0.2), $Oee$),
+        node((L -0.2,ss +d + 0.2), $-Oee$),
+        //laseres
+        edge((L/4,gg),(L/4,gs), "-|>", "wave"),
+        edge((L/4,gs),(L/4,ss), "-|>", "wave")
+      ),
+      caption: [Diagrama de desdoblamiento simétrico del nivel de energía $kss$ debido a la presencia de $kpp$ y la interacción dipolo-dipolo $Wdd$.]
+    )} <fig:desdoblamiento>
 
-$
-Hee &= hbar C3/R^3 (sigk(s,p,1) + sigk(s,p,1)^dagger) ** (sigk(s,p,2) + sigk(s,p,2)^dagger) \
-  &= hbar Oee (ketbra(p s,s p) + ketbra(s p,p s)) + ketbra(s s, p p) + ketbra(p p, s s))
-$
+    donde $Cee prop d^2$ y $Oee = Cee\/R^3$. Notemos que aquí es donde toma presencia el nivel auxilar $kp$.
+    
+    Para modelar el bloqueo de excitación en este trabajo se implementa una resonancia de Föster inducida. Al introducir el cuarto nivel $kp$, cuya energía es igual a la de $ks$ pero con paridad opuesta y tal que no hay ningún láser externo sintonizado para poblarlo, se genera una degeneración entre ambos estados en cada uno de los átomos. Debido a la interacción dipolo-dipolo, se puede acoplar fuertemente el estado $kss$ de los átomos con el estado $kpp$ sin emitir fotones, puesto que la energía total se conserva:
 
-donde $C3 prop d^2$, siendo $d$ el momento dipolar eléctrico de la transición, que representa la fuerza de interacción que acopla los estados doblemente excitados.
+    $ E_s^((1)) + E_s^((2)) = E_p^((1)) + E_p^((2)) $
 
-Físicamente, esta interacción provoca un desplazamiento simétrico $Delta E = +- C3/R^3$ en los niveles de energía del estado colectivo @pillet_controllable_2009. Si este desplazamiento es mucho mayor que la frecuencia de Rabi ($C3 >> rabic$), el sistema sale de resonancia @vogt_electricfield_2007 y la absorción del segundo fotón se vuelve energéticamente prohibida, dando lugar al fenómeno de bloqueo de excitación, que se manifiesta como una supresión de los estados doblemente excitados $kss$ y $kpp$. Con la intención de englobar la relación de $C3$ y $R$ en un único parámetro, en esta tesis utilizaremos $Oee = C3/R^3$ para la descripción de este bloqueo.
+    cumpliendo así la resonancia de Föster. Luego, el acoplamiento fuerte ocasiona que la energía de $kss$ se desplace simétricamente hacia $+- Oee$ (desdoblamiento Autler-Townes) y, si este desplazamiento es más grande que el ancho de línea del láser ($Oee >> rabic$), el sistema sale de resonancia y el segundo átomo no puede ser excitado, logrando así el bloqueo de Rydberg @gaetan_observation_2009 @pillet_controllable_2009 @vogt_electricfield_2007.
 
 
 ==== Incorporación de la disipación y decaimiento
 
 
-Debido a que el sistema es abierto, ya que los espejos de la cavidad no son perfectos y los átomos intercatúan con el entorno, es necesario incluir los procesos de pérdida de fotones de la cavidad y el decaimiento atómico espontáneo.
+Debido a que el sistema es abierto, ya que los espejos de la cavidad no son perfectos y los átomos interactúan con el entorno, es necesario incluir los procesos de pérdida de fotones de la cavidad y el decaimiento atómico espontáneo.
 
 Estas pérdidas de energía se introducen utilizando el formalismo de la Ecuación Maestra de Lindblad #footnote[Con el objetivo de mantener simple y general la ecuación maestra, en todas las simulaciones descritas en esta tesis se utlizaron unidades naturales, tal que $hbar = 1$.] para la matriz densidad $rr$:
 

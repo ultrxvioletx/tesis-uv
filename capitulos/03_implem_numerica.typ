@@ -13,7 +13,7 @@ $ HH = HH_"cavidad" ** HH_"átomo1" ** HH_"átomo2". $ <eq:hilbert_total>
 
 Dado que cada átomo posee 4 niveles de energía, y el espacio de Fock de la cavidad debe ser truncado un número máximo de fotones, $nmax$, la dimensión total del espacio de Hilbert es $D = 4^2 nmax$. Por lo tanto, la matriz densidad $rr(t)$ contiene $D = (16 nmax)^2$ elementos #footnote[En realidad, la dimensión final es $2D$, debido que cada elemento de la matriz densidad tiene una parte real y una parte imaginaria, que se operan como elementos independientes.].
 
-Para un truncamiento típico de $nmax = 10$, el sistema requiere la resolución simultánea de $(160)^2 = 25,600$ ecuaciones diferenciales ordinarias (EDOs) acopladas y con coeficientes complejos. Además, a medida que se incrementa el truncamiento $nmax$ para obtener resultados más precisos, la dimensión del espacio de Hilbert crece exponencialmente, lo que hace que la solución analítica sea inaccesible.
+Para un truncamiento típico de $nmax = 10$, el sistema requiere la resolución simultánea de $(160)^2 = 25,600$ ecuaciones diferenciales ordinarias (EDOs) acopladas y con coeficientes complejos. Además, a medida que se incrementa el truncamiento $nmax$ para obtener resultados más precisos, la dimensión del espacio de Hilbert crece exponencialmente, lo que hace que la solución analítica no sea accesible.
 
 Por tanto, se hace necesario recurrir a métodos numéricos para resolver la dinámica del sistema. Sin embargo, aún así resolverlo directamente usando solamente un lenguaje interpretado como Python resulta lento y poco eficiente, por lo que se opta por una alternativa numérica más optimizada.
 
@@ -49,16 +49,16 @@ La integración temporal se ejecutó a través del uso de la función `gsl_main`
 ==== Definición y extracción de observables físicos
 
 
-La matriz de densidad $rr(t)$ resultante de la integración numérica contiene toda la información estadística del sistema; sin embargo, para poder exprimir su sentido físico, es necesario traducirla a magnitudes físicas medibles calculando los valores esperados de los observables.
+La matriz de densidad $rr(t)$ resultante de la integración numérica contiene toda la información del sistema; sin embargo, para poder exprimir su sentido físico, es necesario traducirla a magnitudes medibles calculando los valores esperados de los observables.
 
 
 En OpenKet, el cálculo de un observable $expval(OO) = tr(rr OO)$ se realiza definiendo primero el operador simbólico $OO$ correspondiente, para así luego extraer su valor numérico en cada instante de tiempo usando las funciones `trace` y `sub_qexpr`. La función `sub_qexpr` mapea cada elemento del operador densidad $rr_(n,m) = mel(n,rr,m)$, obtenidos tras evaluar analíticamente la traza $tr(rr OO)$, hacia sus correspondientes índices en el arreglo numérico unidimensional resuelto por el integrador, utilizando el diccionario generado durante la compilación.
 
-Para el análisis de la dinámica del sistema de estudio, se definieron los siguientes observables.
+Para el análisis de la dinámica del sistema de estudio, se definieron los siguientes observables:
 
 ===== Dinámica de poblaciones de los niveles atómicos
 
-Para estudiar el fenómeno de bloqueo y la distribución de excitaciones, se calculó la probabilidad de encontrar al par de fotones en cada uno de los 16 estados atómicos posibles. El operador de proyeccion para el estado conjunto $ket(i j)$, donde el átomo 1 está en el estado $ket(i)$ y el átomo 2 en el $ket(j)$, se define como $PP_(i j) = sigk(i,i,1) ** sigk(j,j,2) ** II_"cav"$.
+Para estudiar el fenómeno de bloqueo y la distribución de excitaciones, se calculó la probabilidad de encontrar al par de electrones en cada uno de los 16 estados atómicos posibles. El operador de proyeccion para el estado conjunto $ket(i j)$, donde el átomo 1 está en el estado $ket(i)$ y el átomo 2 en el $ket(j)$, se define como $PP_(i j) = sigk(i,i,1) ** sigk(j,j,2) ** II_"cav"$.
 
 La evolución temporal de la población está dada por:
 
@@ -66,8 +66,8 @@ $ PP_(i j) (t) = tr[rr(t) PP_(i j)]. $
 
 ===== Número de fotones dentro de la cavidad
 
-La respuesta de la configuración de dos átomos altera el estado del campo EM en la cavidad. Para cuantificar este efecto, se evaluó el número medio de fotones utilizando el operador de número $NN = cre anh$, por lo tanto,
+La respuesta de la configuración de dos átomos altera el estado del campo electromagnético en la cavidad. Para cuantificar este efecto, se evaluó el número medio de fotones utilizando el operador de número $NN = cre anh$, por lo tanto,
 
 $ expval(NN)(t) = tr[rr(t) cre anh]. $
 
-Este observable permite constrastar la absorción y emisión de luz entre los átomos y la cavidad en el régimen de átomos independientes frente al de fuerte interacción interatómica, sirviendo así como evidencia del comportamiento colectivo del sistema.
+Este observable permite realizar un contraste de la absorción y emisión de luz entre los átomos y la cavidad en el régimen de átomos independientes frente al de fuerte interacción interatómica, sirviendo así como evidencia del comportamiento colectivo del sistema.

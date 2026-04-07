@@ -9,7 +9,7 @@
 
 ==== Bloqueo en átomos de 4 niveles
 
-
+@pillet_controllable_2009
 Ahora que finalmente se considera la interacción entre los átomos, es importante discutir por un momento la presencia del nivel $kp$, que por primera vez es relevante en esta tesis. El modelo que se considera y que es implementado en OpenKet genera el bloqueo de manera orgánica, por lo que se requiere un átomo de 4 niveles: los niveles $kg$ y $ks$ constituyen el sistema efectivo de dos niveles donde ocurre toda la dinámica principal; $ke$ funciona exclusivamente como el escalón que permite la transición de múltiples fotones y que queda suprimido bajo eliminación adiabática; y $kp$ es un estado auxiliar de Rydberg cuyo propósito es permitir el bloqueo. A diferencia de los otros niveles, $kp$ es el único que no es acoplado bajo ningún láser.
 
 El bloqueo surge de forma natural a través de la interacción dipolo-dipolo (resonancia de Föster [CITAR AKI]). El término de interacción repulsiva de largo alcance $Oee$ acopla fuertemente el estado doblemente excitado $kss$ con estados que incluyen al nivel auxiliar, como $kpp$ o $ket(s p)$. Esta interacción, que es intensa, induce un desplazamiento de energía en el nivel $kss$. Si este corrimiento causado por $Oee$ es más grande que el ancho de línea de la excitación (determinado por $geff$ y $kappa$), el láser se sale de la resonancia. De esta forma, uno de los átomos ya excitado en $ks$ modifica el entorno de su átomo vecino, e impide que absorba él un segundo fotón.

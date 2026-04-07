@@ -50,6 +50,7 @@
 #let tr = $"Tr"$ //formato traza
 #let Nexp = $expval(N)$ //valor medio fotones
 #let Nss = $expval(N)_"ss"$ //valor medio fotones estado estacionario
+#let Wdd = $W_(d d)$ //interacción dipolo-dipolo
 // kets
 #let kg = $ket(g)$ //g
 #let ke = $ket(e)$ //e
@@ -80,8 +81,8 @@
 #let scan = $delta_p$ //delta scan
 #let Dpa = $Delta_(p)$ //detuning prueba-atomo
 #let Dac = $Delta_(c)$ //detuning atomo-control
-#let Odr = $Omega_"12"$ //intensidad dipolo resonante
-#let C3 = $C_3$ //intensidad dipolo resonante
+#let Cdr = $C_3^((12))$
+#let Cee = $C_3^((23))$
 #let Oee = $Omega_"EE"$ //intensidad estado excitado
 // variables
 #let rabieff = $Omega_"eff"$ //rabi efectiva
@@ -103,7 +104,7 @@
   diagram(
     node-fill: none,
     node-stroke: none,
-    edge-stroke: colors.diagrams,
+    edge-stroke: 0.6pt + colors.diagrams,
     ..args
 )}
 #let appendix() = {
@@ -238,6 +239,7 @@
       }
     }
     // Estilo de SECCIÓN
+    show heading.where(level: 3): set heading(supplement: $section$)
     show heading.where(level: 3): it => {
       v(1.5em)
       context counter(heading).display(heading.numbering)
@@ -246,6 +248,7 @@
       v(0.8em)
     }
     // Estilo de SUBSECCIONES
+    show heading.where(level: 4): set heading(supplement: $section$)
     show heading.where(level: 4): it => {
       v(1.2em)
       context counter(heading).display(heading.numbering)
@@ -254,6 +257,7 @@
       v(0.6em)
     }
     // Estilo de SUBSUBSECCIONES
+    show heading.where(level: 5): set heading(supplement: $section$)
     show heading.where(level: 5): it => {
       v(1em)
       context counter(heading).display(heading.numbering)
@@ -322,6 +326,7 @@
 
     // FIGURAS
     set figure(
+      placement: top,
       supplement: "Fig.",
       numbering: (..num) =>{
         numbering("1.1", global-chapter.get().first(), num.pos().first())

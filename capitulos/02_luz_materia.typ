@@ -70,7 +70,7 @@ $ hat(E) (z,t) = xi_0 (anh + cre) sin(k z) $
 
 donde $xi_0 = sqrt(hbar w \/ epsilon_0 V)$ es la amplitud del campo por fotón. Con esta expresión se sustituye al coseno clásico y permite que el campo interactúe con el átomo a través del intercambio discreto de cuantos de energía.
 
-Luego, para estudiar la interacción, acoplamos un átomo de dos niveles ($kg, ke$), al modo cuantizado de la cavidad. El Hamiltoniano total del sistema combinado es $hat(H) = Ha + Hc + Hca$, donde $Hca$ es el Hamiltoniano de interacción bajo aproximación dipolar $Hca = -vecop(d) dot vecop(E) (t)$.
+Luego, para estudiar la interacción, acoplamos un átomo de dos niveles ($kg, ke$) con frecuencia de transición $weg$, al modo cuantizado de la cavidad. El Hamiltoniano total del sistema combinado es $hat(H) = Ha + Hc + Hca$, donde $Hca$ es el Hamiltoniano de interacción bajo aproximación dipolar $Hca = -vecop(d) dot vecop(E) (t)$.
 
 Así, el término de interacción resulta en:
 
@@ -87,7 +87,7 @@ Al eliminar los términos rápidos, obtenemos finalmente el Hamiltoniano de Jayn
 
 $ hat(H)_(J C) = hbar w cre anh + 1/2 hbar weg (sig(e,e) - sig(g,g)) + hbar g (cre sig(e,g) + anh sig(g,e)) $ <eq:ham_jaynescummings>
 
-y describe el intercambio coherente de una sola excitación entre el átomo y la cavidad. El segundo término reprensenta el Hamiltoniano del átomo aislado, asumiendo que la energía cero se encuentra justo en medio. Sin embargo, como en este sistema la energía cero se encuentra en el estado base, el término se reescribe como $hbar weg$.
+y describe el intercambio coherente de una sola excitación entre el átomo y la cavidad. El segundo término reprensenta el Hamiltoniano del átomo aislado, asumiendo que la energía cero se encuentra justo en medio. Sin embargo, como en este sistema la energía cero se encuentra en el estado base, el término se reescribe como $hbar weg sig(e,e)$.
 
 ===== Inyección externa de fotones
 
@@ -111,40 +111,48 @@ donde se absobió el factor en $rabip = eta_b/2$. Además, veamos que este Hamil
 ==== Átomo de tres niveles
 
 
-En esta tesis, se estudia principalmente la participación de átomos de tres niveles en configuración cascada o _ladder_. Cuando la intensidad del campo que acopla la transición superior $ke <-> ks$ (con frecuencia de Rabi $rabic$ y desintonía $Dac$) es lo suficientemente alta, el sistema ya no se puede describir en términos de niveles de energía _desnudos_, y el átomo y campo deben tratarse como un único sistema acoplado #footnote[Desarrollo obtenido de @cohentannoudji_atomphoton_2008[$section 6.4$] y @chiao_amazing_1996[$section 9$] para la parte *a*, y de @scully_quantum_2008[$section 7.2$, $section 7.3$] para la parte *b*.].
+En esta tesis, se estudia principalmente la participación de átomos en configuración cascada o _ladder_, que además se encuentran acoplados con la cavidad de un modo. Cuando este acoplamiendo es lo suficientemente fuerte o cuando la intensidad del campo que acopla la transición superior $ke <-> ks$ es lo suficientemente alta, el sistema ya no se puede describir en términos de niveles de energía _desnudos_, y el átomo y campo deben tratarse como un único sistema acoplado que se debe rediagonalizar, dando lugares a estados híbridos conocidos como _dressed states_. #footnote[Desarrollo obtenido de @cohentannoudji_atomphoton_2008[$section 6.4$], @gerry_introductory_2005[$section 4.6$] y @chiao_amazing_1996[$section 9$] para la parte *a*, y de @scully_quantum_2008[$section 7.2$, $section 7.3$] para la parte *b*.].
 
-===== Dressed states y fenómeno de Autler-Townes
+===== Dressed states y fenómeno de Autler-Townes <sec:dressed_states>
 
-En este sistema acoplado se considera al átomo-campo como una única cantidad. En lugar de ver al átomo como un solo sistema que absorbe y emite fotones, se diagonaliza el Hamiltoniano del sistema átomo-láser (@eq:ham_luzmateria) para encontrar sus eigenestados y eigenvalores. Estos nuevos eigenestados representan una mezcla de los estados atómicos y estados del campo y son llamados _dressed states_.
+Consideremos un sistema con un campo de control intenso y en cuasi-resonancia con la transición superior $ke <-> ks$, con frecuencia $wc$ y desintonía $Dac = wc - weg approx 0$. En el límite de campo fuerte, la dinámica no se describe por el intercambio de fotones individuales, sino por la oscilación coherente de población entre niveles inducida por el campo del láser, parametrizada por $rabic$.
 
-Supongamos un sistema con un campo de control intenso y en cuasi-resonancia con la transición $ke <-> ks$, con frecuencia $wc$ e intensidad $rabic$; y un láser débil de prueba con frecuencia $wp$ que sondea la transición inferior $kg <-> ke$ y detuning $Dpa$.
+El Hamiltoniano puede escribirse como $hat(H) = Ha + Hc + hat(H)_(A C)$, donde $Ha$ es el Hamiltoniano del átomo libre, $Hc = hbar wc cre anh$ y $hat(H)_(A C)$ es la interacción dipoloeléctrica.
 
-El Hamiltoniano puede escribirse como $hat(H) = Ha + Hc + hat(V)_(A C)$, donde $Ha$ es el Hamiltoniano del átomo libre, $Hc = hbar wc cre anh$ y $hat(V)_(A C)$ es la interacción dipoloeléctrica.
+El modelo anterior (Jaynes-Cummings) describe la interacción de un átomo con un campo cuántido débil (pocos fotones). Aunque el campo es clásico, se puede modelar como un modo electromagnético muy poblado con $N$ fotones ($N -> infinity$), permitiendo diagonalizar el Hamiltoniano, y tal que $rabic(N) = 2 g sqrt(N+1)$ (frecuencia de Rabi de electrodinámica cuántica).
 
-Cuando no hay interacción, $hat(V)_(A C)=0$, los eigenestados del sistema son los estados $ket(i N)$, que representan al átomo en el estado $i in {g,e,s}$ con $N$ fotones del láser de control. Cerca de la resonancia, los estados $ket(s N)$ y $ket(e [N+1])$ están casi degenerados y separados por una energía $hbar Dac$
+Cuando no hay interacción, $hat(H)_(A C)=0$, los eigenestados del sistema son los estados $ket(i N)$, que representan al átomo en el estado $i in {e,s}$ con $N$ fotones del láser de control. Cerca de la resonancia, los estados $ket(s N)$ y $ket(e [N+1])$ están casi degenerados y separados por una energía $hbar Dac$
 
-Al introducir el acoplamiento $hat(V)_(A C)$, estos dos estados desnudos se acoplan mediante el elemento de matriz:
+Al introducir el acoplamiento $hat(H)_(A C)$, estos dos estados desnudos se acoplan fuertemente mediante el elemento de matriz:
 
 $ braket(s N, hat(V)_(A C), e [N+1]) = (hbar rabic)/2, $
 
 lo que levanta la cuasi-degeneración y fuerza a los niveles a repelerse energéticamente (fenómeno que se conoce como _anticrossing_). Al diagonalizar este subespacio bidimensional, se producen dos nuevos eigenestados perturbados que denotaremos como $ket(+)$ y $ket(-)$, y son superposiciones ortogonales de los estados desnudos originales:
 
 $
-  ket(+) &= sin theta ket(s N) + cos theta ket(e [N+1]) \
-  ket(-) &= cos theta ket(s N) - sin theta ket(e [N+1])
+  ket(N +) &= sin theta ket(s N) + cos theta ket(e [N+1]) \
+  ket(N -) &= cos theta ket(s N) - sin theta ket(e [N+1])
 $
 
-donde la relación entre la fuerza de acomplamiento y la desintonía determina al ángulo de mezcla $theta = -rabic/Dac$. A su vez, las energías de estos estados vestidos tienen una separación dadas por una frecuencia de Rabi efectiva:
+donde la relación entre la fuerza de acomplamiento y la desintonía determina al ángulo de mezcla $theta = -rabic\/Dac$. A su vez, las energías de estos estados vestidos tienen una separación dadas por una frecuencia de Rabi efectiva:
 
-$ hbar rabieff = hbar sqrt(rabic^2 + Dac^2) $
+$ delta E = hbar rabieff = hbar sqrt(rabic^2 + Dac^2) $
 
 Veamos que en resonancia exacta $Dac=0$, se tiene $theta = pi/4$, por lo que los _dressed states_ son combinaciones simétricas y antisimétricas puras (50/50) de $ke$ y $ks$; y bajo esta condición, la separación de la energía alcanza el valor mínimo $hbar rabic$.
 
-Finalmente, una de las consecuencias de la formación de _dressed states_, es el desdoblamiento de Autler-Townes en el espectro de absorción del láser de prueba débil.
+Finalmente, una de las consecuencias de la formación de _dressed states_, es que al sondear el átomo con un segundo láser débil desde el estado $kg$ al estadio intermedio $kg$, aparece un desdoblamiento de Autler-Townes.
 
-Debido a que el estado desnudo $ke$ está distribuido en los dos estados vestidos $ket(+)$ y $ket(-)$, la transición original de frecuencia se divide. El láser de prueba ahora resuena con las dos transiciones permitidas: $ket(g [N+1]) -> ket(+)$ y $ket(g [N+1]) -> ket(-)$. En consecuencia, la línea de absorción se divide en dos picos (doblete) separadas por una frecuencia $rabieff$.
+Debido a que el láser de control ha modificado al estado desnudo $ke$, distribuyéndolo en los dos estados vestidos $ket(+)$ y $ket(-)$, la transición original $kg <->$ se divide. El láser de prueba ahora resuena con las dos transiciones permitidas: $ket(g [N+1]) -> ket(N +)$ y $ket(g [N+1]) -> ket(N -)$. En consecuencia, la línea de absorción se divide en dos picos (doblete) separadas por una frecuencia $rabieff$.
 
-Este desdoblamiento de los niveles de energía es la evidencia macroscópica del acoplamiento fuerte y coherente entre el átomo y el campo electromagnético.
+Si dejamos un poco de lado el láser de control por el momento, tenemos un modelo puramente cuántico que ocurre cuando el átomo se acopla al modo de la cavidad. En este caso, el acoplamiento no depende de un campo externo, sino de la interacción del momento dipolar atómico con el campo del punto cero de la cavidad (fluctuaciones del vacío), dada por la constante de acoplamiento, $g$.
+
+Para el espacio de cero fotones, $N=0$, los estados desnudos $ket(e 0)$ y $ket(g 1)$ se mezclan para formar unos _dressed states_ particulares:
+
+$ ket(0 +-) = 1/sqrt(2) (ket(g 1) +- ket(e 0)) $
+
+cuya separación energética, en resonancia exacta, es independiente de cualquier intensidad de bombeo externa y está dada por:
+
+$ delta E_"vac" = 2 hbar g $
 
 ===== Dark states
 

@@ -7,7 +7,11 @@
 ==== Eliminación adiabática del estado intermedio <sec:elim_adiabatica>
 
 
-En los apartados anteriores, se estudiaron regímenes donde el campo de prueba se encontraba en cuasi-resonancia con el estado intermedio $ke$. Sin embargo, como se menciona en la introducción de esta sección, el rápido decaimiento asociado el nivel intermedio destruye la coherencia del sistema antes de que las interacciones interatómicas de Rydberg puedan presentarse (las cuales son de especial interés en esta tesis). Por ello, se implementa la técnica de eliminación adiabática #footnote[Las ideas, conceptos y fórmulas relacionados con esta sección fueron sacadas de @lambropoulos_fundamentals_2007[cap. 3.6, cap. 10.2.2], @gerry_introductory_2005[cap. 4.8], @scully_quantum_2008[cap. 5.5.2, cap. 10.2.2], @loudon_quantum_2010[cap. 2.7].] para suprimir esta decoherencia, la cual se consigue operando en un régimen de desintonía muy grande (_large detuning_).
+En los apartados anteriores, se estudiaron regímenes donde el campo de prueba se encontraba en cuasi-resonancia con el estado intermedio $ke$. Sin embargo, como se menciona en la introducción de esta sección, el rápido decaimiento asociado el nivel intermedio destruye la coherencia del sistema antes de que las interacciones interatómicas de Rydberg puedan presentarse (las cuales son de especial interés en esta tesis).
+
+Además, inducir EIT no es viable debido a que se necesita estar en resonancia perfecta en la transición simultánea de dos fotones entre $kg <-> ks$ para que funcione. Si por alguna razón $ks$ se mueve un poquito, la interferencia se rompe, el electrón cae en $ke$ y el átomo decae.
+
+Por ello, se implementa la técnica de eliminación adiabática #footnote[Las ideas, conceptos y fórmulas relacionados con esta sección fueron sacadas de @lambropoulos_fundamentals_2007[$section 3.6$, $section 10.2.2$], @gerry_introductory_2005[$section 4.8$], @scully_quantum_2008[$section 5.5.2$, $section 10.2.2$], @loudon_quantum_2010[$section 2.7$].] para suprimir esta decoherencia, la cual se consigue operando en un régimen de desintonía muy grande (_large detuning_).
 
 #{
   let hg = 3
@@ -50,7 +54,7 @@ $ geff approx (g rabic)/(2 Delta). $ <eq:geff>
 
 Ahora que las magnitudes del sistema efectivo están reajustadas, la intensidad del campo clásico $rabic$ y del acoplamiento $g$ tienen que aumentar considerablemente para poder compensar la disminución ocasionada por $Delta$.
 
-===== AC Stark Shift y Vacuum Stark Shift <subsub:stark>
+===== AC Stark Shift y Vacuum Stark Shift <sec:stark>
 
 El costo de esta compensación en la eliminación adiabática, es que la interacción con estos campos muy intensos provoca que el sistema sufra una perturbación adicional en los niveles de energía del átomo, que se conoce como _AC Stark Shift_.
 
@@ -128,7 +132,7 @@ Se simuló la evolución temporal partiendo del estado base $rr(t_(=0)) = ketbra
   caption: [Evolución temporal de las poblaciones atómicas en el régimen de eliminación adiabática. Se observa que la población del estado intermedio $Pe$ (rosa) permanece en cero a lo largo de la evolución, mientras que el átomo muestra oscilaciones de Rabi entre el estado base $kg$ y el estado de Rydberg $ks$ (beige), comportándose como un sistema de dos niveles efectivo. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $Delta = 100.0$, $dece = 0.0$, $decs = 0.0$.]
 ) <fig:1at4lvl>
 
-En la @fig:1at4lvl se observa que, a lo largo de la evolución temporal, la población del estado intermedio $Pe$ permanece prácticamente nula, lo que confirma que el electrón salta al nivel superior sin poblar físicamente el estado $ke$ cuyas pérdidas son no despreciables, por lo que el sistema queda protegido ante la tasa de decaimiento $dece$.
+En la @fig:1at4lvl se observa que, a lo largo de la evolución temporal, la población del estado intermedio $Pe$ permanece prácticamente nula, lo que confirma que el electrón salta al nivel superior sin poblar físicamente el estado $ke$, por lo que el sistema queda protegido ante la tasa de decaimiento $dece$.
 
 De igual forma, vemos que se muestran oscilaciones de Rabi asociadas al nivel de Rydberg $ks$. La población $Ps$ oscila de forma periódica entre $0$ y $sim 1$, lo que confirma la existencia del sistema efectivo de dos niveles con probabilidad de excitación $Ps (t) = sin^2(rabieff/2 t)$. Para los parámetros dados, la frecuencia de Rabi efectiva es $rabieff approx 0.05 kappa$, lo que corresponde a un periodo de oscilación de $T = (2 pi)/rabieff approx 125.6 kappa^(-1)$.
 
@@ -160,20 +164,20 @@ Debido a que el nivel $ke$ está suprimido adiabáticamente, la interacción efe
   caption: [*(a)* Número medio de fotones en el estado estacionario *(b)* Probabilidad de excitación atómica del nivel intermedio $Pe$ (rosa) y el nivel de Rydberg $Ps$ (beige), para el sistema átomo-cavidad bajo eliminación adiabática, en función de la variación $delta$ de la desintonía alrededor de $Dpa = 100$. Se exhibe un desdoblamiento asimétrico de los estados luz-materia. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $g = 15.0$, $kappa = 1.0$, $dece = 1.0$, $decs = 0.0$, $nmax = 3$.]
 ) <fig:1at4lvl_cavidad>
 
-Como se observa en @fig:1at4lvl_cavidad, la población del estado intermedio $Pe$ (curva rosa) permanece nula a lo largo del barrido, lo que confirma que, incluso en el régimen de acoplamiento fuerte con la cavidad ($geff > kappa$), el sistema de 3 niveles continúa comportándose efectivamente como uno de 2 niveles; y el electrón no experimenta las pérdidas asociadas a $dece$.
+Como se observa en @fig:1at4lvl_cavidad, la población del estado intermedio $Pe$ (curva rosa) permanece nula a lo largo del barrido, lo que confirma que, incluso en el régimen de acoplamiento fuerte con la cavidad, el sistema de 3 niveles continúa comportándose efectivamente como uno de 2 niveles.
 
-Luego, se muestra un desdoblamiento en dos picos de resonancia, causados por los ya conocidos polaritones del _Vacuum Rabi splitting_ debido al acoplamiento fuerte efectivo $geff = 1.5 kappa$. Sin embargo, a comparación del desdoblamiento observado en la @fig:1at3lvl_sinrabi, estos picos se encuentran desplazados hacia la derecha de origen y con una evidente asimetría en sus amplitudes.
+Luego, se muestra un desdoblamiento en dos picos de resonancia, causados por los ya conocidos _dressed states_ $ket(0 +-)$ del _Vacuum Rabi splitting_. Sin embargo, a comparación del desdoblamiento observado en la @fig:1at3lvl_sinrabi, estos picos se encuentran desplazados rígidamente hacia la derecha del origen y con una evidente asimetría en sus amplitudes.
 
-La asimetría es causada por los corrimientos Stark clásicos y cuánticos introducidos en la @subsub:stark. Por un lado el láser de control desplaza al estado de Rydberg una cantidad de $ss = rabic^2/(4 Delta) = 1.0 kappa$; y por otro lado, las fluctuaciones del vacío en la cavidad desplazan al estado base por $sg = g^2/Delta = 2.25 kappa$.
+La asimetría es causada por los corrimientos Stark clásicos y cuánticos introducidos en @sec:stark. Por un lado el láser de control desplaza al estado de Rydberg una cantidad de $ss = rabic^2/(4 Delta) = 1.0 kappa$; y por otro lado, las fluctuaciones del vacío en la cavidad desplazan al estado base por $sg = g^2/Delta = 2.25 kappa$.
 
-Como la cavidad y el átomo tienen corrimientos de magnitudes distintas, $ss != sg$, los subsistemas quedan desintonizados por una distancia $Delta S = sg - ss = 1.25 kappa$ (ocasionando la asimetría en la amplitud de los picos) y, en consecuencia, se rompe la degeneración de los polaritones híbridos @kolaric_strong_2018 @kavokin_microcavities_2007[cap.5.3.2]. Por lo tanto, los nuevos polaritones dejan de ser mezclas mitad luz mitad materia, y se desequilibran de la siguiente forma:
+Como la cavidad y el átomo tienen corrimientos de magnitudes distintas, $ss != sg$, los subsistemas quedan desintonizados por una distancia $Delta S = sg - ss = 1.25 kappa$ (ocasionando la asimetría en la amplitud de los picos) y, en consecuencia, se rompe la degeneración de los _dressed states_ híbridos @kolaric_strong_2018 @kavokin_microcavities_2007[$section 5.3.2$]. Por lo tanto, los nuevos estados dejan de ser mezclas mitad luz mitad materia, y se desequilibran de la siguiente forma:
 
-- Polaritón tipo átomo: El pico izquierdo, $scan\/kappa approx -0.4$, se encuentra más cercano a la resonancia del átomo desplazado, por lo que tiene un mayor carácter de excitación material, y se refleja en una mayor probabilidad de encontrar al átomo en el estado $ks$ con un menor número de fotones en la cavidad.
+- Tipo átomo: El pico izquierdo, $scan\/kappa approx -0.4$, se encuentra más cercano a la resonancia del átomo desplazado, por lo que tiene un mayor carácter de excitación material, y se refleja en una mayor probabilidad de encontrar al átomo en el estado $ks$ con un menor número de fotones en la cavidad.
 
-- Polaritón tipo luz: De forma inversa, el pico derecho en $scan\/kappa approx 2.5$ está más cerca de la resonancia que posee la cavidad intrínsecamente, por lo que tiene un mayor carácter fotónico y se refleja maximizando la transmisión dentro de la cavidad, mientras que el nivel de excitación del átomo decrece.
+- Tipo luz: De forma inversa, el pico derecho en $scan\/kappa approx 2.5$ está más cerca de la resonancia que posee la cavidad intrínsecamente, por lo que tiene un mayor carácter fotónico y se refleja maximizando la transmisión dentro de la cavidad, mientras que el nivel de excitación del átomo decrece.
 
 La separación entre los polaritones puede escribirse de forma analítica y está acotada superiormente por la diferencia de los corrimientos y el acoplamiento efectivo:
 
 $ d1 = sqrt((ss - sg)^2 + 4geff^2) approx 3.25 kappa $
 
-Finalmente, la asimetría de los _shifts_ provoca que la transición efectiva de dos fotones entre $ket(g 1)$ y $ket(s 0)$ ya no ocurra a la frecuencia natural del átomo, y el sistema ahora se rige por una renormalización del Hamiltoniano no perturbado, cuya energía central ha sido desplazada.
+Finalmente, la asimetría de los _shifts_ provoca que la transición efectiva de dos fotones entre los estados desnudos $ket(g 1)$ y $ket(s 0)$ ya no ocurra a la frecuencia natural del átomo, y el sistema ahora se rige por una renormalización del Hamiltoniano no perturbado, cuya energía central ha sido desplazada.
