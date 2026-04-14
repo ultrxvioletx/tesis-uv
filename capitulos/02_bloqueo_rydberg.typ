@@ -9,7 +9,9 @@
 
 #let ryd = $R_0$
 #let ph(it) = $phi.alt_(it)$
-Finalmente, como queremos trabajar con entrelazamientos de forma controlada, se buscan sistemas atómicos que tengan tiempos de coherencia largos e interacciones fuertes, por ello utilizamos átomos de Rydberg #footnote[Desarrollo obtenido de @gerry_introductory_2005[$section 10.1, section 10.2$], @cohentannoudji_quantum_2005[$section "C.XI"$], @peña_introduccion_2014[$section 17.2$]].
+Hasta este punto, el marco teórico ha descrito la dinámica de átomos aislados interactuando con campos electromagnéticos y con el entorno; sin embargo, también queremos poder explicar mecanismos de interacciones fuertes y controlables entre los propios átomos.
+
+Queremos poder trabajar con sistemas atómicos que cumplan dos condiciones importantes: tener tiempos de coherencia lo suficientemente largos para poder operar con ellos, y que sean capaces de tener interacciones a larga distancia lo suficientemente intensas para superar las tasas de disipación con el entorno. Los mejores candidatos para estos requisitos son los átomos de Ryberg #footnote[Desarrollo obtenido de @gerry_introductory_2005[$section 10.1, section 10.2$], @cohentannoudji_quantum_2005[$section "C.XI"$], @peña_introduccion_2014[$section 17.2$]].
 
 Un átomo de Rydberg es un átomo en el cual uno de sus electrones de valencia ha sido excitado a un estado con número cuántico principal $n$ muy alto ($n>=20$), típicamente $n sim 50$. La energía de la ligadura electrónica de un estado de Rydberg está dada por la expresión:
 
@@ -19,7 +21,7 @@ donde $ryd approx 13.6 "eV"$ es la constante de Rydberg y $delta_l$ es un defect
 
 En los experimentos de electromagnética cuántica de cavidades (CQED), se utilizan los estadaos de Rydberg circulares. Son estados donde el electrón obtiene el máximo momento angular permitido para un $n$ dado ($l=n-1$) y su máxima proyección en el eje de cuantización ($abs(m)=n-1$). Se llaman así porque en el límite clásico, estos estados expresan a un electrón en una órbita circular.
 
-Son de interés especial porque poseen numerosas propiedades que los vuelven ideales. La primera de ellas es que solo una trancisicón dipolar eléctrica está permitida, $n <-> n-1$, lo que hace que la dinámica esté aislada y pueda aproximarse bastante a un átomo a dos niveles. Su radio "clásico" escala como $n^2 a_0$, donde $a_0$ es el radio de Bohr, por lo que para $n sim 100$ el átomo tiene dimensiones de un macroscópicas. El elemento de matriz del operador momento dipolar eléctrico entre dos estados circulares adyacentes ($Delta n =1$) escala como:
+Son de interés especial porque poseen numerosas propiedades que los vuelven ideales. La primera de ellas es que solo una trancisicón dipolar eléctrica está permitida, $n <-> n-1$, lo que hace que la dinámica esté aislada y pueda aproximarse bastante a un átomo a dos niveles. Su radio "clásico" escala como $n^2 a_0$, donde $a_0$ es el radio de Bohr, por lo que para $n sim 100$ el átomo tiene dimensiones no microscópicas. El elemento de matriz del operador momento dipolar eléctrico entre dos estados circulares adyacentes ($Delta n =1$) escala como:
 
 $ d = braket(n, hat(q) r, n\') sim q n^2 a_0. $
 
@@ -59,13 +61,13 @@ En este caso, la teoría de perturbaciones para estados degenerados pide diagona
 
 Esta diagonalización de este subespacio genera nuevos estados simétricos y antisimétricos:
 
-$ ket(+-) = 1/sqrt(2)(ket(e_A g_B) +- ket(g_A e_B)) $
+$ ket(Psi_(+-)) = 1/sqrt(2)(ket(e_A g_B) +- ket(g_A e_B)) $
 
 cuyas energías sufren una correción de primer orden:
 
-$ Delta E^((1)) = +- C_3/R^3. $
+$ Delta E^((1)) = +- C_3/R^3 $
 
-Esta interacción resonante, llamada resonancia de Föster, es muy distintia a la de van der Waals. Escala como $1\/R^3$ (por lo que su alcance es mucho mayor) y describe el intercamio coherente de la excitación entre los dos átomos, por lo que en el Hamiltoniano del sistema se manifiesta como un acoplamiento directo de la forma:
+representado en la @fig:bloqueo. Esta interacción resonante, llamada resonancia de Föster, es muy distintia a la de van der Waals. Escala como $1\/R^3$ (por lo que su alcance es mucho mayor) y describe el intercamio coherente de la excitación entre los dos átomos, por lo que en el Hamiltoniano del sistema se manifiesta como un acoplamiento directo de la forma:
 
 $ hat(H) = hbar C_3/R^3 (ketbra(e_A g_B, g_A e_B) + ketbra(g_A e_B, e_A g_B)). $
 
@@ -117,15 +119,15 @@ $ hat(H) = hbar C_3/R^3 (ketbra(e_A g_B, g_A e_B) + ketbra(g_A e_B, e_A g_B)). $
         edge((L+0.5+J+sep/2 -J/2,ss+d),(L+0.5+J+sep/2 +J/2,ss+d)),
         edge((L+0.5+J+sep/2 -J/2,ss -d),(L+0.5+J+sep/2 +J/2,ss -d)),
         node((L+0.5+J+sep/2 -J/2 -0.3,gg), $ket(g g)$),
-        node((L+0.5,gs), $ket(+)$),
-        node((L+0.5+sep+J,gs), $ket(-)$),
+        node((L+0.5,gs), $ket(Psi_+)$),
+        node((L+0.5+sep+J,gs), $ket(Psi_-)$),
         //laseres
         edge((L+0.5+J +sep/2,gg),(L+0.5 +J/2,gs), "-|>", "wave"),
         edge((L+0.5 +J/2,gs),(L+0.5+J +sep/2,ss), "-|>", "wave"),
         //distancia energías
         edge((L+0.5+J+sep/2 +J/2 +0.1,ss),(L+0.5+J+sep/2 +J/2 +0.1,ss -d), "<->", $Delta E$),
       ),
-      caption: [Diagrama de la correción de primer orden $Delta E^((1)) = +- C_3\/R^3$ ocasionada por la resonancia de Föster.]
+      caption: [Diagrama de la correción de primer orden $Delta E^((1)) = +- C_3\/R^3$ ocasionada por la resonancia de Föster. El diseño del diagrama está basado en el que se muestra en @gaetan_observation_2009.]
     )} <fig:bloqueo>
 
 ===== Bloqueo de Rydberg

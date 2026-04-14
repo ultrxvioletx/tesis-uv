@@ -7,18 +7,24 @@
 === Interacción interatómica y Bloqueo de Rydberg
 
 
-==== Bloqueo en átomos de 4 niveles
+Ahora que finalmente se considera la interacción entre los átomos, es importante discutir por un momento la presencia del nivel $kp$, que por primera vez es relevante en los modelos simulados. El modelo que se considera y que es implementado en OpenKet genera el bloqueo de manera orgánica, por lo que se requiere un átomo de 4 niveles: los niveles $kg$ y $ks$ constituyen el sistema efectivo de dos niveles donde ocurre toda la dinámica principal; $ke$ funciona exclusivamente como el escalón que permite la transición de múltiples fotones y que queda suprimido bajo eliminación adiabática; y $kp$ es un estado auxiliar de Rydberg cuyo propósito es permitir el bloqueo. A diferencia de los otros niveles, $kp$ es el único que no es acoplado bajo ningún láser.
 
-@pillet_controllable_2009
-Ahora que finalmente se considera la interacción entre los átomos, es importante discutir por un momento la presencia del nivel $kp$, que por primera vez es relevante en esta tesis. El modelo que se considera y que es implementado en OpenKet genera el bloqueo de manera orgánica, por lo que se requiere un átomo de 4 niveles: los niveles $kg$ y $ks$ constituyen el sistema efectivo de dos niveles donde ocurre toda la dinámica principal; $ke$ funciona exclusivamente como el escalón que permite la transición de múltiples fotones y que queda suprimido bajo eliminación adiabática; y $kp$ es un estado auxiliar de Rydberg cuyo propósito es permitir el bloqueo. A diferencia de los otros niveles, $kp$ es el único que no es acoplado bajo ningún láser.
+El bloqueo surge de forma natural a través de la interacción dipolo-dipolo bajo resonancia de Föster, como se explica en @sec:descripcion-sistema. Para observarlo, se simula mediante el término $Oee$, el cual acopla el estado doblemente excitado $kss$ con el estado auxiliar $kpp$, y cuantifica la fuerza de la interacción repulsiva.
 
-El bloqueo surge de forma natural a través de la interacción dipolo-dipolo (resonancia de Föster [CITAR AKI]). El término de interacción repulsiva de largo alcance $Oee$ acopla fuertemente el estado doblemente excitado $kss$ con estados que incluyen al nivel auxiliar, como $kpp$ o $ket(s p)$. Esta interacción, que es intensa, induce un desplazamiento de energía en el nivel $kss$. Si este corrimiento causado por $Oee$ es más grande que el ancho de línea de la excitación (determinado por $geff$ y $kappa$), el láser se sale de la resonancia. De esta forma, uno de los átomos ya excitado en $ks$ modifica el entorno de su átomo vecino, e impide que absorba él un segundo fotón.
 
-Para observar este fenómeno de bloqueo, se simuló la espectroscopía de absorción para distintos valores de $Oee in {0.1, 1.0, 10.0, 50.0}$, en función del barrido de $scan$.
+==== Supresión de $Pss$
 
-#{
-  let escala = 75%
-  figure(
+
+Se simuló la probabilidad de excitación en estado estacionario, fijando el láser de prueba en la frecuencia de resonancia del pico izquierdo $scan \/ kappa approx -0.7722$ (valor obtenido del sistema en la sección anterior), y se realizó el barrido incrementando la fuerza de interacción $Oee$ (@fig:2at4lvl_excitado_omegas).
+
+Veamos que la @fig:2at4lvl_excitado_omegas muestra la pérdida de linealidad del sistema. Para valores de interacción tales que $Oee approx 0$, la probabilidad de encontrar al sistema en el estado doblemente excitado es $Pss approx 0.25$ (curva verde), lo que coincide con la mitad de probabilidad de una sola excitación $P1s$ (curva beige).
+
+Sin embargo, a medida que la fuerza de interacción $Oee$ aumenta, la curva de $Pss$ experimenta una disminución hasta cero, lo que confirma el bloqueo de Rydberg y que el sistema se vuelve incapaz de absorber dos fotones de manera simultánea.
+
+Es importante notar que la probabilidad de una sola excitación, $P1s$, también muestra una disminución inicial hasta estabilizarse en un valor de $sim 0.4$ para $Oee$ grandes. Como lo mencionaremos en la siguiente sección, esto no es consecuencia de que el sistema no pueda tener una sola excitación, sino de un dezplazamiento extra en los niveles de energía que mueve la resonancia fuera del valor inicial en $scan \/ kappa approx -0.7722$.
+
+#figure(
+  placement: top,
   stack(
     dir: ttb,
     spacing: 0em,
@@ -27,50 +33,76 @@ Para observar este fenómeno de bloqueo, se simuló la espectroscopía de absorc
       column-gutter: 0.3em,
       align: (top, top),
       [*(a)*],
-      image("../assets/figuras/2at4lvl_excitado01.png", width: escala),
-    ),
-    grid(
-      columns: (auto, 1fr),
-      column-gutter: 0.3em,
-      align: (top, top),
-      [*(b)*],
-      image("../assets/figuras/2at4lvl_excitado1.png", width: escala),
-    ),
-    grid(
-      columns: (auto, 1fr),
-      column-gutter: 0.3em,
-      align: (top, top),
-      [*(c)*],
-      image("../assets/figuras/2at4lvl_excitado5.png", width: escala),
-    ),
-    grid(
-      columns: (auto, 1fr),
-      column-gutter: 0.3em,
-      align: (top, top),
-      [*(d)*],
-      image("../assets/figuras/2at4lvl_excitado10.png", width: escala),
+      image("../assets/figuras/2at4lvl_excitado_omegas.png"),
     ),
   ),
-  caption: [Probabilidad de excitación de dos átomos acoplados dentro de la cavidad con distintos valores de interacción de Rydberg $Oee$ *(a)* $0.1$ *(b)* $1.0$ *(c)* $10.0$ *(d)* $50.0$. Se muestra la probabilidad de encontrar una sola excitación $Ps$ (beige), que corresponde a $P1s$, y probabilidad de excitacion doble $Pss$ (verde). Se observa una supresión de excitación doble conforme aumenta el término de interacción. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $g = 15.0$, $kappa = 1.0$, $dece = 1.0$, $decs = 0.0$, $nmax = 3$.]
-)} <fig:2at4lvl_bloqueo_excitado>
+  caption: [Probabilidad de ocupación de los estados $Pss$ (verde) y $P1s$ (beige) para distintos valores de interacción $Oee$. Se obverva una supresión total de la doble excitación cuando la interacción aumenta. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $g = 15.0$, $kappa = 1.0$, $dece = 1.0$, $decs = 0.0$, $scan=-0.7722$, $nmax = 3$.]
+) <fig:2at4lvl_excitado_omegas>
 
-Cuando los átomos interactúan débilmente ($Oee=0.1$), el sistema apenas alcanza a percibir el potencial repulsivo; en el pico izquierdo ($scan \/ kappa approx -0.9$) la probabilidad de encontrar a ambos átomos excitados de manera simultánea $Pss$ alcanza un valor no despreciable, lo que presenta un comportamiento similar al discutido en la sección anterior.
+#figure(
+  kind: "wide",
+  image("../assets/figuras/2at4lvl_excitado_grid.png", width: 100%),
+  caption: [Probabilidad de excitación de dos átomos acoplados dentro de la cavidad con distintos valores de interacción $Oee$. Se muestra la probabilidad de encontrar una sola excitación $Ps$ (beige), que corresponde a $P1s$, y probabilidad de excitacion doble $Pss$ (verde). Se observa una supresión de excitación doble conforme aumenta el término de interacción. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $g = 15.0$, $kappa = 1.0$, $dece = 1.0$, $decs = 0.0$, $nmax = 3$.]
+) <fig:2at4lvl_excitado_bloqueo>
 
-A medida que se incrementa el valor de la fuerza de interacción ($Oee=1.0$), el desplazamiento de energía del estado $kss$ empieza a alcanzar el ancho de línea de la cavidad [CIAR AKI]. Esto se traduce en la caída de la población del estado doblemente excitado, reduciéndose más o menos la mitad. El sistema se está volviendo opaco a la absorción de un segundo fotón.
+Físicamente, al estar $kss$ energéticamente prohibido, el sistema se "trunca" a un espacio de Hilbert que oscila entre $kgg$ y $ket(Psi^+)$ con frecuencia de Rabi $sqrt(2) rabic$ @gaetan_observation_2009, formando un súper-átomo efectivo de dos niveles. A pesar de tener dos átomos y que ambos interactúan con un campo, el sistema absorbe solamente un fotón a la vez, transformando el sistema de un oscilador lineal a uno no-lineal que emite fotones individuales de manera no localizada.
 
-Finalmente, el estado $kss$ queda completamente suprimido cuando la interacción se encuentra en el régimen fuerte ($Oee >= 10.0$), donde su probabilidad de ocupación se vuelve nula. Por lo tanto, se confirma el bloqueo de Rydberg, donde la fuerte repulsión impide el acceso a $kss$.
 
-No está de más hacer el contraste de este colapso con el comportamiento de la probabilidad de una sola excitación $P1s$ que, a pesar de la anulación de $Pss$, la probabilidad de encontrar exactamente un átomo excitado se mantiene a pie. Esto nos dice que la interacción interatómica de cualquier magnitud no _apaga_ al sistema, sino que simplemente permite absorber el primer fotón sin problema pero prohíbe al segundo gracias a la existencia de $kp$, como si fuera un filtro [CITAR AKI].
+==== Desdoblamiento por interacciones y DIET
+
+
+Ahora que hemos observado la supresión del nivel $kss$, queremos ver cómo se manifiesta este bloqueo en los picos de los _dressed states_. Para ello, se realiza el barrido de $scan$ para distintos valores de $Oee \/ kappa in {0.1, 1.0, 5.0, 10.0, 15.0, 20.0}$ (@fig:2at4lvl_excitado_bloqueo).
+
+Vemos que cuando está presente una interacción intermedia ($0.1 <= Oee \/kappa <= 15.0$), el espectro muestra un pico no nulo de $Pss$ en una vecindad del pico derecho $scan \/ kappa approx 4.8$, que se desplaza hacia frecuencias mayores. Esto es una consecuencia de la interacción de Rydberg afectando al nivel $kss$.
+
+Recodemos que en el modelo que se implementó, el término $Oee$ actúa como un acoplamiento resonante entre $kss$ y el estado $kpp$ (resonancia de Föster). De manera análoga a lo que se discutió en @sec:vacuum_rabi para el caso de un átomo, al hacer actuar esta interacción los estados desnudos originales dejan de ser eigenestados del Hamiltoniano del sistema, y la repulsión dipolar desplaza el nivel de energía $kss$ en un nuevo par de _dressed states_ colectivos (@fig:bloqueo):
+
+$ ket(Psi_(+-))_"Föster" = 1/sqrt(2) (kss +- kpp) $
+
+cuyos eigenvalores (energías) están desplazadas por $+- Oee$ respecto a la energía del estado $kss$. Esto ocasiona un desdoblamiento Autler-Townes pero sólo provocado por interacciones interatómicas.
+
+A medida que $Oee$ va aumentando, el estado $ket(Psi_+)_"Föster"$ es desplazado fuera de la resonancia de la cavidad, como se manifiesta en la @fig:2at4lvl_excitado_bloqueo, para valores de $Oee \/ kappa = 10.0, 15.0$. En el caso de interacción fuerte ($Oee \/ kappa >= 20.0$), este estado ha sido desplazado tan lejos de la resonancia de la cavidad que ya no es posible excitarlo, mostrando el bloqueo.
+
+Además, al ser expulsado $kss$, se altera la interferencia del sistema. Para interacciones fuertes, la excitación individual colectiva $P1s$ se queda establecida con dos picos asimétricos, que es análogo a un solo átomo, pero con la ausencia de $Pss$.
+
+Esto es una prueba del fenómeno de Transparencia Electromagnética Inducida por Dipolos (DIET) @puthumpallyjoseph_dipoleinduced_2014. Bajo este fenómeno, la interacción dipolo-dipolo genera una interferencia cuántica destructiva (como la discutida en @sec:EIT) entre los caminos para la excitación colectiva.
+
+Partiendo del estado base colectivo $kgg$, la absorción del primer fotón está permitida hacia el estado superradiante:
+
+$ kgg --> dicke1 = 1/sqrt(2) (ket(s g) + ket(g s)) $
+
+y desde $dicke1$ el sistema intentaría absorber un segundo fotón para alcanzar el estado $kss$, con dos caminos de excitación posibles:
+
+1. $dicke1 --> fost1$ (con desintonía $+Oee$)
+2. $dicke1 --> fost2$ (con desintonía $-Oee$)
+
+Y las amplitudes de probabilidad de estos dos caminos tienen fases opuestas (pero ahora en el punto de resonancia de dos fotones), por lo que se genera una interferencia cuántica destructiva.
+
+A diferencia del EIT normal, que es ocasionado por la existencia del _dark state_, en DIET es la interacción repulsiva la que controla la transparencia. Al cancelar las amplitudes de probabilidad de absorber un segundo fotón, el sistema se vuelve transparente a la doble absorción.
+
 
 
 ==== Modificación del espectro de la cavidad
 
 
-La supresión de la probabilidad $Pss$ no es aislada al comportamiento de la población de la cavidad. En un sistema sin interacciones, la cavidad actúa de forma linea a la entrada de fotones [CITAR AKI]. Sin embargo, al involucrar el nivel $kp$ para permitir el bloqueo de Rydberg, esta linealidad se pierde y se transforma en un sistema fuertemente no lineal [CITAR AKI].
+Ahora que hemos discutido sobre la dinámica a nivel átomico, por último queremos analizar el comportamiento macroscópico del sistema visualizando la cantidad de fotones en la cavidad.
 
-#{
-  let escala = 75%
-  figure(
+El cambio del sistema cooperativo al bloqueo se observa al medir la transmisión de la cavidad en una frecuencia fija (dada por el pico izquierdo, $scan \/ kappa approx 0.7722$). Vemos en la @fig:2at4lvl_fotones_omegas que cuanto menor es la interacción, la cavidad soporta un mayor número de fotones. Sin embargo, al incrementar $Oee$, la transmisión de la cavidad decae hasta estabilizarse en un valor no nulo, característica de una saturación cuántica @vogt_electricfield_2007: se produce una limitación del número de fotones que pueden ser absorbidos por el sistema, sin importar la potencia del láser.
+
+También se realizó la evolución del espectro completo de la cavidad (@fig:2at4lvl_fotones_bloqueo), en función de la fuerza de interacción, con el objetivo de obtener un panorama más completo del comportamiento de los nuevos _dressed states_.
+
+De forma análoga a lo observado en las poblaciones del átomo, el desdoblamiento Autler-Townes de la interacción repulsiva también aparece en el espectro de los fotones. El estado $fost1$ interactúa con el pico derecho (con mayor carácter fotónico) y se superpone con él, como se muestra cuando $Oee \/ kappa = 10.0$, deformándolo antes de desaparecer para interacciones más fuertes.
+
+Además la amplitud del pico izquierdo (carácter atómico) se reduce al pasar al régimen del bloqueo, observando la saturación cuántica mencionada anteriormente.
+
+Finalmente, analizando la separación de los picos principales en el límite del bloqueo fuerte, la distancia entre ellos se mantiene constante en $d2 approx 5.71 kappa$ (tal como en la @fig:2at4lvl_independientes), conservando la distancia original dado por el sistema cooperativo independiente.
+
+
+5536841156
+blk04141303612
+
+#figure(
+  placement: top,
   stack(
     dir: ttb,
     spacing: 0em,
@@ -79,37 +111,14 @@ La supresión de la probabilidad $Pss$ no es aislada al comportamiento de la pob
       column-gutter: 0.3em,
       align: (top, top),
       [*(a)*],
-      image("../assets/figuras/2at4lvl_fotones01.png", width: escala),
-    ),
-    grid(
-      columns: (auto, 1fr),
-      column-gutter: 0.3em,
-      align: (top, top),
-      [*(b)*],
-      image("../assets/figuras/2at4lvl_fotones1.png", width: escala),
-    ),
-    grid(
-      columns: (auto, 1fr),
-      column-gutter: 0.3em,
-      align: (top, top),
-      [*(c)*],
-      image("../assets/figuras/2at4lvl_fotones10.png", width: escala),
-    ),
-    grid(
-      columns: (auto, 1fr),
-      column-gutter: 0.3em,
-      align: (top, top),
-      [*(d)*],
-      image("../assets/figuras/2at4lvl_fotones50.png", width: escala),
+      image("../assets/figuras/2at4lvl_fotones_omegas.png"),
     ),
   ),
-  caption: [Espectroscopía del sistema de dos átomos acoplados dentro de la cavidad con distintos valores de interacción de Rydberg $Oee$ *(a)* $0.1$ *(b)* $1.0$ *(c)* $10.0$ *(d)* $50.0$. Se observa una supresión de excitación doble conforme aumenta el término de interacción. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $g = 15.0$, $kappa = 1.0$, $dece = 1.0$, $decs = 0.0$, $nmax = 3$.]
-)} <fig:2at4lvl_bloqueo_fotones>
+  caption: [Probabilidad de ocupación de los estados $Pss$ (verde) y $P1s$ (beige) para distintos valores de interacción $Oee$. Se obverva una supresión total de la doble excitación cuando la interacción aumenta. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $g = 15.0$, $kappa = 1.0$, $dece = 1.0$, $decs = 0.0$, $scan=-0.7722$, $nmax = 3$.]
+) <fig:2at4lvl_fotones_omegas>
 
-En la @fig:2at4lvl_bloqueo_fotones se muestra el espectro de transmisión de la cavidad conforme aumenta la fuerza de interacción entre los átomos. Al comparar este comportamiento con el de la @fig:2at4lvl_independientes con los átomos independientes, hay dos modificaciones destacables con la presencia del bloqueo.
-
-La primera, es que se deforma la estructura de los polaritones y aparece un pequeño pico central, en contraste con el régimen de interacción débil ($Oee=0.1$ y $1.0$) que se conserva el doble pico del _vacuum Rabi splitting_. En esta interacción fuerte $Oee >= 10.0$, la zona central que antes presentaba un mínimo de absorción ($scan \/ kappa approx 0.5$) y ahora posee una absorción no nula, evidencía la anharmonicidad inducida por el bloqueo [CITAR AKI].
-
-En un sistema lineal (sin bloqueo), la cavidad puede escalar de manera libre por los estados de Jaynes-Cummings $ket(G 0) <-> ket(+ 1) <-> ket(ss 2)$; al bloquear el acceso a $kss$ mediante el nivel $kp$, se trunca esta escalera de excitación [CITAR AKI] y los fotones inyectados a la cavidad chocan contra la barrera de energía formada, alterando la interferencia de la luz dentro de la cavidad y generando nuevas formas de transmisión que no existían en el sistema lineal.
-
-La segunda modificación es el ensanchamiento del desdoblamiento de los polaritones. Se observa que al cambiar del régimen de interacción débil al fuerte, los picos principales tienen una separación ligeramente mayor. Este desplazamiento es consecuencia de la redistribución de los eigenestados del sistema.
+#figure(
+  kind: "wide",
+  image("../assets/figuras/2at4lvl_fotones_grid.png", width: 100%),
+  caption: [Número esperado de fotones en el caso de dos átomos acoplados dentro de la cavidad con distintos valores de interacción $Oee$. Se observa una supresión de excitación doble conforme aumenta el término de interacción. Los parámetros utilizados son: $rabip = 0.5$, $rabic = 20.0$, $g = 15.0$, $kappa = 1.0$, $dece = 1.0$, $decs = 0.0$, $nmax = 3$.]
+) <fig:2at4lvl_fotones_bloqueo>

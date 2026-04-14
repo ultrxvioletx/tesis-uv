@@ -13,13 +13,7 @@
 // #include "front-matter/dedication.typ"
 // #include "front-matter/abstract.typ"
 
-#align(center)[
-  #text(2.5em, "Átomos de Rydberg interactuando dentro de una cavidad óptica")
-  #v(2cm)
-  #text(1.5em, "Andrea Fernanda Rodríguez Rojas")
-  #v(8cm)
-  "Universidad Nacional Autónoma de México"
-]
+#include "body/cover.typ"
 #pagebreak()
 
 // Tabla de Contenidos (Índice)
@@ -45,9 +39,8 @@
 #include "capitulos/03_implem_numerica.typ"
 
 
-== Dinámica de la base constructiva
+== Dinámica de los sistemas base
 #include "capitulos/04_sistemas_base.typ"
-=== Múltiples átomos en la cavidad
 #include "capitulos/04_1at3lvl.typ"
 #include "capitulos/04_elim_adiabatica.typ"
 
@@ -55,7 +48,6 @@
 == Excitación colectiva y bloqueo de Rydberg <cap:bloqueo>
 #include "capitulos/05_2at4lvl_independientes.typ"
 #include "capitulos/05_2at4lvl_bloqueo.typ"
-==== Amplificación de acoplamiento provocada por interacciones
 
 == Conclusiones
 

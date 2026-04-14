@@ -57,18 +57,18 @@ def set_style():
         "savefig.bbox": "tight",
     })
 
-def format_ax(ax, xstep=2, ystep=2, ymax=None, xlim=None):
+def format_ax(ax, xstep=2, ystep=2, ymax=None, ymin=0, xlim=None, show_xlabels=True, show_ylabels=True):
     if xlim is not None:
-        xmin,xmax = xlim[0],xlim[1]
-        ax.set_xlim(xmin, xmax)
+        ax.set_xlim(xlim[0], xlim[1])
     if ymax is not None:
-        ax.set_ylim(0, ymax)
+        ax.set_ylim(ymin, ymax)
     ax.xaxis.set_major_locator(plt.MultipleLocator(xstep))
     ax.yaxis.set_major_locator(plt.MultipleLocator(ystep))
     ax.xaxis.set_minor_locator(plt.MultipleLocator(xstep / 2))
     ax.yaxis.set_minor_locator(plt.MultipleLocator(ystep / 2))
-    ax.yaxis.set_major_formatter(plt.ScalarFormatter())
-    ax.yaxis.set_minor_formatter(plt.ScalarFormatter())
+    ax.yaxis.set_major_formatter(plt.ScalarFormatter() if show_ylabels else plt.NullFormatter())
+    ax.yaxis.set_minor_formatter(plt.NullFormatter())
+    ax.xaxis.set_major_formatter(plt.ScalarFormatter() if show_xlabels else plt.NullFormatter())
 
 def segmento(ax, x1, x2, y, h=0.05):
     color="gray"

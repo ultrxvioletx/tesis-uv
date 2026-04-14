@@ -7,9 +7,15 @@
 *.ipynb_checkpoints/*
 
 **/.env
+dudas.md
+dudas.ipynb
+hamiltoniano.jpg
+thesisfiles.tar.gz
+
 
 # ignoramos pdfs dentro de capítulos y de style
 style.pdf
+contenido/*.pdf
 capitulos/*.pdf
 # ignoramos los c y hdf5 porque son muy pesados
 **/*.h5

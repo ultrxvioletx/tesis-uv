@@ -15,6 +15,7 @@
   link: rgb("#152b42"), //deep space blue
   url: rgb("#c9b7ad"), //almond
   diagrams: rgb("#94a89a"), //verde
+  lines: rgb("#9490a2"), //lavender gray
 )
 
 // ESTADOS GLOBALES
@@ -56,8 +57,13 @@
 #let ke = $ket(e)$ //e
 #let ks = $ket(s)$ //s
 #let kp = $ket(p)$ //p
+#let kgg = $ket(g g)$ //gg
 #let kss = $ket(s s)$ //ss
 #let kpp = $ket(p p)$ //pp
+#let dicke1 = $ket(Psi_+)_"Dicke"$ //superradiante
+#let dicke2 = $ket(Psi_-)_"Dicke"$ //subradiante
+#let fost1 = $ket(Psi_+)_"Föster"$ //interaccion
+#let fost2 = $ket(Psi_-)_"Föster"$ //interaccion
 // poblaciones
 #let Pg = $P_g$
 #let Pe = $P_e$
@@ -87,6 +93,7 @@
 // variables
 #let rabieff = $Omega_"eff"$ //rabi efectiva
 #let geff = $g_"eff"$ //rabi generalizada
+#let Deff = $Delta_"eff"$ //rabi generalizada
 #let sg = $S_g$ //stark |g>
 #let ss = $S_s$ //stark |s>
 #let d1 = $d_"1at"$ //distancia 1at
@@ -349,6 +356,19 @@
         ),
       )
       v(1em)
+    }
+    show figure.where(kind: "wide"): it => {
+      set par(first-line-indent: 0pt)
+      block(
+        width: 100% + 0.5cm,
+        outset: (right: 0.5cm),
+        stack(
+          dir: ttb,
+          spacing: 0.5em,
+          align(center, it.body),
+          align(left, text(size: captionfontsize, it.caption)),
+        )
+      )
     }
     show figure.caption: it => {
       strong(it.supplement + [ ] + context it.counter.display(it.numbering))

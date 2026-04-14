@@ -176,8 +176,11 @@ Como la cavidad y el átomo tienen corrimientos de magnitudes distintas, $ss != 
 
 - Tipo luz: De forma inversa, el pico derecho en $scan\/kappa approx 2.5$ está más cerca de la resonancia que posee la cavidad intrínsecamente, por lo que tiene un mayor carácter fotónico y se refleja maximizando la transmisión dentro de la cavidad, mientras que el nivel de excitación del átomo decrece.
 
-La separación entre los polaritones puede escribirse de forma analítica y está acotada superiormente por la diferencia de los corrimientos y el acoplamiento efectivo:
+La diferencia de las nuevas energías con las que resuena el sistema (separación de los picos) ahora que se comporta como un sistema efectivo de dos niveles, se calcula usando la @eq:delta_energias. Donde la frecuencia de Rabi del campo clásico se reemplaza por el acoplamiento del campo del vacío (usando @eq:rabi_g para cero fotones), $2 geff$, y la desintónia de láser se reemplaza por la desintonía efectiva entre el átomo y la cavidad, $Deff = ss - sg$.
 
-$ d1 = sqrt((ss - sg)^2 + 4geff^2) approx 3.25 kappa $
+Así, tenemos que:
+
+$ d1 = delta E &= sqrt((2geff)^2 + (ss - sg)^2) \
+    &= sqrt(4 geff^2 + (ss - sg)^2) approx 3.25 kappa $
 
 Finalmente, la asimetría de los _shifts_ provoca que la transición efectiva de dos fotones entre los estados desnudos $ket(g 1)$ y $ket(s 0)$ ya no ocurra a la frecuencia natural del átomo, y el sistema ahora se rige por una renormalización del Hamiltoniano no perturbado, cuya energía central ha sido desplazada.

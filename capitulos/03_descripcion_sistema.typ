@@ -7,13 +7,13 @@ En este capítulo se establece la formulación matemática dos átomos de cuatro
 
 Se hace la construcción del Hamiltoniano total como la suma de las contribuciones de los Hamiltonianos de los subsistemas que lo componen, incluyendo las aportaciones energéticas individuales y los acoplamientos entre los subsistemas, y aplicando las condiciones disipativas que muestran la interacción del sistema con su entorno.
 
-Debido a que en los sistemas cuánticos de varios niveles es difícil encontrar soluciones analíticas exactas, esta tesis utiliza un enfoque numérico para resolver el modelo que a continuación se formula. En la @sec:implem-numerica de este capítulo se detallan las técnicas numéricas utilizadas para resolver la ecuación maestra del sistema, describiendo el algoritmo de la simulación y las herramientas usadas.
+Debido a que en los sistemas cuánticos de varios niveles es difícil encontrar soluciones analíticas exactas, esta tesis utiliza un enfoque numérico para resolver el modelo que a continuación se formula. En @sec:implem-numerica de este capítulo se detallan las técnicas numéricas utilizadas para resolver la ecuación maestra del sistema, describiendo el algoritmo de la simulación y las herramientas usadas.
 
 
 === Descripción del sistema físico <sec:descripcion-sistema>
 
 
-El sistema que se estudia en este trabajo está conformado por dos átomos idénticos de cuatro niveles, confinados dentro de una cavidad óptica de un solo modo. Los niveles de energía de los átomos se encuentran en configuración de cascada (@fig:sistema), y como los siguientes estados:
+El sistema que se estudia en este trabajo está conformado por dos átomos idénticos de cuatro niveles, confinados dentro de una cavidad óptica de un solo modo. Los niveles de energía de los átomos se encuentran en configuración de cascada (@fig:sistema), y en los siguientes estados:
 - $kg$: estado base
 - $ke$: estado intermedio
 - $ks$: estado altamente excitado (Rydberg)
@@ -48,7 +48,6 @@ Además, los átomos descaen espontáneamente de los niveles $ks$ y $ke$ con tas
     //distancias energias
     edge((1.5,hg),(1.5,he), "<|-|>", $hbar weg$, label-side: right),
     edge((1.5,he),(1.5,hs), "<|-|>", $hbar wse$, label-side: right),
-    edge((1.5,hs),(1.5,hp), "<|-|>", $hbar wps$, label-side: right),
     //laseres
     edge((1,hg),(1,he +d), "<->", $hbar wp$, label-side: left, "wave"),
     edge((1,he),(1,hs+d), "<->", $hbar wc$, label-side: left, "wave"),
@@ -122,7 +121,7 @@ A continuación, se detalla la expresiónon matemática de cada uno de estos té
 
     $
     Hee &= hbar Cee/R^3 (sigk(s,p,1) + sigk(s,p,1)^dagger) ** (sigk(s,p,2) + sigk(s,p,2)^dagger) \
-      &= hbar Oee (ketbra(p s,s p) + ketbra(s p,p s)) + ketbra(s s, p p) + ketbra(p p, s s))
+      &= hbar Oee (ketbra(p s,s p) + ketbra(s p,p s) + ketbra(s s, p p) + ketbra(p p, s s))
     $
 
     #{

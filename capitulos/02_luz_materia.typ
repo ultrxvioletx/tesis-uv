@@ -4,7 +4,15 @@
 #import "../style.typ": *
 
 
+En la presente tesis se tiene como objetivo simular y analizar la dinámica de un sistema cuántico particular: un par de átomos confinados en una cavidad óptica y bajo distintos campos láser. Para lograr interpretar correctamente los fenómenos cooperativos que surgen de este sistema, es necesario establacer primero algunas ideas y conceptos teóricos que nos funcionen como base formal.
+
+En este capítulo se escribe sobre dichas bases teóricas, presentes en el estudio de óptica cuántica. Inicialmente, en @sec:luz_materia se aborda la interacción entre la materia y la radiación, partiendo del modelo semiclásico y la cuantización del campo electromagnético. Luego, en @sec:jaynes_cummings se aborda el formalismo de sistemas cuánticos abiertos, necesarios para modelar los procesos no-reversibles de disipación y pérdida de coherencia inevitables en cualquier experimento de física. Finalmente, en @sec:bloqueo_rydberg se detalla sobre la física de los átomos de Rydberg y las interacciones de largo alcance, quienes conforman los ingredientes del bloqueo de excitación.
+
+
 === Interacción luz-materia <sec:luz_materia>
+
+
+La descripción del modelo comienza por definir cómo un sistema atómico intercambia energía con un campo electromagnético. Dependiendo de las características de dicho campo, tales como intensidad y número de fotones, esta interacción puede formularse tratando a la luz como una onda electromagnética clásica o con una descripción puramente cuántica mediante fotones. En esta sección se desarrollan ambos tipos de interacciones con el objetivo de plantear algunos de los Hamiltonianos usados, así como dejar ideas preliminares que nos permitan estudiar otros fenómenos e interacciones.
 
 
 #let w = $omega$
@@ -55,10 +63,10 @@ $ abs(C_e (t))^2 = abs(rabir / rabi)^2 sin^2(rabi/2 t) $ <eq:rabi>
 donde $rabir = sqrt(detu^2 + rabi^2)$ es la frecuencia de Rabi generalizada; esta ecuación muestra que la población del átomo oscila entre el estado base y el estado excitado a una frecuencia $rabi$.
 
 
-==== Cuantización del campo: Modelo de Jaynes-Cummings
+==== Cuantización del campo: Modelo de Jaynes-Cummings <sec:jaynes_cummings>
 
 
-Ahora, en lugar de suponer al campo electromagnético como una onda clásica, para descibir la interacción en una cavidad se requiere tratar a la luz como un sistema cuántico. En este sistema, el campo atrapado en la cavidad se comporta matemáticamente como un oscilador armónico cuántico #footnote[Desarrollo obtenido de @gerry_introductory_2005[$section 4.5, section 4.3$] y complementado con @carmichael_statistical_2008[$section 9.2.4$] y @lambropoulos_fundamentals_2007[$section 3.4$].].
+Ahora, en lugar de suponer al campo electromagnético como una onda clásica, para descibir la interacción en una cavidad se requiere tratar a la luz como un sistema cuántico. En este sistema, el campo atrapado en la cavidad se comporta matemáticamente como un oscilador armónico cuántico #footnote[Desarrollo obtenido de @gerry_introductory_2005[$section 4.5, section 4.3$], @fox_quantum_2006[$section 10.4$] y complementado con @carmichael_statistical_2008[$section 9.2.4$], @lambropoulos_fundamentals_2007[$section 3.4$].].
 
 Si consideramos un único modo del campo electromagnético de frecuencia $w$ confinado en una cavidad de volumen V, el Hamiltoniano que describe la energía de este modo de radiación es:
 
@@ -115,17 +123,21 @@ En esta tesis, se estudia principalmente la participación de átomos en configu
 
 ===== Dressed states y fenómeno de Autler-Townes <sec:dressed_states>
 
-Consideremos un sistema con un campo de control intenso y en cuasi-resonancia con la transición superior $ke <-> ks$, con frecuencia $wc$ y desintonía $Dac = wc - weg approx 0$. En el límite de campo fuerte, la dinámica no se describe por el intercambio de fotones individuales, sino por la oscilación coherente de población entre niveles inducida por el campo del láser, parametrizada por $rabic$.
+Consideremos un sistema con un campo de control intenso y en cuasi-resonancia con la transición superior $ke <-> ks$, con frecuencia $omega$ y desintonía $Delta = omega - weg approx 0$. En el límite de campo fuerte, la dinámica no se describe por el intercambio de fotones individuales, sino por la oscilación coherente de población entre niveles inducida por el campo del láser, parametrizada por $Omega$.
 
-El Hamiltoniano puede escribirse como $hat(H) = Ha + Hc + hat(H)_(A C)$, donde $Ha$ es el Hamiltoniano del átomo libre, $Hc = hbar wc cre anh$ y $hat(H)_(A C)$ es la interacción dipoloeléctrica.
+El Hamiltoniano puede escribirse como $hat(H) = Ha + Hc + hat(H)_(A C)$, donde $Ha$ es el Hamiltoniano del átomo libre, $Hc = hbar omega cre anh$ y $hat(H)_(A C)$ es la interacción dipoloeléctrica.
 
-El modelo anterior (Jaynes-Cummings) describe la interacción de un átomo con un campo cuántido débil (pocos fotones). Aunque el campo es clásico, se puede modelar como un modo electromagnético muy poblado con $N$ fotones ($N -> infinity$), permitiendo diagonalizar el Hamiltoniano, y tal que $rabic(N) = 2 g sqrt(N+1)$ (frecuencia de Rabi de electrodinámica cuántica).
+El modelo anterior (Jaynes-Cummings) describe la interacción de un átomo con un campo cuántido débil (pocos fotones). Aunque el campo es clásico, se puede modelar como un modo electromagnético muy poblado con $N$ fotones ($N -> infinity$), permitiendo diagonalizar el Hamiltoniano, y tal que:
 
-Cuando no hay interacción, $hat(H)_(A C)=0$, los eigenestados del sistema son los estados $ket(i N)$, que representan al átomo en el estado $i in {e,s}$ con $N$ fotones del láser de control. Cerca de la resonancia, los estados $ket(s N)$ y $ket(e [N+1])$ están casi degenerados y separados por una energía $hbar Dac$
+$ Omega(N) = 2 g sqrt(N+1) $ <eq:rabi_g>
+
+que es la frecuencia de Rabi de electrodinámica cuántica.
+
+Cuando no hay interacción, $hat(H)_(A C)=0$, los eigenestados del sistema son los estados $ket(i N)$, que representan al átomo en el estado $i in {e,s}$ con $N$ fotones del láser de control. Cerca de la resonancia, los estados $ket(s N)$ y $ket(e [N+1])$ están casi degenerados y separados por una energía $hbar Delta$
 
 Al introducir el acoplamiento $hat(H)_(A C)$, estos dos estados desnudos se acoplan fuertemente mediante el elemento de matriz:
 
-$ braket(s N, hat(V)_(A C), e [N+1]) = (hbar rabic)/2, $
+$ braket(s N, hat(V)_(A C), e [N+1]) = (hbar Omega)/2, $
 
 lo que levanta la cuasi-degeneración y fuerza a los niveles a repelerse energéticamente (fenómeno que se conoce como _anticrossing_). Al diagonalizar este subespacio bidimensional, se producen dos nuevos eigenestados perturbados que denotaremos como $ket(+)$ y $ket(-)$, y son superposiciones ortogonales de los estados desnudos originales:
 
@@ -134,11 +146,11 @@ $
   ket(N -) &= cos theta ket(s N) - sin theta ket(e [N+1])
 $
 
-donde la relación entre la fuerza de acomplamiento y la desintonía determina al ángulo de mezcla $theta = -rabic\/Dac$. A su vez, las energías de estos estados vestidos tienen una separación dadas por una frecuencia de Rabi efectiva:
+donde la relación entre la fuerza de acomplamiento y la desintonía determina al ángulo de mezcla $theta = -Omega\/Delta$. A su vez, las energías de estos estados vestidos tienen una separación dadas por una frecuencia de Rabi efectiva:
 
-$ delta E = hbar rabieff = hbar sqrt(rabic^2 + Dac^2) $
+$ delta E = hbar rabieff = hbar sqrt(Omega^2 + Delta^2) $ <eq:delta_energias>
 
-Veamos que en resonancia exacta $Dac=0$, se tiene $theta = pi/4$, por lo que los _dressed states_ son combinaciones simétricas y antisimétricas puras (50/50) de $ke$ y $ks$; y bajo esta condición, la separación de la energía alcanza el valor mínimo $hbar rabic$.
+Veamos que en resonancia exacta $Delta=0$, se tiene $theta = pi/4$, por lo que los _dressed states_ son combinaciones simétricas y antisimétricas puras (50/50) de $ke$ y $ks$; y bajo esta condición, la separación de la energía alcanza el valor mínimo $hbar Omega$.
 
 Finalmente, una de las consecuencias de la formación de _dressed states_, es que al sondear el átomo con un segundo láser débil desde el estado $kg$ al estadio intermedio $kg$, aparece un desdoblamiento de Autler-Townes.
 
@@ -158,18 +170,18 @@ $ delta E_"vac" = 2 hbar g $
 
 Por otro lado, mientras que el desdoblamiento Autler-Townes es consecuencia del desplazamiento de los niveles de energía bajo campos intensos, otro caso particular es la interacción del átomo de tres niveles con dos campos coherentes que provoca fenómenos como la existencia de _dark states_.
 
-Considerando el sistema cascada ya descrito, en el caso de resonancia para ambas transiciones $Dpa=Dac=0$, el Hamiltoniano de interacción bajo RWA es:
+Considerando el sistema cascada $kg <-> ke <-> ks$, en el caso de resonancia para ambas transiciones $Delta_1=Delta_2=0$, el Hamiltoniano de interacción bajo RWA es:
 
-$ hat(H)_I = -hbar/2 (rabip sig(e,g) + rabic sig(s,e) + rabip^* sig(g,e) + rabic^* sig(e,s)). $
+$ hat(H)_I = -hbar/2 (Omega_1 sig(e,g) + Omega_2 sig(s,e) + Omega_1^* sig(g,e) + Omega_2^* sig(e,s)). $
 
 Nos interesa saber si existe un estado estacionario del sistema, que denotaremos como $ket(D)$, y cuya energía de interacción sea estrictamente cero, es decir, $hat(H)_I ket(D)=0$.
 
 Proponemos el estado $ket(D) = C_g kg + C_e ke + C_s ks$ y, aplicando el Hamiltoniano de interacción (por simplicidad, asumimos que las frecuencias de Rabi son reales), se obtiene un sistema de ecuaciones diferenciales acopladas para las amplitudes de probabilidad. En particular, la evolución temporal del estadio intermedio está dada por:
 
-$ dot(C_e) = i/2 (rabip C_g + rabic C_s) $
+$ dot(C_e) = i/2 (Omega_1 C_g + Omega_2 C_s) $
 
-donde existe una condición para la cual la amplitud de probabilidad del estadio intermedio se anula, tal que $dot(C_e)=0$, lo que implica que $rabip C_g + rabic C_s=0$. Esto define al eigenestado:
+donde existe una condición para la cual la amplitud de probabilidad del estadio intermedio se anula, tal que $dot(C_e)=0$, lo que implica que $Omega_1 C_g + Omega_2 C_s=0$. Esto define al eigenestado:
 
-$ ket(D) = (rabic kg - rabip ks)/sqrt(rabip^2 + rabic^2). $
+$ ket(D) = (Omega_2 kg - Omega_1 ks)/sqrt(Omega_1^2 + Omega_2^2). $
 
 A este eigenestado se le conoce como _dark state_, y se caracteriza por no tener contribución del estado intermedio $ke$, por lo que el sistema se vuelve inmune al decaimiento espontáneo $dece$ y queda atrapado coherentemente entre los estados $kg$ y $ks$.

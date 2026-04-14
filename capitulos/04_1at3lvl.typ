@@ -51,7 +51,7 @@ Para analizar esta dinámica, se simuló el sistema utilizando la @eq:1at3lvl_ma
 
 La dinámica se dividirá en tres tipos de análisis, los dos primeros dados por la presencia o ausencia del láser de control clásico en la transición $ke <-> ks$, y el último por una desontía $Dpa$ muy grande, como a continuación se detalla.
 
-==== Desdoblamiento _vacuum Rabi_ en régimen de acoplamiento fuerte
+==== Desdoblamiento _vacuum Rabi_ <sec:vacuum_rabi>
 
 Procederemos a estudiar el sistema átomo-cavidad en la configuración más simple, que corresponde al láser de control apagado $rabic=0$. En este régimen, y asumiendo que el bombeo de la cavidad es suficientemente débil para no lograr poblar el estado $ks$ a través de estados virtuales, el sistema es reducido a un átomo de 2 niveles $kg <-> ke$ interactuando con el modo de la cavidad. Esta configuración está descrita por el modelo de Jaynes-Cummings, y cuyos fenómenos cambian dependiendo de la relación entre la constante $g$ y las tasas de disipación del sistema $kappa, dece$.
 
@@ -89,7 +89,7 @@ Estos dos estados tienen energías distintas y separadas por $2g$. Por lo tanto,
 
 Como es de esperarse, la población del nivel superior $ks$ permanece en cero, ya que no existe ningún campo externo que acople el estado.
 
-==== Interferencia cuántica y EIT
+==== Interferencia cuántica y EIT <sec:EIT>
 
 A diferencia del sistema de _dos_ niveles anterior, la presencia de más de una fuente de excitación permite que surjan fenómenos de interferencia cuántica y coherencia atómica, tales como la Transparencia Inducida Electromagnética (EIT). En la figura @fig:1at3lvl_conrabi se muestra una alteración en la estructura de los niveles atómicos, como consecuencia de dichos fenómenos.
 
