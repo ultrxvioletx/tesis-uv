@@ -16,6 +16,8 @@ colores = {
     "fotones": "#9490A2" #lila
 }
 
+markers = ['s', '^', 'o']
+
 def set_style():
     plt.rcParams.update({
         "text.usetex": True,

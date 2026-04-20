@@ -21,8 +21,6 @@ El sistema que se estudia en este trabajo está conformado por dos átomos idén
 
 Para la dinámica del sistema se usan dos campos externos: un láser de prueba débil de intensidad $rabip$ cuya caracterísitica es ser un bombeo que inyecta fotones a la cavidad a frecuencia $wp$; y un láser de control clásico de intensidad fuerte $rabic$ y frecuencia $wc$ que acopla los niveles $ke$ y $ks$, con desintonía entre la frecuencia del campo y la frecuencia de transición de $Dac = wc - wse$. El láser de prueba, a su vez, acopla la transición entre los niveles $kg$ y $ke$, con desintonía $Dpa = wp - weg$.
 
-Además, los átomos descaen espontáneamente de los niveles $ks$ y $ke$ con tasas de decaimiento de $decs$ y $dece$, respectivamente.
-
 #{
   let hg = 3
   let he = 2
@@ -62,6 +60,8 @@ Además, los átomos descaen espontáneamente de los niveles $ks$ y $ke$ con tas
   ),
   caption: [Diagrama de la interacción de un átomo de cuatro niveles con un campo de prueba con frecuencia $wp$ que acopla los niveles $kg -> ke$ con desintonía $Dpa$, y un campo de control con frecuencia $wc$ que acopla $ke -> ks$ y desintonía $Dac$, así como decaimientos espontáneos $decs$ y $dece$ entre los niveles $ks -> ke$ y $ke -> kg$, respectivamente.]
 )} <fig:sistema>
+
+Además, los átomos descaen espontáneamente de los niveles $ks$ y $ke$ con tasas de decaimiento de $decs$ y $dece$, respectivamente.
 
 La configuración descrita anteriormente queda representada en la @fig:sistema. Nótese que no existe ningún campo externo que acople directamente los niveles $ks$ y $kp$, pero la población de este último nivel estará únicamente determinada por las interacciones interatómicas, que se modelan a través de términos de interacción de tipo dipolar y de tipo de intercambio.
 
@@ -124,6 +124,14 @@ A continuación, se detalla la expresiónon matemática de cada uno de estos té
       &= hbar Oee (ketbra(p s,s p) + ketbra(s p,p s) + ketbra(s s, p p) + ketbra(p p, s s))
     $
 
+    donde $Cee prop d^2$ y $Oee = Cee\/R^3$. Notemos que aquí es donde toma presencia el nivel auxilar $kp$.
+    
+    Para modelar el bloqueo de excitación en este trabajo se implementa una resonancia de Föster inducida. Al introducir el cuarto nivel $kp$, cuya energía es igual a la de $ks$ pero con paridad opuesta y tal que no hay ningún láser externo sintonizado para poblarlo, se genera una degeneración entre ambos estados en cada uno de los átomos. Debido a la interacción dipolo-dipolo, se puede acoplar fuertemente el estado $kss$ de los átomos con el estado $kpp$ sin emitir fotones, puesto que la energía total se conserva:
+
+    $ E_s^((1)) + E_s^((2)) = E_p^((1)) + E_p^((2)) $
+
+    cumpliendo así la resonancia de Föster.
+
     #{
       let gg = 3
       let gs = 1.5
@@ -165,14 +173,8 @@ A continuación, se detalla la expresiónon matemática de cada uno de estos té
       ),
       caption: [Diagrama de desdoblamiento simétrico del nivel de energía $kss$ debido a la presencia de $kpp$ y la interacción dipolo-dipolo $Wdd$.]
     )} <fig:desdoblamiento>
-
-    donde $Cee prop d^2$ y $Oee = Cee\/R^3$. Notemos que aquí es donde toma presencia el nivel auxilar $kp$.
     
-    Para modelar el bloqueo de excitación en este trabajo se implementa una resonancia de Föster inducida. Al introducir el cuarto nivel $kp$, cuya energía es igual a la de $ks$ pero con paridad opuesta y tal que no hay ningún láser externo sintonizado para poblarlo, se genera una degeneración entre ambos estados en cada uno de los átomos. Debido a la interacción dipolo-dipolo, se puede acoplar fuertemente el estado $kss$ de los átomos con el estado $kpp$ sin emitir fotones, puesto que la energía total se conserva:
-
-    $ E_s^((1)) + E_s^((2)) = E_p^((1)) + E_p^((2)) $
-
-    cumpliendo así la resonancia de Föster. Luego, el acoplamiento fuerte ocasiona que la energía de $kss$ se desplace simétricamente hacia $+- Oee$ (desdoblamiento Autler-Townes) y, si este desplazamiento es más grande que el ancho de línea del láser ($Oee >> rabic$), el sistema sale de resonancia y el segundo átomo no puede ser excitado, logrando así el bloqueo de Rydberg @gaetan_observation_2009 @pillet_controllable_2009 @vogt_electricfield_2007.
+    Luego, el acoplamiento fuerte ocasiona que la energía de $kss$ se desplace simétricamente hacia $+- Oee$ (desdoblamiento Autler-Townes) y, si este desplazamiento es más grande que el ancho de línea del láser ($Oee >> rabic$), el sistema sale de resonancia y el segundo átomo no puede ser excitado, logrando así el bloqueo de Rydberg @gaetan_observation_2009 @pillet_controllable_2009 @vogt_electricfield_2007.
 
 
 ==== Incorporación de la disipación y decaimiento

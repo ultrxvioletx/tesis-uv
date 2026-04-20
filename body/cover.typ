@@ -51,13 +51,13 @@
       #text(size: 13pt, tracking: 0.02em, weight: "bold", upper(universidad))
       #v(0.3cm)
       #line(length: 90%, stroke: 2.5pt + colors.lines)
-      #text(size: 12pt, fill: colors.lines, ". ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.."
+      #text(size: 12pt, weight: "bold", fill: colors.lines, ". ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.."
       )
       // #line(length: 90%, stroke: 1pt + colors.lines)
       #v(0.4cm)
       #text(size: 12pt, upper(facultad))
       #v(1fr)
-      #text(size: 16pt, fill: colors.title, weight: "extrabold", tracking: 0.1em, upper(titulo))
+      #text(size: 16pt, fill: colors.lines, weight: "extrabold", tracking: 0.1em, upper(titulo))
       #v(1fr)
       #text(size: 26pt, tracking: 0.5em, weight: "extrabold", "T E S I S", font: "3270 Nerd Font Mono")
       #v(0.1cm)

@@ -8,22 +8,19 @@
   lang: "es",
 )
 
-// --- Materia Preliminar ---
-// #include "front-matter/titlepage.typ"
-// #include "front-matter/dedication.typ"
-// #include "front-matter/abstract.typ"
-
 #include "body/cover.typ"
-#pagebreak()
+#include "body/abstract.typ"
+#include "body/agradecimientos.typ"
 
-// Tabla de Contenidos (Índice)
+// Índice
 #outline(
   title: none,
   depth: 4,
+  target: heading,
 )
+#include "body/glosario.typ"
 
-// --- Cuerpo Principal ---
-// #state("show-headers").update(true)
+// Cuerpo principal
 
 == Introducción
 #include "capitulos/01_introduccion.typ"
@@ -50,10 +47,11 @@
 #include "capitulos/05_2at4lvl_bloqueo.typ"
 
 == Conclusiones
+#include "capitulos/06_conclusiones.typ"
 
 // --- Apéndice ---
-// #appendix // Esto cambia el estilo de los capítulos siguientes.
-// #include "capitulos/appendix-a.typ"
+#appendix() // cambia el estilo de los capítulos siguientes.
+#include "capitulos/A_codigos.typ"
 
 
 // --- Bibliografía ---

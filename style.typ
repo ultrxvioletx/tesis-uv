@@ -11,7 +11,7 @@
 // COLORES
 #let colors = (
   title: rgb("#CFB1B7"), //cotton rose
-  citation: rgb("#9490a2"), //lavender gray
+  ref: rgb("#CFB1B7"), //cotton rose
   link: rgb("#152b42"), //deep space blue
   url: rgb("#c9b7ad"), //almond
   diagrams: rgb("#94a89a"), //verde
@@ -29,7 +29,7 @@
 #let Haa = $hat(H)_"atomos"$ //hamiltoniano atomos
 #let Hb = $hat(H)_"bombeo"$ //hamiltoniano bombeo
 #let Hc = $hat(H)_"cavidad"$ //hamiltoniano cavidad
-#let Hca = $hat(H)_(I M)$ //hamiltoniano interaccion cavidad-atomo
+#let Hca = $hat(H)_(I C)$ //hamiltoniano interaccion cavidad-atomo
 #let Hla = $hat(H)_(I L)$ //hamiltoniano interaccion luz-atomo
 #let Hi = $hat(H)_"interaccion"$ //hamiltoniano interaccion
 #let Hdr = $hat(H)_"DR"$ //hamiltoniano dipolo resonante
@@ -44,8 +44,9 @@
 // otros
 #let HH = $cal(H)$ //espacio de hilbert
 #let HHc = $cal(H)_"cavidad"$ //hilbert cavidad
-#let HHa1 = $cal(H)_"átomo1"$ //hilbert cavidad
-#let HHa2 = $cal(H)_"átomo2"$ //hilbert cavidad
+#let HHa = $cal(H)_"átomo"$ //hilbert átomo
+#let HHa1 = $cal(H)_"átomo1"$ //hilbert átomo 1
+#let HHa2 = $cal(H)_"átomo2"$ //hilbert átomo 2
 #let LL = $cal(L)$ //lindblad
 #let OO = $cal(hat(O))$ //operador arbitrario
 #let tr = $"Tr"$ //formato traza
@@ -73,6 +74,7 @@
 #let P1s = $P_(g s) + P_(s g)$
 // parámetros
 #let nmax = $N_"max"$ //truncamiento base Fock
+#let nat = $N_"at"$ //número de átomos
 #let wp = $omega_p$ //frecuencia prueba
 #let wc = $omega_c$ //frecuencia control
 #let weg = $omega_(e g)$ //distancia eg
@@ -116,8 +118,14 @@
 )}
 #let appendix() = {
   in-appendix.update(true)
-  set heading(numbering: "A")
-  counter(heading).update(1)
+  counter(heading).update(0)
+}
+// OTROS TÍTULOS
+#let otrotitulo(it) = {
+  pagebreak()
+  text(size: 12pt, weight: "bold", fill: colors.lines, ". ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁..")
+  align(center, text(1.5em, fill: colors.title, tracking: 0.1em, upper(it)))
+  v(1em)
 }
 
 // Función principal que encapsula y aplica todo el estilo.
@@ -126,12 +134,10 @@
   author: "Andrea Rodríguez",
   lang: "es",
   paper: "a4",
-  fontsize: 11pt,
+  fontsize: 12pt,
   captionfontsize: 9pt,
   binding-correction: 5mm,
   body-font: "Iwona",
-  sans-font: "FreeMono",
-  mono-font: "B612 Mono",
 ) = {
   return (doc) => {
     set document(
@@ -178,7 +184,7 @@
     show: chic.with(
       chic-height(2.5cm),
       chic-offset(30pt),
-      skip: (3,),
+      skip: (1,2,3,),
       chic-header(
         side-width: (auto,380pt,20pt),
         center-side: align(right, context {
@@ -207,7 +213,6 @@
     let spaced-smallcaps(it) = smallcaps(text(tracking: 0.03em, it))
     // Estilo de PARTE
     show heading.where(level: 1): it => {
-      pagebreak()
       align(center)[
         #text(1.2em, "Parte " + counter(heading).display())
         #v(1em)
@@ -217,15 +222,15 @@
     // Estilo de CAPITULOS
     show heading.where(level: 2): set heading(supplement: "Capítulo")
     show heading.where(level: 2): it => {
-      // incrementa el contador global de capítulos
-      global-chapter.step()
-      // reinicia contadores al cambiar de capítulo
-      counter(figure.where(kind: image)).update(0)
-      counter(figure.where(kind: table)).update(0)
-      counter(figure.where(kind: raw)).update(0)
-      pagebreak()
-      if not in-appendix.get() {
-        block(
+      if it.numbering != none {
+        // incrementa el contador global de capítulos
+        global-chapter.step()
+        // reinicia contadores al cambiar de capítulo
+        counter(figure.where(kind: image)).update(0)
+        counter(figure.where(kind: table)).update(0)
+        counter(figure.where(kind: raw)).update(0)
+        pagebreak()
+      block(
           width: 100%,
           inset: 0pt,
           grid(
@@ -233,26 +238,63 @@
             stroke: none,
             gutter: 25pt,
             [#text(size: 10em, fill: colors.title, weight: "bold", str(global-chapter.get().first()))],
-            [#line(length: 7em, angle: 90deg, stroke: 1pt + colors.title)],
-            [#spaced-caps(it.body)],
+            [
+              // #line(length: 5em, angle: 90deg, stroke: 1pt + colors.title)
+              // #place(dx: -4pt, rotate(90deg, text(size: 10pt, fill: colors.title, " .✦♡")))
+              #place(dx: -4pt, dy: 90pt, rotate(-90deg, 
+                box(width: 7em, align(center,
+                  text(size: 10pt, fill: colors.title, "· · ✦ · · · ✦ · · · ✦ · ·")
+                ))
+              ))
+            ],
+            [#text(size: 20pt, fill: colors.title, weight: "bold", spaced-caps(it.body))],
           )
         )
         v(3em)
-      } else {
-        align(center, text(size: 2em, weight: "bold", [
-          Apéndice #counter(heading).display("A"): #it.body
-        ]))
-        v(2em)
+      } else{
+        if in-appendix.get() {
+          counter(heading).step()
+          pagebreak()
+          block(
+            width: 100%,
+            inset: 0pt,
+            grid(
+              columns: (70pt, 10pt, 1fr),
+              stroke: none,
+              gutter: 25pt,
+              align(center,
+                text(size: 10em, fill: colors.title, weight: "bold", 
+                  numbering("A", counter(heading).get().first())
+                )
+              ),
+              [#place(dx: -4pt, dy: 90pt, rotate(-90deg,
+                box(width: 7em, align(center,
+                  text(size: 10pt, fill: colors.title, "· · ✦ · · · ✦ · · · ✦ · ·")
+                ))
+              ))],
+              [#text(size: 20pt, fill: colors.title, weight: "bold", spaced-caps(it.body))],
+            )
+          )
+          v(3em)
+        } else {
+          otrotitulo(it.body)
+        }
       }
     }
     // Estilo de SECCIÓN
     show heading.where(level: 3): set heading(supplement: $section$)
     show heading.where(level: 3): it => {
-      v(1.5em)
-      context counter(heading).display(heading.numbering)
-      h(0.5em)
-      spaced-smallcaps(text(size: 1.4em, it.body))
-      v(0.8em)
+      if it.numbering != none {
+        v(1.5em)
+        context counter(heading).display(heading.numbering)
+        h(0.5em)
+        spaced-smallcaps(text(size: 1.4em, it.body))
+        v(0.8em)
+      } else {
+        v(0.8em)
+        pad(left: 0em, align(left, spaced-smallcaps(text(size: 1.2em, it.body))))
+        v(0.8em)
+      }
     }
     // Estilo de SUBSECCIONES
     show heading.where(level: 4): set heading(supplement: $section$)
@@ -276,8 +318,9 @@
     // ÍNDICE
     show outline: it => {
       v(1em)
-      text(size: 2em, "Índice general")
-      v(1em)
+      heading(level: 2, outlined: false, numbering: none)[Índice general]
+      // text(size: 3em, "", fill: colors.title)
+      v(2em)
       it
     }
     show outline.entry.where(level: 1): it => { spaced-smallcaps(it) }
@@ -308,14 +351,46 @@
         }
       }
     }
-    //para indice de figuras, ecuaciones y tablas, recuerda usar el paquete i-figured
+
+    show outline.where(target: figure.where(kind: image)): it => {
+      v(1em)
+      text(size: 2em, "Índice de figuras")
+      v(1em)
+      it
+    }
     
     // BIBLIOGRAFÍA
-    show bibliography: set text(size: 10pt) // Letra un poco más pequeña
-    
+    show bibliography: set text(size: 10pt)
+    show bibliography: it => {
+      set page(header: none)
+      show heading: set heading(numbering: none)
+      text(size: 12pt, weight: "bold", fill: colors.lines, ". ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁..")
+      show heading: h => {
+        align(center, text(1.5em, fill: colors.title, tracking: 0.1em, upper(h.body)))
+      }
+      show regex("\[\d+\]"): it => text(fill: colors.ref, it)
+      it
+    }
+  
     // REFERENCIAS Y ENLACES
     show link: it => text(fill: colors.link, it.body)
-    // show cite: it => link(it.target, "[" + it.content + "]")
+    show ref: it => text(fill: colors.ref, weight: "bold", it)
+    show ref: it => {
+      let el = it.element
+      if el != none and el.func() == heading and el.depth >= 3 {
+        let nums = counter(heading).at(el.location()).slice(1)
+        let displayed = if el.depth == 3 {
+          numbering("1.1", ..nums)
+        } else if el.depth == 4 {
+          numbering("1.1.1", ..nums)
+        } else {
+          numbering("1.1.1.a", ..nums)
+        }
+        link(el.location(), text(fill: colors.ref, $section$ + displayed))
+      } else {
+        it
+      }
+    }
 
     // ECUACIONES
     show math.equation.where(block: false): it => box(it)
@@ -375,6 +450,9 @@
       it.separator
       it.body
     }
+
+    //LISTAS
+    set list(marker: text(fill: colors.lines, "•"))
         
     // CÓDIGO
     show raw.where(lang: "tex"): it => block(
