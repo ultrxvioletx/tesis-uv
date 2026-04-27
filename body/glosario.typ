@@ -20,13 +20,13 @@
 #heading(level: 3, outlined: false, numbering: none)[Espacios de Hilbert]
 
 - $HH$: Espacio de Hilbert total del sistema.
-- $HHc$: Subespacios de Hilbert de la cavidad.
+- $HHc$: Subespacio de Hilbert de la cavidad.
 - $HHa1, HHa2$: Subespacios de Hilbert del átomo 1 y átomo 2, respectivamente.
 
 
 #heading(level: 3, outlined: false, numbering: none)[Símbolos generales]
 
-- $rr$: Operador densidad (matriz densidad) del sistema.
+- $rr$: Operador densidad del sistema.
 - $OO$: Operador arbitrario.
 - $tr$: Traza de un operador.
 - $LL[OO]$: Superoperador de Lindblad que modela la disipación y el decaimiento.
@@ -55,19 +55,19 @@
 #heading(level: 3, outlined: false, numbering: none)[Parámetros del sistema]
 
 - $nmax$: Número máximo de fotones considerado para truncar la base de Fock del espacio de Hilbert de la cavidad.
-- $g$: Constante de acoplamiento coherente entre un átomo y un fotón de la cavidad (frecuencia vacuum Rabi de un fotón).
+- $g$: Constante de acoplamiento coherente entre un átomo y un fotón de la cavidad (frecuencia _Vacuum Rabi_ de un fotón).
 - $rabip, rabic$: Frecuencias de Rabi de los láseres de prueba y de control, respectivamente. Caracterizan la intensidad de los campos.
 - $wp, wc$: Frecuencias angulares de los campos láser de prueba y control, respectivamente.
 - $weg, wse, wps$: Frecuencias de transición atómica.
-- $Dpa, Dac$: Desintonías del láser de prueba respecto a la transición $weg$ y del láser de control respecto a la transición $wse$.
+- $Dpa, Dac$: Desintonías del láser de prueba respecto a la transición $weg$ y del láser de control respecto a la transición $wse$, respectivamente.
 - $scan$: Variable de barrido de frecuencia para la sonda láser de prueba, alrededor de $Delta = 100$.
 - $rabieff, geff$: Frecuencia de Rabi y constante de acoplamiento átomo-cavidad efectivas tras la supresión del nivel intermedio.
 - $Deff$: Desintonía efectiva del sistema de dos fotones.
 - $sg, ss$: Corrimientos Stark inducidos en el estado base y en el estado de Rydberg.
-- $d1, d2, d2b$: Distancias espectrales entre picos de resonancia para el caso de un átomo, dos átomos independientes y bajo régimen de bloqueo.
-- $Oee$: interacción de Förster entre los estados $kss$ y $kpp$, proporcional a $Oee = Cee \/ R^3$.
+- $d1, d2, d2b$: Distancias espectrales entre picos de resonancia para el caso de un átomo, dos átomos independientes y bajo régimen de bloqueo, respectivamente.
 - $R$: Distancia internuclear entre los dos átomos.
-- $Cdr, Cee$: Constantes de acoplamiento para las interacciones dipolares de intercambio.
+- $Cdr, Cee$: Constantes de acoplamiento para las interacciones dipolares de intercambio, entre las transiciones inferiores y las superiores, respectivamente.
+- $Oee$: Interacción de Förster entre los estados $kss$ y $kpp$, proporcional a $Cee \/ R^3$.
 
 
 #heading(level: 3, outlined: false, numbering: none)[Disipación y decaimiento]

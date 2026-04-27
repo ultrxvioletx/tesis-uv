@@ -28,7 +28,7 @@ $ dicke1 = 1/sqrt(2) (ket(s g) + ket(g s)). $
 
 La consecuencia de esto es que el momento dipolar de transición se amplifica de forma cooperativa. Así, la fuerza de acoplamiento efectiva entre los átomos y la cavidad en resonancia se multiplica por un factor $sqrt(nat)$, donde $nat$ es el número de átomos. Por tanto, en el caso específico de dos átomos $nat=2$, el desdoblamiento de los estados vestidos se amplifica un factor de $sqrt(2) approx 1.41$.
 
-Por otro lado, también oscilaría entre $kgg$ y el estado antisimétrico (estado subradiante):
+Por otro lado, el sistema también oscilaría entre $kgg$ y el estado antisimétrico (estado subradiante):
 
 $ dicke2 = 1/sqrt(2) (ket(s g) - ket(g s)) $
 
@@ -65,7 +65,7 @@ Ahora que hemos introducido el segundo átomo, el espacio de Hilbert utilizado c
 
 Al analizar la separación entre los picos de transmisión de la @fig:2at4lvl_independientes, se observa una separación de $sim 5.71 kappa$, causada por dos efectos involucrados: la desintonía del sistema efectivo provocada por los corrimientos Stark colectivos, y el factor $sqrt(2)$ del segundo átomo.
 
-Como se discutió en @sec:elim_adiabatica, el campo vacío de la cavidad induce un desplazamiento en el nivel $kg$. Al introducir el segundo átomo en la cavidad, ambos átomos contribuyen a este corrimiento cuando el sistema se encuentra en el estado $kss$. Por tanto, $sg$ se duplica, mientras que $ss$ se mantiene igual ya que el estado superradiante comparte la excitación.
+Como se discutió en @sec:elim_adiabatica, el campo vacío de la cavidad induce un desplazamiento en el nivel $kg$. Al introducir el segundo átomo en la cavidad, ambos átomos contribuyen a este corrimiento cuando el sistema se encuentra en el estado $kss$. Por tanto, $sg$ se duplica, mientras que $ss$ se mantiene igual, ya que el estado superradiante comparte la excitación.
 
 Así, utilizando la @eq:delta_energias y @eq:rabi_g con cero fotones, obtenemos analíticamente la distancia de los picos como:
 
@@ -75,4 +75,4 @@ Además, ahora que los subsistemas están aún más desintonizados, esta vez por
 
 Esto es, el pico derecho $scan \/ kappa approx 4.8$ tiene un carácter fotónico casi puro y domina la transmisión de la cavidad, mientras que la excitación atómica en ese punto es prácticamente despreciable. Por otro lado, en el pico izquierdo $scan \/ kappa approx -0.7$ tiene un carácter atómico predominante y la transmisión de la cavidad disminuye.
 
-La @fig:2at4lvl_independientes también muestra que, al no existir interacción entre los átomos, el sistema es capaz de absorber dos fotones a la vez; la curva verde muestra que el estado doblemente excitado $kss$ tiene una probailidad de $Pss approx 0.25$, mientras que la curva beige nos dice que la probabilidad de que al menos uno de los dos esté excitado es $P1s approx 0.5$. Por lo tanto, se confirma que los átomos operan de forma Rydberg-independiente entre sí.
+La @fig:2at4lvl_independientes también muestra que, al no existir interacción entre los átomos, el sistema es capaz de absorber dos fotones a la vez; la curva verde muestra que el estado doblemente excitado $kss$ tiene una probabilidad de $Pss approx 0.25$, mientras que la curva beige nos dice que la probabilidad de que al menos uno de los dos esté excitado es $P1s approx 0.5$. Por lo tanto, se confirma que los átomos operan de forma Rydberg-independiente entre sí.

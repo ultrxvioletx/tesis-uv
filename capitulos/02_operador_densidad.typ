@@ -27,7 +27,7 @@ Este operador contiene toda la información física que conocemos del sistema y 
 
 Con estas propiedades, se puede demostrar que el valor esperado de cualquier observable físico $OO$, se calcula de la siguiente forma:
 
-$ expval(OO) = tr(rr OO). $
+$ expval(OO) = tr(rr OO) $
 
 y, además, se puede estimar la evolución temporal del operador $rr$ aplicándole la ec. de Schrödinger, y obtenemos la ec. de Von Neumann:
 

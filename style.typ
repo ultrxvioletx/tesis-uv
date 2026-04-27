@@ -372,6 +372,7 @@
   
     // REFERENCIAS Y ENLACES
     show link: it => text(fill: colors.link, it.body)
+    show footnote: it => text(fill: colors.link, it)
     show ref: it => text(fill: colors.ref, weight: "bold", it)
     show ref: it => {
       let el = it.element

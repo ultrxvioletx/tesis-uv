@@ -21,9 +21,9 @@ Por tanto, se hace necesario recurrir a métodos numéricos para resolver la din
 ==== Paquetería OpenKet
 
 
-Para la resolución numérica de la ecuación maestra de Lindblad se utilizó #link("https://github.com/pbbmx/openket")[OpenKet], una paquetería desarrollada en Python y especializada en la manipulación de objetos cuánticos en notación de Dirac. La ventaja más importante de OpenKet es que permite definir el problema del sistema cuántico en lenguaje simbólico utilizando la notación de Dirac, y luego traducirlo a objetos numéricos listos para ser resueltos utilizando librerías como SciPy (de Python) o GSL (de C). Algunos ejemplos de esta implementación se muestran en el #link(<apx:codigo>)[#text(fill: colors.title, "Apéndice")].
+Para la resolución numérica de la ecuación maestra de Lindblad se utilizó #link("https://github.com/pbbmx/openket")[OpenKet], una paquetería desarrollada en Python y especializada en la manipulación de objetos cuánticos en notación de Dirac. La ventaja más importante de OpenKet es que permite definir el problema del sistema cuántico en lenguaje simbólico utilizando la notación de Dirac, y luego traducirlo a objetos numéricos listos para ser resueltos utilizando librerías como SciPy (de Python) o GSL (de C). Algunos ejemplos de esta implementación se muestran en el #link(<apx:codigo>)[#text(fill: colors.title, weight: "bold", "Apéndice")].
 
-El flujo de trabajo en OpenKet se dividió en tres etapas descritas a continuación.
+El flujo de trabajo en OpenKet se dividió en tres etapas, descritas a continuación.
 
 ===== Definición simbólica del espacio de Hilbert y operadores
 
@@ -70,4 +70,4 @@ La respuesta de la configuración de dos átomos altera el estado del campo elec
 
 $ expval(NN)(t) = tr[rr(t) cre anh]. $
 
-Este observable permite realizar un contraste de la absorción y emisión de luz entre los átomos y la cavidad en el régimen de átomos Rydberg-independientes frente al de fuerte interacción interatómica, sirviendo así como evidencia del comportamiento colectivo del sistema.
+Este observable permite realizar un contraste de la absorción y emisión de luz entre los átomos y la cavidad en el régimen de átomos Rydberg-independientes (átomos lo suficientemente lejos para no presentar interacciones vía Rydberg) frente al de fuerte interacción interatómica, sirviendo así como evidencia del comportamiento colectivo del sistema.

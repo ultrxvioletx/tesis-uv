@@ -22,7 +22,7 @@ En el estudio de la interacción de la materia con la radiación, partimos del m
 
 El Hamiltoniano del átomo libre se escribe como:
 
-$ Ha = E_e sig(e,e) + E_s sig(s,s). $
+$ Ha = E_e sig(e,e) + E_s sig(s,s) $
 
 donde la diferencia de energía entre los niveles se define como $hbar wse = E_s - E_e$.
 
@@ -44,13 +44,13 @@ Luego, para tiempos $t>0$ podemos expandir el vector de estado como $ket(psi (t)
 $ Hla &= -hbar/2 rabic mat(0, e^(i Dac t); e^(-i Dac t), 0) \
  &=-hbar/2 rabic (e^(i Dac t) sig(e,s) + e^(-i Dac t) sig(s,e)) $ <eq:ham_luzmateria>
 
-donde $Dac = wc - wse$ es el _detuning_ o desintonía entre el campo y la transición atómica.
+donde $Dac = wc - wse$ es la desintonía (_detuning_) entre el campo y la transición atómica.
 
 Además, la evolución de las amplitudes $c_e (t)$ y $c_s (t)$ están descritas por el sistema de ecuaciones diferenciales acopladas:
 
 $
   i dot(c_e) = rabic/2 e^(- i Dac t) c_s \
-  i dot(c_s) = rabic/2 e^( i Dac t) c_e
+  i dot(c_s) = rabic/2 e^( i Dac t) c_e.
 $
 
 Asumiendo que el átomo inicia en el estado base ($c_e (0)=1$), la probabilidad de transición por absorción es:
@@ -69,7 +69,7 @@ Dado que el desarrollo de esta teoría no es el objetivo de la presente tesis, y
 
 $ Hc = hbar wp (cre anh + 1/2) $
 
-donde $cre$ y $anh$ son los operadores de creación y aniquilación, respectivamente, y satisfacen la relación de conmutación $[anh,cre]=1$; además, definimos el operador $NN=cre anh$ que representa el número de fotones en la cavidad. Bajo esta representación, el campo eléctrico dentro de la cavidad se expresa como:
+donde $wp$ es la frecuencia del campo, y $cre$ y $anh$ son los operadores de creación y aniquilación, respectivamente, que satisfacen la relación de conmutación $[anh,cre]=1$; además, definimos el operador $NN=cre anh$ que representa el número de fotones en la cavidad. Bajo esta representación, el campo eléctrico dentro de la cavidad se expresa como:
 
 $ hat(E) (z,t) = xi_0 (anh + cre) sin(k z) $
 
@@ -107,9 +107,9 @@ $ Hb = hbar eta_b (anh + cre) cos(wp t). $
 
 De la misma forma que con el átomo, es mejor situarnos en un marco de referencia que rota a la frecuencia del bombeo, y despreciando términos que oscilan rápido aplicando RWA, el Hamiltoniano queda como:
 
-$ Hb = (i hbar)/2 eta_b (cre e^(-i(w-wp)t) - anh e^(i(w-wp)t)). $
+$ Hb = (i hbar)/2 eta_b (cre e^(-i(w-wp)t) - anh e^(i(w-wp)t)) $
 
-La presencia de $i$ significa que el bombeo está a $90^degree$ fuera de fase con la cavidad y, aunque la elección de esta fase no es relevante para la inyección de energía total en el sistema en el estado estacionario, se mantiene de esta forma para ser consistente con la literatura. Si asumimos que el marco de referencia rota justamente a la frecuencia de la cavidad ($wp - w$), los términos exponenciales desaparecen y podemos reescribir la expresión a simplemente:
+tal que $omega$ es la frecuencia de la cavidad. La presencia de $i$ significa que el bombeo está a $90^degree$ fuera de fase con la cavidad y, aunque la elección de esta fase no es relevante para la inyección de energía total en el sistema en el estado estacionario, se mantiene de esta forma para ser consistente con la literatura. Si asumimos que el marco de referencia rota justamente a la frecuencia de la cavidad ($wp - w$), los términos exponenciales desaparecen y podemos reescribir la expresión a simplemente:
 
 $ Hb = i hbar rabip (cre - anh) $
 
@@ -119,7 +119,7 @@ donde se absobió el factor en $rabip = eta_b/2$. Además, veamos que este Hamil
 ==== Átomo de tres niveles
 
 
-En esta tesis, se estudia principalmente la participación de átomos en configuración cascada (_ladder_), que además se encuentran acoplados con la cavidad de un modo. Cuando este acoplamiendo es lo suficientemente fuerte o cuando la intensidad del campo que acopla la transición superior $ke <-> ks$ es lo suficientemente alta, ya no es conveniente describir el sistema en términos de niveles de energía _desnudos_, y el átomo y campo deben tratarse como un único sistema acoplado que se debe rediagonalizar, dando lugares a estados híbridos conocidos como estados vestidos (_dressed states_). #footnote[Desarrollo obtenido de @cohentannoudji_atomphoton_2008[$section 6.4$], @gerry_introductory_2005[$section 4.6$] y @chiao_amazing_1996[$section 9$] para la parte *a*, y de @scully_quantum_2008[$section 7.2$, $section 7.3$] para la parte *b*.].
+En esta tesis, se estudia principalmente la participación de átomos en configuración cascada (_ladder_) $kg <-> ke <-> ks$, que además se encuentran acoplados con la cavidad de un modo. Cuando este acoplamiendo es lo suficientemente fuerte o cuando la intensidad del campo que acopla la transición superior $ke <-> ks$ es lo suficientemente alta, ya no es conveniente describir el sistema en términos de niveles de energía _desnudos_, y el átomo y campo deben tratarse como un único sistema acoplado que se debe rediagonalizar, dando lugares a estados híbridos conocidos como estados vestidos (_dressed states_). #footnote[Desarrollo obtenido de @cohentannoudji_atomphoton_2008[$section 6.4$], @gerry_introductory_2005[$section 4.6$] y @chiao_amazing_1996[$section 9$] para la parte *a*, y de @scully_quantum_2008[$section 7.2$, $section 7.3$] para la parte *b*.].
 
 ===== Dressed states y fenómeno de Autler-Townes <sec:dressed_states>
 
@@ -148,29 +148,29 @@ $
 
 donde la relación entre la fuerza de acomplamiento y la desintonía determina al ángulo de mezcla $theta = 1/2 arctan(-rabic\/Dac)$. A su vez, las energías de estos estados vestidos se repelen mutuamente (fenómeno de _anticrossing_), adquiriendo una separación dada por una frecuencia de Rabi efectiva:
 
-$ delta E = hbar rabieff = hbar sqrt(rabic^2 + Dac^2) $ <eq:delta_energias>
+$ delta E = hbar rabieff = hbar sqrt(rabic^2 + Dac^2). $ <eq:delta_energias>
 
 Veamos que en resonancia exacta $Dac=0$, se tiene $theta = pi/4$, por lo que los estados vestidos son combinaciones simétricas y antisimétricas puras (50/50) de $ke$ y $ks$, y su separación energética alcanza su valor mínimo $hbar rabic$.
 
 La ventaja de utilizar esta base de estados vestidos, es que proporciona una descripción física más sutil de la dinámica del sistema. Por ejemplo, permite explicar la aparición del desdoblamiento de Autler-Townes cuando se sondea al átomo desde el estado base $kg$ con un láser de prueba débil.
 
-Debido a que el láser de control ha modificado al estado desnudo $ke$, distribuyéndolo en los dos estados vestidos $ket(+)$ y $ket(-)$, la transición original $kg <-> ke$ se divide. El láser de prueba ahora resuena con las dos transiciones permitidas: $ket(g [N+1]) -> ket(N +)$ y $ket(g [N+1]) -> ket(N -)$. En consecuencia, la línea de absorción se divide en dos picos (doblete) separadas por una frecuencia $rabieff$.
+Debido a que el láser de control ha modificado al estado desnudo $ke$, distribuyéndolo en los dos estados vestidos $ket(+)$ y $ket(-)$, la transición original $kg <-> ke$ se divide. Si se acopla esta transición con un sondeo dado por un láser de prueba, éste resuena con las dos transiciones permitidas: $ket(g [N+1]) -> ket(N +)$ y $ket(g [N+1]) -> ket(N -)$. En consecuencia, la línea de absorción en el espectro de la cavidad se divide en dos picos (doblete) separadas por una frecuencia $rabieff$.
 
-Si dejamos un poco de lado el láser de control por el momento, tenemos un modelo puramente cuántico que ocurre cuando el átomo se acopla al modo de la cavidad. En este caso, el acoplamiento no depende de un campo externo, sino de la interacción del momento dipolar atómico con el campo del punto cero de la cavidad (fluctuaciones del vacío), dada por la constante de acoplamiento, $g$.
+Luego, si dejamos un poco de lado el láser de control por el momento, tenemos un modelo puramente cuántico que ocurre cuando el átomo se acopla al modo de la cavidad. En este caso, el acoplamiento no depende de un campo externo, sino de la interacción del momento dipolar atómico con el campo del punto cero de la cavidad (fluctuaciones del vacío), dada por la constante de acoplamiento $g$.
 
 Para el espacio de cero fotones, $N=0$, los estados desnudos $ket(e 0)$ y $ket(g 1)$ se mezclan para formar unos estados vestidos particulares:
 
 $ ket(0 +-) = 1/sqrt(2) (ket(g 1) +- ket(e 0)) $
 
-cuya separación energética, en resonancia exacta, es independiente de cualquier intensidad de bombeo externa y está dada por:
+cuya separación energética, en resonancia exacta, es independiente de cualquier intensidad de campo externo y está dada por:
 
-$ delta E_"vac" = 2 hbar g $
+$ delta E_"vac" = 2 hbar g. $
 
 ===== Dark states
 
-Por otro lado, mientras que el desdoblamiento Autler-Townes es consecuencia del desplazamiento de los niveles de energía bajo campos intensos, otro caso particular es la interacción del átomo de tres niveles con dos campos coherentes que provoca fenómenos como la existencia de estados oscuros (_dark states_).
+Por otro lado, mientras que el desdoblamiento Autler-Townes es consecuencia del desplazamiento de los niveles de energía bajo un campo intenso, otro caso particular es la interacción del átomo de tres niveles con dos campos clásicos coherentes que provoca fenómenos como la existencia de estados oscuros (_dark states_).
 
-Considerando el sistema cascada $kg <-> ke <-> ks$, en el caso de resonancia para ambas transiciones $Delta_1=Delta_2=0$, el Hamiltoniano de interacción bajo RWA es:
+Considerando el sistema cascada $kg <-> ke <-> ks$, en el caso de resonancia para ambas transiciones $Dpa=Dac=0$, con un campo de intensidad $rabip$ acoplando la transición inferior, y $rabic$ la transición superior; el Hamiltoniano de interacción bajo RWA es:
 
 $ hat(H)_I = -hbar/2 (rabip sig(e,g) + rabic sig(s,e) + rabip^* sig(g,e) + rabic^* sig(e,s)). $
 
@@ -182,6 +182,6 @@ $ dot(c_e) = i/2 (rabip c_g + rabic c_s) $
 
 donde existe una condición para la cual la amplitud de probabilidad del estado intermedio se anula, tal que $dot(c_e)=0$, lo que implica que $rabip c_g + rabic c_s=0$. Esto define al eigenestado:
 
-$ ket(D) = (rabic kg - rabip ks)/sqrt(rabip^2 + rabic^2). $
+$ ket(D) = (rabic kg - rabip ks)/sqrt(rabip^2 + rabic^2) $
 
 que se le conoce como estado oscuro, y se caracteriza por no tener contribución del estado intermedio $ke$, por lo que el sistema se vuelve inmune al decaimiento espontáneo $dece$ y queda atrapado coherentemente entre los estados $kg$ y $ks$.

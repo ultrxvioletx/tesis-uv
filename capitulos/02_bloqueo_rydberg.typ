@@ -11,7 +11,7 @@
 #let ph(it) = $phi.alt_(it)$
 Hasta este punto, el marco teórico ha descrito la dinámica de átomos aislados interactuando con campos electromagnéticos y con el entorno; sin embargo, también queremos poder explicar mecanismos de interacciones fuertes y controlables entre los propios átomos.
 
-Queremos poder trabajar con sistemas atómicos que cumplan dos condiciones importantes: tener tiempos de coherencia lo suficientemente largos para poder operar con ellos, y que sean capaces de tener interacciones a larga distancia lo suficientemente intensas para superar las tasas de disipación con el entorno. Los mejores candidatos para estos requisitos son los átomos de Ryberg #footnote[Desarrollo obtenido de @gerry_introductory_2005[$section 10.1, section 10.2$], @cohentannoudji_quantum_2005[$section "C.XI"$], @peña_introduccion_2014[$section 17.2$]].
+Queremos poder trabajar con sistemas atómicos que cumplan dos condiciones importantes: tener tiempos de coherencia lo suficientemente largos para poder operar con ellos, y que sean capaces de tener interacciones a larga distancia lo suficientemente intensas para superar las tasas de disipación con el entorno. Los mejores candidatos para estos requisitos son los átomos de Rydberg #footnote[Desarrollo obtenido de @gerry_introductory_2005[$section 10.1, section 10.2$], @cohentannoudji_quantum_2005[$section "C.XI"$], @peña_introduccion_2014[$section 17.2$]].
 
 Un átomo de Rydberg es un átomo en el cual uno de sus electrones de valencia ha sido excitado a un estado con número cuántico principal $n$ muy alto ($n>=20$), típicamente $n sim 50$. La energía de la ligadura electrónica de un estado de Rydberg está dada por la expresión:
 
@@ -55,7 +55,7 @@ Dado que los denominadores energéticos son negativos (pues partimos del estado 
 
 ===== Interacción resonante (intercambio dipolo-dipolo)
 
-La interacción cambia de si el sistema se prepara en un estado excitado degenerado. Si suponemos (sin pérdida de generalidad) que el átomo $A$ está en un estado excitado $ke$ y el átomo $B$ en un estado inferior $kg$, de manera que el sistema se encuentra en el estado $ket(e_A g_B)$, este estado es degenerado (o cuasi-degenerado) con el estado intercambiado $g_A e_B$.
+La interacción cambia si el sistema se prepara en un estado excitado degenerado. Si suponemos (sin pérdida de generalidad) que el átomo $A$ está en un estado excitado $ke$ y el átomo $B$ en un estado inferior $kg$, de manera que el sistema se encuentra en el estado $ket(e_A g_B)$, este estado es degenerado (o cuasi-degenerado) con el estado intercambiado $ket(g_A e_B)$.
 
 En este caso, la teoría de perturbaciones para estados degenerados pide diagonalizar la matriz de perturbación $Wdd$ en el subespacio degenerado. Los elementos fuera de la diagonal, $braket(g_A e_B, Wdd, e_A g_B)$, son en general distintos de cero si la transición $kg <-> ke$ es dipolo-permitida.
 
@@ -67,7 +67,7 @@ cuyas energías sufren una correción de primer orden:
 
 $ Delta E^((1)) = +- C_3/R^3 $
 
-representado en la @fig:bloqueo. Esta interacción resonante, llamada resonancia de Föster, es muy distintia a la de van der Waals. Escala como $1\/R^3$ (por lo que su alcance es mucho mayor) y describe el intercamio coherente de la excitación entre los dos átomos, por lo que en el Hamiltoniano del sistema se manifiesta como un acoplamiento directo de la forma:
+representado en la @fig:bloqueo. Esta interacción resonante, llamada resonancia de Föster, es muy distinta a la de van der Waals. Escala como $1\/R^3$ (por lo que su alcance es mucho mayor) y describe el intercamio coherente de la excitación entre los dos átomos, por lo que en el Hamiltoniano del sistema se manifiesta como un acoplamiento directo de la forma:
 
 $ hat(H) = hbar C_3/R^3 (ketbra(e_A g_B, g_A e_B) + ketbra(g_A e_B, e_A g_B)). $
 

@@ -8,7 +8,7 @@ Antes de estudiar la dinámica de dos átomos interactuando, comenzaremos por la
 
 Primero, en las primeras dos secciones se estudian los subsistemas más elementales de manera aislada: el átomo de dos niveles en interacción semiclásica y el modo de cavidad disipativo, esto con el objetivo de observar y discutir las propiedades de dichos sistemas en los regímenes seleccionados.
 
-Posteriormente, en @sec:1at4lvl, se considera a un único átomo de cuatro niveles en la cavidad. A través del análisis de las poblaciones atómicas y del campo intracavidad, se caracterizarán fenómenos de interferencia cuántica como el desdoblamiento _Vacuum Rabi_, el efecto Autler-Townes y la Transparencia Inducida Electromagnética (EIT). Esto nos permite obtener un punto de partida controlado para lograr identificar la fenomenología nueva causada en nuestro sistema de interés al introducir un segundo átomo en el @cap:bloqueo.
+Posteriormente, en @sec:1at4lvl, se considera a un único átomo de cuatro niveles en la cavidad. A través del análisis de las poblaciones atómicas y del campo intracavidad, se caracterizarán fenómenos de interferencia cuántica como el desdoblamiento _Vacuum Rabi_, el efecto Autler-Townes y la transparencia inducida electromagnética (EIT). Esto nos permite obtener un punto de partida controlado para lograr identificar la fenomenología nueva causada en nuestro sistema de interés al introducir un segundo átomo en el @cap:bloqueo.
 
 
 === Oscilaciones de Rabi en un átomo de dos niveles <sec:1at2lvl>
@@ -27,20 +27,20 @@ Posteriormente, en @sec:1at4lvl, se considera a un único átomo de cuatro nivel
 ) <fig:1at2lvl_sistema>
 
 
-El sistema cuántico de interacción luz-materia más elemental es un átomo de dos niveles (@fig:1at2lvl_sistema), interactuando con un campo electromagnético clásico. De acuerdo con la teoría clásica de interacción, ignorando efectos de decaimiento y bajo la aproximación de onda rotante (RWA), la probabilidad de encontrar al
+El sistema cuántico de interacción luz-materia más elemental es un átomo de dos niveles (@fig:1at2lvl_sistema), interactuando con un campo electromagnético clásico. De acuerdo con la teoría clásica de interacción, ignorando efectos de decaimiento y bajo RWA, la probabilidad de encontrar al átomo en el estado excitado evoluciona
 
 #figure(
   image("../assets/figuras/1at2lvl.png", width: 100%),
-  caption: [Evolución temporal de la probabilidad de excitación $Pe (t)$ para un átomo de dos niveles interactuando con un campo clásico, partiendo del estado base $kg$. Las líneas continuas corresponden a la solución analítica de la @eq:1at2lvl_analitica, mientras que los marcadores representan los resultados obtenidos numéricamente usando la integración de la ecuación maestra (@eq:1at2lvl_maestra) con OpenKet. Se observan tres valores de desintonía: total resonancia $Dac = 0.0$ (círculos), y fuera de resonancia $Dac = 2.0$ (triángulos), $Dac = 4.0$ (cuadrados). El tiempo está normalizado como $rabic t$, y las magnitudes de frecuencia están expresadas en unidades arbitrarias consistentes con la frecuencia de Rabi, cuyo valor es $rabic = 2.0$.],
+  caption: [Evolución temporal de la probabilidad de excitación $Pe (t)$ para un átomo de dos niveles interactuando con un campo clásico, partiendo del estado base $kg$. Las líneas continuas corresponden a la solución analítica de la @eq:1at2lvl_analitica, mientras que los marcadores representan los resultados obtenidos numéricamente usando la integración de la ecuación maestra (@eq:1at2lvl_maestra) con OpenKet. Se observan tres valores de desintonía: total resonancia $Dac = 0.0$ (cuadrados), y fuera de resonancia $Dac = 2.0$ (triángulos), $Dac = 4.0$ (círculos). El tiempo está normalizado como $rabic t$, y las magnitudes de frecuencia están expresadas en unidades arbitrarias consistentes con la frecuencia de Rabi, cuyo valor es $rabic = 2.0$.],
 ) <fig:1at2lvl>
 
-átomo en el estado excitado evoluciona en el tiempo y está dada analíticamente por la fórmula de Rabi (descrita en @cap:teoría):
+en el tiempo y está dada analíticamente por la fórmula de Rabi (descrita en @cap:teoría):
 
 $ Pe (t) = rabic^2 / rabir^2 sin^2(rabir/2 t) $ <eq:1at2lvl_analitica>
 
 donde $rabic$ es la frecuencia de Rabi que caracteriza la intensidad de acoplamiento entre los niveles $kg <-> ke$, y $rabir = sqrt(rabic^2 + Dac^2)$ es la frecuencia de Rabi generalizada, la cual depende de la desintonía $Dac$ entre la frecuencia del láser y la de transición atómica.
 
-Para poder simular este sistema, se considera un subespacio de Hilbert $HHa$ de dimensión 2, pues en él vive un solo átomo de dos niveles. El Hamiltoniano del sistema es el de interacción semiclásica:
+Para poder simular este sistema, se considera un subespacio de Hilbert, $HHa$, de dimensión 2, pues en él vive un solo átomo de dos niveles. El Hamiltoniano del sistema es el de interacción semiclásica:
 
 $
   hat(H) &= Ha + Hi \

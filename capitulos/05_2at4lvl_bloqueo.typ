@@ -15,7 +15,7 @@ El bloqueo surge de forma natural a través de la interacción dipolo-dipolo baj
 ==== Supresión de $Pss$
 
 
-Se simuló la probabilidad de excitación en estado estacionario, fijando el láser de prueba en la frecuencia de resonancia del pico izquierdo $scan \/ kappa approx -0.7722$ (valor obtenido del sistema en la sección anterior), y se realizó el barrido incrementando la fuerza de interacción $Oee$ (@fig:2at4lvl_excitado_omegas).
+Se simuló la probabilidad de excitación en estado estacionario, fijando el láser de prueba en la frecuencia de resonancia del pico izquierdo $scan \/ kappa approx -0.7722$ (valor obtenido del sistema en la sección anterior), y se realizó el barrido incrementando la fuerza de interacción $Oee$.
 
 Veamos que la @fig:2at4lvl_excitado_omegas muestra la disminución de probabilidad de doble excitación. Para valores de interacción tales que $Oee approx 0$, la probabilidad de encontrar al sistema en el estado doblemente excitado es $Pss approx 0.25$ (curva verde), lo que coincide con la mitad de probabilidad de una sola excitación $P1s$ (curva beige).
 
@@ -39,9 +39,9 @@ Veamos que la @fig:2at4lvl_excitado_omegas muestra la disminución de probabilid
 
 Sin embargo, a medida que la fuerza de interacción $Oee$ aumenta, la curva de $Pss$ experimenta una disminución hasta cero, lo que confirma el bloqueo de Rydberg y que el sistema se vuelve incapaz de absorber dos fotones de manera simultánea.
 
-Es importante notar que la probabilidad de una sola excitación, $P1s$, también muestra una disminución inicial hasta estabilizarse en un valor de $sim 0.4$ para $Oee$ grandes. Como lo mencionaremos en la siguiente sección, esto no es consecuencia de que el sistema no pueda tener una sola excitación, sino de un dezplazamiento extra en los niveles de energía que mueve la resonancia fuera del valor inicial en $scan \/ kappa approx -0.7722$.
+Es importante notar que la probabilidad de una sola excitación, $P1s$, también muestra una disminución inicial hasta estabilizarse en un valor de $sim 0.4$ para $Oee$ grandes. Como lo mencionaremos en la siguiente sección, esto no es consecuencia de que el sistema no pueda tener una sola excitación, sino de un desplazamiento extra en los niveles de energía que mueve la resonancia fuera del valor inicial en $scan \/ kappa approx -0.7722$.
 
-Físicamente, al estar $kss$ energéticamente prohibido, el sistema se "trunca" a un espacio de Hilbert que oscila entre $kgg$ y $ket(Psi^+)$ con frecuencia de Rabi $sqrt(2) rabic$ @gaetan_observation_2009, formando un súper-átomo efectivo de dos niveles. A pesar de tener dos átomos y que ambos interactúan con un campo, el súper-átomo absorbe solamente un fotón a la vez, y el sistema completo se convierte en uno que emite fotones individuales de manera no localizada.
+Físicamente, al estar $kss$ energéticamente prohibido, el sistema se "trunca" a un espacio de Hilbert que oscila entre $kgg$ y $ket(Psi^+)$ con frecuencia de Rabi $sqrt(2) rabic$ @gaetan_observation_2009, formando un superátomo efectivo de dos niveles. A pesar de tener dos átomos y que ambos interactúan con un campo, el superátomo absorbe solamente un fotón a la vez, y el sistema completo se convierte en uno que emite fotones individuales de manera no localizada.
 
 
 ==== Desdoblamiento por interacciones y DIET
@@ -56,20 +56,20 @@ $ ket(Psi_(+-))_"Föster" = 1/sqrt(2) (kss +- kpp) $
 
 cuyos eigenvalores (energías) están desplazadas por $+- hbar Oee$ respecto a la energía del estado $kss$. Esto ocasiona un desdoblamiento Autler-Townes que afecta a los estados $kss$ y $kpp$, pero solo provocado por interacciones interatómicas.
 
-A medida que $Oee$ va aumentando, el estado $fost1$ es desplazado hacia frecuencias mayores. Notemos en la @fig:2at4lvl_excitado_bloqueo que, para valores de $Oee \/ kappa = 10.0, 15.0$, el estado no desaparece sino que reaparece como un pico más pequeño de $Pss$. Precisamente, no es que el estado de doble excitación se destruya, sino que se es inaccesible energéticamente por el doble láser, pero si es alcanzado por el ancho de línea del láser de prueba de la cavidad, aún puede ser poblado. En el caso de interacción fuerte ($Oee \/ kappa >= 20.0$), este estado ha sido desplazado tan lejos de la resonancia de la cavidad y del sistema que ya no es posible lograr la doble excitación, mostrando el bloqueo.
+A medida que $Oee$ va aumentando, el estado $fost1$ es desplazado hacia frecuencias mayores. Notemos en la @fig:2at4lvl_excitado_bloqueo que, para valores de $Oee \/ kappa = 10.0, 15.0$, el estado no desaparece sino que reaparece como un pico más pequeño de $Pss$. Precisamente, no es que el estado de doble excitación se destruya, sino que se es inaccesible energéticamente por el doble láser; pero si es alcanzado por el ancho de línea del láser de prueba de la cavidad, aún puede ser poblado. En el caso de interacción fuerte ($Oee \/ kappa >= 20.0$), este estado ha sido desplazado tan lejos de la resonancia de la cavidad y del sistema que ya no es posible lograr la doble excitación, mostrando el bloqueo.
 
-Sin embargo, el desplazamiento de la energía no es el único fenómeno actuando. En el centro de la resonancia de dos fotones, el bloqueo está presente por el fenómeno de Transparencia Electromagnética Inducida por Dipolos (DIET) @puthumpallyjoseph_dipoleinduced_2014. Bajo este fenómeno, la interacción dipolo-dipolo genera una interferencia cuántica destructiva (como la discutida en @sec:EIT) entre los caminos para la excitación colectiva.
+Sin embargo, el desplazamiento de la energía no es el único fenómeno actuando. En el centro de la resonancia de dos fotones, el bloqueo está presente por el fenómeno de transparencia electromagnética inducida por dipolos (DIET) @puthumpallyjoseph_dipoleinduced_2014. Bajo este fenómeno, la interacción dipolo-dipolo genera una interferencia cuántica destructiva (como la discutida en @sec:EIT) entre los caminos para la excitación colectiva.
 
-Partiendo del estado base colectivo $kgg$, la absorción del primer fotón está permitida hacia el estado superradiante:
+Partiendo del estado base colectivo $ket(G)$, la absorción del primer fotón está permitida hacia el estado superradiante:
 
-$ kgg --> dicke1 = 1/sqrt(2) (ket(s g) + ket(g s)) $
+$ ket(G) --> dicke1 = 1/sqrt(2) (ket(s g) + ket(g s)) $
 
 y desde $dicke1$ el sistema intentaría absorber un segundo fotón para alcanzar el estado $kss$, con dos caminos de excitación posibles:
 
 1. $dicke1 --> fost1$ (con desintonía $+Oee$)
-2. $dicke1 --> fost2$ (con desintonía $-Oee$)
+2. $dicke1 --> fost2$ (con desintonía $-Oee$).
 
-Y las amplitudes de probabilidad de estos dos caminos tienen fases opuestas (pero ahora en el punto de resonancia de dos fotones), por lo que se genera una interferencia cuántica destructiva.
+Las amplitudes de probabilidad de estos dos caminos tienen fases opuestas (pero ahora en el punto de resonancia de dos fotones), por lo que se genera una interferencia cuántica destructiva.
 
 A diferencia del EIT normal, que es ocasionado por la existencia del estado oscuro, en DIET es la interacción repulsiva la que controla la transparencia. Al cancelar las amplitudes de probabilidad de absorber un segundo fotón, el sistema se vuelve transparente a la doble absorción incluso para valores de interacción moderados.
 

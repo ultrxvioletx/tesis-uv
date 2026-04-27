@@ -32,7 +32,7 @@ from openket.core.metrics import comm, trace, sub_qexpr
 
 #heading(level: 3, numbering: none)[Oscilaciones de Rabi en átomo de dos niveles]
 
-Este primer ejemplo tiene como propósito ilustrar el sistema más básico en OpenKet: la construcción del Hamiltoniano, la ecuación de movimiento de Von Neumann y su resolución numérica. El script itera sobre distintos valores de desintonía para obtener las curvas de la @fig:1at2lvl.
+Este primer ejemplo tiene como propósito ilustrar el sistema más básico en OpenKet, a través de la construcción del Hamiltoniano, la ecuación de movimiento de Von Neumann y su resolución numérica. El script itera sobre distintos valores de desintonía para obtener las curvas de la @fig:1at2lvl.
 
 #codly(languages: codly-languages)
 ```python
@@ -274,4 +274,4 @@ El espacio de Hilbert es el producto tensorial del espacio de los átomos y el d
       )
 ```
 
-Al considerar el sistema completo, el solucionador de Scipy deja de ser eficiente y se vuelve necesario expresar la ODE en lenguaje C para ser resuelto usando GSL. El archivo de salida de la función `gsl_main`, llamada `edo_gsl.c`, está lista para ser compilada y devuelve los 18 archivos hdf5 correspondientes (uno por cada valor de $Oee$). Para poder visualizar el comportamiento del bloqueo, se toma el valor de convergencia en la evolución temporal de los valores esperados, y se grafica en función de $Oee$.
+Al considerar el sistema completo, el solucionador de Scipy deja de ser eficiente y se vuelve necesario expresar la ODE en lenguaje C para ser resuelto usando GSL. El archivo de salida de la función `gsl_main`, llamada `edo_gsl.c`, está listo para ser compilado y devuelve los 18 archivos HDF5 correspondientes (uno por cada valor de $Oee$). Para poder visualizar el comportamiento del bloqueo, se toma el valor de convergencia en la evolución temporal de los valores esperados, y se grafica en función de $Oee$.

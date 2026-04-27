@@ -3,7 +3,7 @@
 // ===================================================================
 #import "../style.typ": *
 
-En este capítulo se establece la formulación matemática de dos átomos de cuatro niveles ($kg, ke, ks, kp$) en configuración cascada interactuando entre sí dentro de una cavidad óptica y con la cavidad misma.
+En este capítulo, una vez establecidas las ideas teóricas que nos ayudan a interpretar mejor el modelo y colocarnos en una idea general de cómo funcionan los fenómenos que le competen, ahora se establece la formulación matemática de los dos átomos de cuatro niveles ($kg, ke, ks, kp$) en interactuando entre sí dentro de una cavidad óptica y con la cavidad misma.
 
 Se hace la construcción del Hamiltoniano total como la suma de las contribuciones de los Hamiltonianos de los subsistemas que lo componen, incluyendo las aportaciones energéticas individuales y los acoplamientos entre los subsistemas, y aplicando las condiciones disipativas que muestran la interacción del sistema con su entorno.
 
@@ -96,7 +96,7 @@ A continuación, se detalla la expresión matemática de cada uno de estos térm
 
   donde, $g$ es la constante de acoplamiento átomo-cavidad y $sigk(i,j,k)$ el operador $ketbra(i,j)$ del átomo $k$.
 
-- El Hamiltoniano libre para los dos átomos ($Haa = hat(H)_(A 1) + hat(H)_(A 1)$) está dado por la suma de las energías de cada nivel atómico:
+- El Hamiltoniano libre para los dos átomos ($Haa = hat(H)_(A 1) + hat(H)_(A 2)$) está dado por la suma de las energías de cada nivel atómico:
 
   $ hat(H)_(A,k) = E_g sigk(g,g,k)+ E_e sigk(e,e,k) + E_s sigk(s,s,k) + E_p sigk(p,p,k) $
 
@@ -184,10 +184,12 @@ Debido a que el sistema es abierto, ya que los espejos de la cavidad no son perf
 
 Estas pérdidas de energía se introducen utilizando el formalismo de la Ecuación Maestra de Lindblad #footnote[Con el objetivo de mantener simple y general la ecuación maestra, en todas las simulaciones descritas en esta tesis se utlizaron unidades naturales, tal que $hbar = 1$.] para la matriz densidad $rr$:
 
-$ dot(rr) = -i/h [hat(H),rr] + kappa LL[anh] + sum_(j = 1,2) (dece/2 LL[sigk(g,e,j)] + decs/2 LL[sigk(e,s,j)]) + dec12/2 LL[sigk(g,e,1) + sigk(g,e,2)] $ <eq:lindblad_total>
+$
+  dot(rr) = -i/hbar [hat(H),rr] + kappa LL[anh] &+ sum_(j = 1,2) (dece/2 LL[sigk(g,e,j)] + decs/2 LL[sigk(e,s,j)]) \
+   &+ dec12/2 LL[sigk(g,e,1) + sigk(g,e,2)]
+$ <eq:lindblad_total>
 
-donde el superoperador de Lindblad $LL$ se define como $LL[OO] = 2 OO rr OO^dagger - OO^dagger OO rr - rr OO^dagger OO$
-
+donde el superoperador de Lindblad $LL$ se define como $LL[OO] = 2 OO rr OO^dagger - OO^dagger OO rr - rr OO^dagger OO$.
 
 El término proporcional a $kappa$ modela la fuga de fotones a través de los espejos de la cavidad, mientras que los términos con $dece$ y $decs$ representan el decaimiento espontáneo individual de cada átomo en las transiciones $ke <-> kg$ y $ks <-> ke$, respectivamente.
 
