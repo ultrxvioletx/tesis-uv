@@ -19,10 +19,10 @@ a mis amigas, MaJo, Sofía, Lluvia y Marco, por escuchar las mismas quejas una y
 
 a Marco, por ser un guía muy grande y recordarme constantemente de lo que estoy hecha. me dio la confianza que necesitaba para terminar de hacer posible lo imposible, y me devolvió ese brillo en los ojos que hacía tiempo había perdido. sé que sin él no lo hubiera hecho de la forma en que lo hice, ni seguiría anhelando de la forma en que lo hago.
 
-a Nikté y a Minué. por estar. por ser. por existir. su simple compañía y cariño incondicional bastó y sobró para siempre sonreirle al nuevo día. porque así de pequeñas son los más grandes amores de mi vida.
+a Nikté y a Minué. por estar. por ser. por existir. su simple compañía y cariño incondicional bastó y sobró para siempre sonreirle al nuevo día.
 
 finalmente, a Pablo, porque además de ser un gran asesor también es una increíble persona, y fue la última pieza que faltaba para concluir esta desafiante etapa. por guiarme y enseñarme tanto, por compartir su conocimiento y experiencia conmigo, y estar atento a cada detalle sobre mi proceso. lo que para él fue quizá sólo su trabajo, para mí fue amabilidad, empatía y amor por la ciencia que me salvó de lo que yo creí sería un abismo.
 
 #v(1.5cm)
 
-la física es un sendero muy árido, donde incontables veces me era imposible encontrar la luz al alzar la mirada; por tantos años estuve perdida y estas personas creyeron en mí aún cuando ni yo misma lo hacía, y por eso quiero darles las gracias.
+la física es un sendero muy árido, donde incontables veces estuve segura que ya no podía transitarlo; por tantos años estuve perdida y estas personas creyeron en mí aún cuando ni yo misma lo hacía, y por eso quiero darles las gracias.

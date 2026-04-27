@@ -10,14 +10,16 @@
 
 #include "body/cover.typ"
 #include "body/abstract.typ"
-#include "body/agradecimientos.typ"
+// #include "body/agradecimientos.typ"
 
 // Índice
+#pagebreak()
 #outline(
   title: none,
   depth: 4,
   target: heading,
 )
+#pagebreak()
 #include "body/glosario.typ"
 
 // Cuerpo principal
@@ -31,7 +33,7 @@
 #include "capitulos/02_bloqueo_rydberg.typ"
 
 
-== Formulación del sistema
+== Formulación del sistema <cap:formulacion>
 #include "capitulos/03_descripcion_sistema.typ"
 #include "capitulos/03_implem_numerica.typ"
 

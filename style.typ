@@ -3,17 +3,17 @@
 #import "@preview/equate:0.3.2": equate //sub-ecuaciones numeradas
 #import "@preview/cetz:0.4.1" //drawing
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge //diagramas con flechas
-#import "@preview/i-figured:0.2.4" //numeración de ecuaciones y figuras
 #import "@preview/physica:0.9.8": * //sintáxis matemática
 #import "@preview/quick-maths:0.2.1": shorthands //shorthands de escritura de ecuaciones
 #import "@preview/super-suboptimal:0.1.0": * //lectura de sub y superindies unicode
+#import "@preview/codly:1.3.0": * //formato de código
+#import "@preview/codly-languages:0.1.1": *
 
 // COLORES
 #let colors = (
   title: rgb("#CFB1B7"), //cotton rose
   ref: rgb("#CFB1B7"), //cotton rose
-  link: rgb("#152b42"), //deep space blue
-  url: rgb("#c9b7ad"), //almond
+  link: rgb("#9490a2"), //lavender graye
   diagrams: rgb("#94a89a"), //verde
   lines: rgb("#9490a2"), //lavender gray
 )
@@ -122,8 +122,7 @@
 }
 // OTROS TÍTULOS
 #let otrotitulo(it) = {
-  pagebreak()
-  text(size: 12pt, weight: "bold", fill: colors.lines, ". ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁..")
+  align(center, text(size: 11pt, weight: "bold", fill: colors.lines, ". ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.."))
   align(center, text(1.5em, fill: colors.title, tracking: 0.1em, upper(it)))
   v(1em)
 }
@@ -230,7 +229,7 @@
         counter(figure.where(kind: table)).update(0)
         counter(figure.where(kind: raw)).update(0)
         pagebreak()
-      block(
+        block(
           width: 100%,
           inset: 0pt,
           grid(
@@ -319,7 +318,6 @@
     show outline: it => {
       v(1em)
       heading(level: 2, outlined: false, numbering: none)[Índice general]
-      // text(size: 3em, "", fill: colors.title)
       v(2em)
       it
     }
@@ -455,13 +453,19 @@
     set list(marker: text(fill: colors.lines, "•"))
         
     // CÓDIGO
-    show raw.where(lang: "tex"): it => block(
-      fill: luma(245), // Fondo gris claro
-      inset: 10pt,
+    show: codly-init.with()
+    codly(
+      languages: codly-languages,
+      // fill: rgb("#1e1e1e"),
+      number-format: (n) => text(fill: colors.lines, str(n)),
+      stroke: 1pt + colors.lines,
       radius: 4pt,
-      width: 100%,
-      text(font: mono-font, size: 9pt, it),
+      inset: 2.5pt,
+      zebra-fill: none,
+      smart-indent: true
     )
+    show raw: set text(font: "Cascadia Code", size: 10pt)
+    // show raw: set par(justify: false)
 
     // RENDERIZADO
     doc
